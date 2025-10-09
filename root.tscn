@@ -1,0 +1,170 @@
+[gd_scene load_steps=13 format=3 uid="uid://col4kpivuxhn6"]
+
+[ext_resource type="PackedScene" uid="uid://d2oqcb8pxmak7" path="res://assets/roadStraightLong.glb" id="1_pyidc"]
+[ext_resource type="PackedScene" uid="uid://broj4je2vlvlo" path="res://assets/roadCornerLarger.glb" id="2_vvh5c"]
+[ext_resource type="PackedScene" uid="uid://b86em7w3dt5ru" path="res://assets/roadStraight.glb" id="3_jnlp7"]
+[ext_resource type="PackedScene" uid="uid://cupqag7u011n0" path="res://assets/roadStartPositions.glb" id="4_l8v81"]
+[ext_resource type="PackedScene" uid="uid://dlltk3c0rqda4" path="res://assets/roadStart.glb" id="5_vyht1"]
+[ext_resource type="PackedScene" uid="uid://b8hxwgmokatpq" path="res://assets/roadCornerLarge.glb" id="6_l8v81"]
+[ext_resource type="PackedScene" uid="uid://ddaqm3mt2fvvb" path="res://assets/roadStraightBridgeStart.glb" id="7_bf3um"]
+[ext_resource type="PackedScene" uid="uid://d1qbcx2lfdl74" path="res://assets/roadRampLongCurvedWall.glb" id="8_huihk"]
+[ext_resource type="PackedScene" uid="uid://dcnuwrxi3jo1a" path="res://assets/roadStraightBridgeMid.glb" id="9_huihk"]
+[ext_resource type="PackedScene" uid="uid://bl1v1okh6p56e" path="res://assets/rail.glb" id="10_tw3kd"]
+[ext_resource type="PackedScene" uid="uid://chyjuuqbwnq2a" path="res://assets/roadStraightBridge.glb" id="11_gd4vy"]
+[ext_resource type="PackedScene" uid="uid://b4qk0q0cwf5ge" path="res://assets/roadCornerSmall.glb" id="12_qw60f"]
+
+[node name="Root" type="Node3D"]
+
+[node name="Road" type="Node3D" parent="."]
+
+[node name="roadStraightLong2" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="roadStraightLong" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="roadStraightLong3" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="roadStraightLong4" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="roadStraightLong5" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+
+[node name="roadStraightLong6" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="roadStraightLong7" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
+
+[node name="roadStraightLong8" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)
+
+[node name="roadStraightLong9" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
+[node name="roadStraightLong10" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18)
+
+[node name="roadStraightLong11" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24)
+
+[node name="roadStraightLong12" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 22)
+
+[node name="roadStraight" parent="Road" instance=ExtResource("3_jnlp7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 24)
+
+[node name="roadStartPositions" parent="Road" instance=ExtResource("4_l8v81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0001202, 0, 23)
+
+[node name="roadStart" parent="Road" instance=ExtResource("5_vyht1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8703313, 0, 21)
+
+[node name="roadCornerLarger4" parent="Road" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8, 0, 15)
+
+[node name="roadCornerLarge2" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4, 0, 24)
+
+[node name="roadCornerLarge" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 26)
+
+[node name="roadCornerLarger5" parent="Road" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 5.9604645e-08, 5, 0, 12)
+
+[node name="roadCornerLarge3" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 19)
+
+[node name="roadStraightBridgeStart" parent="Road" instance=ExtResource("7_bf3um")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 13)
+
+[node name="roadRampLongCurvedWall" parent="Road" instance=ExtResource("8_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 0, 13)
+
+[node name="roadStraightBridgeMid" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 13)
+
+[node name="roadStraightBridgeMid2" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 0, 13)
+
+[node name="roadStraightBridge" parent="Road" instance=ExtResource("11_gd4vy")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2, 0, 12)
+
+[node name="roadStraightBridgeMid3" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 13)
+
+[node name="roadStraightBridgeMid4" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 0, 13)
+
+[node name="roadStraightBridgeMid5" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, 13)
+
+[node name="roadStraightBridgeMid6" parent="Road" instance=ExtResource("9_huihk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 0, 13)
+
+[node name="roadRampLongCurvedWall2" parent="Road" instance=ExtResource("8_huihk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 0, 12)
+
+[node name="roadCornerSmall" parent="Road" instance=ExtResource("12_qw60f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 13)
+
+[node name="roadCornerSmall2" parent="Road" instance=ExtResource("12_qw60f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7, 0, 14)
+
+[node name="roadCornerLarge4" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 0, 13)
+
+[node name="roadStraightLong13" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 17)
+
+[node name="roadCornerLarge5" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 0, 19)
+
+[node name="roadCornerSmall3" parent="Road" instance=ExtResource("12_qw60f")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3, 0, 18)
+
+[node name="roadStraightLong14" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 18)
+
+[node name="roadStraightLong15" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 16)
+
+[node name="roadStraightLong16" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 14)
+
+[node name="roadStraightLong17" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 12)
+
+[node name="roadStraightLong18" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 10)
+
+[node name="roadStraightLong19" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 8)
+
+[node name="roadStraightLong20" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 6)
+
+[node name="roadStraightLong21" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="roadStraightLong22" parent="Road" instance=ExtResource("1_pyidc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+
+[node name="roadCornerLarge7" parent="Road" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -3)
+
+[node name="roadCornerLarger6" parent="Road" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(0.9999999, 0, 1.03316026e-07, 0, 1, 0, -1.03316026e-07, 0, 0.9999999, -4, 0, 0)
+
+[node name="roadStraight2" parent="Road" instance=ExtResource("3_jnlp7")]
+
+[node name="rail" parent="." instance=ExtResource("10_tw3kd")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1, 1, 13)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, 8.742278e-08, 4.371139e-08, 0.8660254, 0.5, -7.5710346e-08, 0.5, -0.8660254, 0, 3, 8)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.8660254, 0.50000006, 0, -0.50000006, -0.8660254, 0, 6, 11)
