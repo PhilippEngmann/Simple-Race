@@ -23,8 +23,8 @@
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
 [ext_resource type="Curve" uid="uid://by6s62plut157" path="res://car_tire_FRONT.tres" id="20_po8fv"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_qt76e"]
-size = Vector3(100, 0.1, 100)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_po8fv"]
+points = PackedVector3Array(-0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0, 0.5)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_po8fv"]
 friction = 0.0
@@ -65,7 +65,7 @@ orientation = 1
 [node name="root" type="Node3D"]
 
 [node name="road" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17)
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, -166)
 
 [node name="roadStraightLong7" parent="road" instance=ExtResource("1_pyidc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)
@@ -95,16 +95,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0001202, 0, 23)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8703313, 0, 21)
 
 [node name="roadCornerLarger4" parent="road" instance=ExtResource("2_vvh5c")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 8, 0, 15)
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 8, 0, 15)
 
 [node name="roadCornerLarge2" parent="road" instance=ExtResource("6_l8v81")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4, 0, 24)
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 4, 0, 24)
 
 [node name="roadCornerLarge" parent="road" instance=ExtResource("6_l8v81")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 26)
 
 [node name="roadCornerLarger5" parent="road" instance=ExtResource("2_vvh5c")]
-transform = Transform3D(5.9604645e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 5.9604645e-08, 5, 0, 12)
+transform = Transform3D(7.5497894e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 7.5497894e-08, 5, 0, 12)
 
 [node name="roadCornerLarge3" parent="road" instance=ExtResource("6_l8v81")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 19)
@@ -152,7 +152,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 17)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -4, 0, 19)
 
 [node name="roadCornerSmall3" parent="road" instance=ExtResource("12_qw60f")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -3, 0, 18)
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, -3, 0, 18)
 
 [node name="roadStraightLong14" parent="road" instance=ExtResource("1_pyidc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 18)
@@ -175,11 +175,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
 [node name="roadStraightBridgeStart2" parent="road" instance=ExtResource("7_bf3um")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5, 0, 12)
 
-[node name="rail" parent="." instance=ExtResource("10_tw3kd")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1, 1, -4)
+[node name="rail" parent="road" instance=ExtResource("10_tw3kd")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 1, 13)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.91495967, 0.20177262, -0.34948057, 5.4673652e-08, 0.8660254, 0.5, 0.40354535, -0.45747983, 0.7923783, -3.6536694, 3, 3.280692)
+transform = Transform3D(0.54411197, 0.4195063, -0.72660637, 5.4673652e-08, 0.8660254, 0.5, 0.83901274, -0.272056, 0.4712147, -3.6536694, 3, 3.280692)
 script = ExtResource("13_blcw0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -188,14 +188,15 @@ shadow_enabled = true
 
 [node name="grass" type="StaticBody3D" parent="."]
 
-[node name="model" parent="grass" instance=ExtResource("13_eji0w")]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -50, 0, 50)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="grass"]
-shape = SubResource("BoxShape3D_qt76e")
+transform = Transform3D(999.9999, 0, 0, 0, 999.9999, 0, 0, 0, 999.9999, -3.0517578e-05, 0, 3.0517578e-05)
+shape = SubResource("ConvexPolygonShape3D_po8fv")
+
+[node name="model" parent="grass" instance=ExtResource("13_eji0w")]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, -500, 0, 500)
 
 [node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels", "skid_marks")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5082207, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.823409, 1.5082207, 0)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
@@ -326,19 +327,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
 [node name="CameraPivot" type="Node3D" parent="Car"]
 
 [node name="Camera3D" type="Camera3D" parent="Car/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5082207, 5)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5, 2.5082207, -5)
 top_level = true
 current = true
 script = ExtResource("20_3dlgs")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.098624706, -0.36782646, -10.518732)
-use_collision = true
-size = Vector3(2.9277344, 1, 0.14880371)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.098624706, -0.36782646, -10.707067)
-use_collision = true
-size = Vector3(2.9277344, 1, 0.064941406)
-
+[editable path="grass/model"]
 [editable path="Car/car"]
