@@ -61,7 +61,7 @@ func apply_wheel_physics(car: RaycastCar) -> void:
 		var ac := car.accel_curve.sample_baked(speed_ratio)
 		var accel_force := forward_dir * car.acceleration * car.motor_input * ac
 		car.apply_force(accel_force, force_pos)
-		DebugDraw3D.draw_arrow_ray(contact, accel_force / car.mass, 2.5, Color.RED, 0.5, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(contact, accel_force / car.mass, 2.5, Color.RED, 0.5, true)
 		
 	## Tire X traction (Steering)
 	var steering_x_vel := global_basis.x.dot(tire_vel)
