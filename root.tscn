@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://col4kpivuxhn6"]
+[gd_scene load_steps=35 format=3 uid="uid://col4kpivuxhn6"]
 
 [ext_resource type="PackedScene" uid="uid://d2oqcb8pxmak7" path="res://assets/roadStraightLong.glb" id="1_pyidc"]
 [ext_resource type="PackedScene" uid="uid://broj4je2vlvlo" path="res://assets/roadCornerLarger.glb" id="2_vvh5c"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
 [ext_resource type="Curve" uid="uid://by6s62plut157" path="res://car_tire_FRONT.tres" id="20_po8fv"]
+[ext_resource type="PackedScene" uid="uid://fulbdylt6f0i" path="res://assets/car/race.glb" id="23_ub8w1"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_po8fv"]
 points = PackedVector3Array(-0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0, 0.5)
@@ -333,5 +334,9 @@ top_level = true
 current = true
 script = ExtResource("20_3dlgs")
 
+[node name="race" parent="." instance=ExtResource("23_ub8w1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
+
 [editable path="grass/model"]
 [editable path="Car/car"]
+[editable path="race"]
