@@ -45,7 +45,7 @@ func apply_wheel_physics(car: RaycastCar, delta: float) -> void:
 	
 	# TODO: Move to shapecast later
 	wheel.position.y = move_toward(wheel.position.y, -spring_len, 5 * get_physics_process_delta_time()) # Local y position of the wheel
-	contact = wheel.global_position # Contact is now the wheel origin point
+	#contact = wheel.global_position # Contact is now the wheel origin point
 	var force_pos := contact - car.global_position
 	
 	## Spring forces
@@ -64,6 +64,7 @@ func apply_wheel_physics(car: RaycastCar, delta: float) -> void:
 		if show_debug: DebugDraw3D.draw_arrow_ray(contact, accel_force / car.mass, 2.5, Color.RED, 0.5, true)
 		
 	## Tire X traction (Steering)
+	### Old method
 	#var steering_x_vel := global_basis.x.dot(tire_vel)
 	#
 	#grip_factor = absf(steering_x_vel / tire_vel.length())
@@ -79,8 +80,12 @@ func apply_wheel_physics(car: RaycastCar, delta: float) -> void:
 	#var gravity := -car.get_gravity().y
 	#var x_force := -global_basis.x * steering_x_vel * x_traction * ((car.mass * gravity) / car.total_wheels)
 	
-	var tire_sliding_vector = global_basis.x.dot(tire_vel) * global_basis.x
-	var x_force = -tire_sliding_vector * (car.mass / delta) / car.total_wheels * 1
+	### New method
+	var side_dir := global_basis.x
+	var v_side := side_dir.dot(tire_vel)
+
+	var m_eff := car.mass / car.total_wheels
+	var x_force := -(m_eff * v_side / delta) * side_dir  # cancel in one step
 	
 	## Tire Z traction (Longitudinal)
 	var f_vel := forward_dir.dot(tire_vel)
@@ -90,9 +95,9 @@ func apply_wheel_physics(car: RaycastCar, delta: float) -> void:
 	var z_force := global_basis.z * f_vel * z_friction * (car.mass / delta) / car.total_wheels
 	
 	car.apply_force(y_force, force_pos)
-	car.apply_force(x_force, force_pos)
+	car.apply_force(x_force, force_pos + Vector3(0, 0.25, 0)) # TODO: Use contact normal instead of world y for slope support
 	car.apply_force(z_force, force_pos)
 	
 	if show_debug: DebugDraw3D.draw_arrow_ray(contact, y_force / car.mass, 2.5, Color.BLUE, 0.5, true)
-	if show_debug: DebugDraw3D.draw_arrow_ray(contact, x_force / car.mass, 1.5, Color.YELLOW, 0.2, true)
+	if show_debug: DebugDraw3D.draw_arrow_ray(contact + Vector3(0, 0.25, 0), x_force / car.mass, 1.5, Color.YELLOW, 0.2, true)
 	#if show_debug: DebugDraw3D.draw_arrow_ray(contact, z_force / car.mass, 1.5, Color.ORANGE, 0.2, true)
