@@ -204,8 +204,11 @@ physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
-max_speed = 60.0
+acceleration = null
+max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
+tire_turn_speed = null
+tire_max_turn_degrees = null
 skid_marks = [NodePath("SkidMarks/GPUParticles3D"), NodePath("SkidMarks/GPUParticles3D2"), NodePath("SkidMarks/GPUParticles3D3"), NodePath("SkidMarks/GPUParticles3D4")]
 show_debug = true
 

@@ -7,8 +7,8 @@ class_name RaycastWheel
 @export var rest_dist := 0.5
 @export var over_extend := 0.0
 @export var wheel_radius := 0.4
-@export var z_traction := 0.05
-@export var z_brake_traction := 0.25
+@export var z_traction := 0.005
+@export var z_brake_traction := 0.025
 
 @export_category("Motor")
 @export var is_motor := false
@@ -27,7 +27,7 @@ var is_braking := false
 func _ready() -> void:
 	target_position.y = -(rest_dist + wheel_radius + over_extend)
 	
-func apply_wheel_physics(car: RaycastCar) -> void:
+func apply_wheel_physics(car: RaycastCar, delta: float) -> void:
 	force_raycast_update()
 	target_position.y = -(rest_dist + wheel_radius + over_extend)
 	
@@ -43,7 +43,7 @@ func apply_wheel_physics(car: RaycastCar) -> void:
 	var spring_len := maxf(0.0, global_position.distance_to(contact) - wheel_radius)
 	var offset := rest_dist - spring_len
 	
-	# TODO: Move to shapecast instead
+	# TODO: Move to shapecast later
 	wheel.position.y = move_toward(wheel.position.y, -spring_len, 5 * get_physics_process_delta_time()) # Local y position of the wheel
 	contact = wheel.global_position # Contact is now the wheel origin point
 	var force_pos := contact - car.global_position
@@ -64,27 +64,30 @@ func apply_wheel_physics(car: RaycastCar) -> void:
 		if show_debug: DebugDraw3D.draw_arrow_ray(contact, accel_force / car.mass, 2.5, Color.RED, 0.5, true)
 		
 	## Tire X traction (Steering)
-	var steering_x_vel := global_basis.x.dot(tire_vel)
+	#var steering_x_vel := global_basis.x.dot(tire_vel)
+	#
+	#grip_factor = absf(steering_x_vel / tire_vel.length())
+	#var x_traction := grip_curve.sample_baked(grip_factor)
+	#
+	#if not car.handbrake_input and grip_factor < 0.2:
+		#car.is_slipping = false
+	#if car.handbrake_input:
+		#x_traction = 0.01
+	#elif car.is_slipping:
+		#x_traction = 0.1
+		#
+	#var gravity := -car.get_gravity().y
+	#var x_force := -global_basis.x * steering_x_vel * x_traction * ((car.mass * gravity) / car.total_wheels)
 	
-	grip_factor = absf(steering_x_vel / tire_vel.length())
-	var x_traction := grip_curve.sample_baked(grip_factor)
-	
-	if not car.handbrake_input and grip_factor < 0.2:
-		car.is_slipping = false
-	if car.handbrake_input:
-		x_traction = 0.01
-	elif car.is_slipping:
-		x_traction = 0.1
-		
-	var gravity := -car.get_gravity().y
-	var x_force := -global_basis.x * steering_x_vel * x_traction * ((car.mass * gravity) / car.total_wheels)
+	var tire_sliding_vector = global_basis.x.dot(tire_vel) * global_basis.x
+	var x_force = -tire_sliding_vector * (car.mass / delta) / car.total_wheels * 1
 	
 	## Tire Z traction (Longitudinal)
 	var f_vel := forward_dir.dot(tire_vel)
 	var z_friction := z_traction
 	if is_braking:
 		z_friction = z_brake_traction
-	var z_force := global_basis.z * f_vel * z_friction * ((car.mass * gravity) / car.total_wheels)
+	var z_force := global_basis.z * f_vel * z_friction * (car.mass / delta) / car.total_wheels
 	
 	car.apply_force(y_force, force_pos)
 	car.apply_force(x_force, force_pos)
@@ -92,3 +95,4 @@ func apply_wheel_physics(car: RaycastCar) -> void:
 	
 	if show_debug: DebugDraw3D.draw_arrow_ray(contact, y_force / car.mass, 2.5, Color.BLUE, 0.5, true)
 	if show_debug: DebugDraw3D.draw_arrow_ray(contact, x_force / car.mass, 1.5, Color.YELLOW, 0.2, true)
+	#if show_debug: DebugDraw3D.draw_arrow_ray(contact, z_force / car.mass, 1.5, Color.ORANGE, 0.2, true)

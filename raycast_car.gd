@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	var id := 0
 	var grounded := false
 	for wheel in wheels:
-		wheel.apply_wheel_physics(self)
+		wheel.apply_wheel_physics(self, delta)
 		_basic_steering_rotation(wheel, delta)
 		
 		if Input.is_action_pressed("brake"):
