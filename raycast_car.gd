@@ -30,19 +30,6 @@ var brake_input := 0.0
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_position)	
 
-func _basic_steering_rotation(wheel: RayCast3D, delta: float) -> void:
-	var is_steering_wheel := to_local(wheel.global_position).z < 0
-	if not is_steering_wheel: return
-	var forward_dir := -global_basis.z
-	var vel := forward_dir.dot(linear_velocity)
-	var speed_ratio := vel / max_speed
-	var turn_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
-	if turn_input:
-		wheel.rotation.y = clampf(wheel.rotation.y + turn_input * delta, 
-		deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), deg_to_rad(tire_max_turn_degrees) * max_turn_curve.sample_baked(speed_ratio))
-	else:
-		wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
-
 func _ready() -> void:
 	for wheel in wheels:
 		wheel.target_position.y = -(rest_dist + wheel_radius + over_extend)
@@ -53,8 +40,19 @@ func _physics_process(delta: float) -> void:
 
 	for wheel in wheels:
 		var wheel_mesh: Node3D = wheel.get_child(0)
-		_basic_steering_rotation(wheel, delta)
-		
+
+		## Steering rotation
+		var is_steering_wheel := to_local(wheel.global_position).z < 0
+		if is_steering_wheel:
+			var vel := -global_basis.z.dot(linear_velocity)
+			var speed_ratio := vel / max_speed
+			var turn_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
+			if turn_input:
+				wheel.rotation.y = clampf(wheel.rotation.y + turn_input * delta,
+				deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), deg_to_rad(tire_max_turn_degrees) * max_turn_curve.sample_baked(speed_ratio))
+			else:
+				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
+
 		wheel.force_raycast_update()
 		wheel.target_position.y = -(rest_dist + wheel_radius + over_extend)
 		
