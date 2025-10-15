@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://col4kpivuxhn6"]
+[gd_scene load_steps=25 format=3 uid="uid://col4kpivuxhn6"]
 
 [ext_resource type="PackedScene" uid="uid://d2oqcb8pxmak7" path="res://assets/roadStraightLong.glb" id="1_pyidc"]
 [ext_resource type="PackedScene" uid="uid://broj4je2vlvlo" path="res://assets/roadCornerLarger.glb" id="2_vvh5c"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="PackedScene" uid="uid://cwnjq3tti13vl" path="res://assets/grass.glb" id="13_eji0w"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
-[ext_resource type="Script" uid="uid://c56jkfwj01ciq" path="res://raycast_wheel.gd" id="16_r3r3k"]
 [ext_resource type="PackedScene" uid="uid://cuq5ujyvc3n02" path="res://assets/car/wheel.glb" id="19_3dlgs"]
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
@@ -223,6 +222,7 @@ wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePat
 max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
+show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51383114, 0)
@@ -231,14 +231,6 @@ shape = SubResource("ConvexPolygonShape3D_50g4q")
 [node name="WheelFL" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, -1.513)
 enabled = false
-script = ExtResource("16_r3r3k")
-spring_strength = 5000.0
-spring_damping = 200.0
-rest_dist = 0.1
-over_extend = 0.05
-wheel_radius = 0.33
-is_steer = true
-show_debug = true
 
 [node name="wheel" parent="Car/WheelFL" instance=ExtResource("19_3dlgs")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -246,28 +238,12 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="WheelFR" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, -1.513)
 enabled = false
-script = ExtResource("16_r3r3k")
-spring_strength = 5000.0
-spring_damping = 200.0
-rest_dist = 0.1
-over_extend = 0.05
-wheel_radius = 0.33
-is_steer = true
-show_debug = true
 
 [node name="wheel" parent="Car/WheelFR" instance=ExtResource("19_3dlgs")]
 
 [node name="WheelRL" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, 1.071)
 enabled = false
-script = ExtResource("16_r3r3k")
-spring_strength = 5000.0
-spring_damping = 200.0
-rest_dist = 0.1
-over_extend = 0.05
-wheel_radius = 0.33
-is_motor = true
-show_debug = true
 
 [node name="wheel" parent="Car/WheelRL" instance=ExtResource("19_3dlgs")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
@@ -275,14 +251,6 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="WheelRR" type="RayCast3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, 1.071)
 enabled = false
-script = ExtResource("16_r3r3k")
-spring_strength = 5000.0
-spring_damping = 200.0
-rest_dist = 0.1
-over_extend = 0.05
-wheel_radius = 0.33
-is_motor = true
-show_debug = true
 
 [node name="wheel" parent="Car/WheelRR" instance=ExtResource("19_3dlgs")]
 
