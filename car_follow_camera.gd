@@ -7,12 +7,6 @@ extends Camera3D
 
 @onready var target : Node3D = get_parent().get_parent()
 
-#func _input(event: InputEvent) -> void:
-	#if event is InputEventMouseMotion:
-		#top_level = false
-		#get_parent().rotate_y(-event.relative.x * camera_sensibility)
-		#top_level = true
-
 func _physics_process(_delta: float) -> void:
 	var from_target := global_position - target.global_position
 	

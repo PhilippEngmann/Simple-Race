@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://col4kpivuxhn6"]
+[gd_scene load_steps=26 format=3 uid="uid://col4kpivuxhn6"]
 
 [ext_resource type="PackedScene" uid="uid://d2oqcb8pxmak7" path="res://assets/roadStraightLong.glb" id="1_pyidc"]
 [ext_resource type="PackedScene" uid="uid://broj4je2vlvlo" path="res://assets/roadCornerLarger.glb" id="2_vvh5c"]
@@ -15,13 +15,10 @@
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="PackedScene" uid="uid://cwnjq3tti13vl" path="res://assets/grass.glb" id="13_eji0w"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
-[ext_resource type="Material" uid="uid://crhb1iffcujo1" path="res://green.tres" id="14_qwhpj"]
 [ext_resource type="Script" uid="uid://c56jkfwj01ciq" path="res://raycast_wheel.gd" id="16_r3r3k"]
-[ext_resource type="Curve" uid="uid://qo14l30hb5ul" path="res://car_tire_REAR.tres" id="18_vte5o"]
 [ext_resource type="PackedScene" uid="uid://cuq5ujyvc3n02" path="res://assets/car/wheel.glb" id="19_3dlgs"]
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
-[ext_resource type="Curve" uid="uid://by6s62plut157" path="res://car_tire_FRONT.tres" id="20_po8fv"]
 [ext_resource type="PackedScene" uid="uid://fulbdylt6f0i" path="res://assets/car/race.glb" id="23_ub8w1"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_po8fv"]
@@ -35,33 +32,13 @@ _data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(0.3, 0.90000004), 0.0, 0.0, 0,
 point_count = 4
 metadata/_snap_enabled = true
 
-[sub_resource type="BoxMesh" id="BoxMesh_eji0w"]
-size = Vector3(2, 0.5, 4)
-
-[sub_resource type="BoxMesh" id="BoxMesh_qwhpj"]
-size = Vector3(0.65, 0.4, 1.8)
+[sub_resource type="Curve" id="Curve_ub8w1"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+metadata/_snap_enabled = true
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50g4q"]
 points = PackedVector3Array(0.87452865, 0.98705864, -0.721583, 0.86613786, 1.0515312, -0.7284374, 0.8265811, 0.7528125, 1.4324226, 0.8375405, 0.70113695, 1.1933742, 0.8330883, 0.6236236, 1.485116, 0.8212726, 0.22642894, 1.6316295, 0.8212726, 0.16853772, 0.7259877, 0.8212726, 0.16853772, -1.1752608, 0.819389, 0.21363193, -2.158872, 0.83120465, 0.6698147, -2.0590544, 0.85038364, 1.0609156, -0.7370055, 0.52810776, 1.3094213, -0.35058677, 0.538211, 1.3172213, 0.28730392, 0.5269091, 1.3186839, 0.82237816, 0.8079158, 0.7312404, -2.0680506, 0.862713, 1.0470217, -0.76613677, 0.8467876, 1.0572593, -0.7742765, 0.7460978, 0.87407935, 1.4324226, 0.6558536, 0.87407935, 1.9357948, 0.7168155, 0.768047, 1.9357948, 0.7435292, 0.40290576, 1.9413643, 0.70106137, 0.24166347, 1.9190874, 0.56646574, 0.17999409, 1.6890354, 0.46680343, 0.16439393, 1.108979, 0.47194064, 0.16439393, 1.048146, 0.49796927, 0.16439393, 0.7259877, 0.5733154, 0.16439393, -1.7925882, 0.56115735, 0.16439393, -1.9999348, 0.35053062, 0.19608176, -2.235556, 0.33614647, 0.4072933, -2.2895346, 0.8050047, 0.44202802, -2.1708672, 0.8159641, 0.5500104, -2.165298, 0.3483045, 1.3542718, -0.44140804, 0.3483045, 1.3882751, -0.0044379234, 0.3483045, 1.3975378, 0.38712144, 0.354298, 1.3564655, 0.96417904, 0.46971452, 1.328434, 0.8999188, 0.64729166, 0.72770596, -2.1708672, 0.68273854, 0.76268446, -2.1143181, 0.58256245, 0.91746724, 1.9409361, 0.58033633, 0.51539755, 2.0865927, 0.7168155, 0.6320331, 1.9606423, 0.70636976, 0.29358274, 1.9426494, 0.7113358, 0.5423322, 1.9760647, 0.6481478, 0.3841368, 2.023189, 0.57417166, 0.2456854, 1.9769216, 0.3736483, 0.24410099, 1.9790635, -0.00017124414, 0.24215098, 1.9833479, -0.566637, 0.17999409, 1.6890354, -0.46697462, 0.16439393, 1.108979, -0.56132853, 0.16439393, -1.9999348, -0.00017124414, 0.18986607, -2.219705, -0.35070187, 0.19608176, -2.235556, -0.3363176, 0.4072933, -2.2895346, 0.33614647, 0.5185663, -2.2895346, -0.00017124414, 1.3660938, -0.42555714, 0.3380301, 0.79888165, -2.1455915, -0.00017124414, 1.4000971, 0.011412859, -0.00017124414, 1.4094816, 0.40297246, -0.00017124414, 1.3682874, 0.98003006, -0.00017124414, 0.7675595, -2.2124221, 0.59317935, 0.7500093, -2.1622992, -0.00017124414, 0.91746724, 1.9893451, -0.5805075, 0.51539755, 2.0865927, 0.58033633, 0.38328367, 2.043324, -0.3738194, 0.24410099, 1.9790635, -0.5805075, 0.38328367, 2.043324, -0.57434285, 0.2456854, 1.9769216, -0.70123255, 0.24166347, 1.9190874, -0.82144386, 0.22642894, 1.6316295, -0.82144386, 0.16853772, 0.7259877, -0.47211185, 0.16439393, 1.048146, -0.81956017, 0.21363193, -2.158872, -0.5734866, 0.16439393, -1.7925882, -0.82144386, 0.16853772, -1.1752608, -0.3363176, 0.5185663, -2.2895346, -0.8051759, 0.44202802, -2.1708672, -0.33820128, 0.79888165, -2.1455915, -0.34847575, 1.3542718, -0.44140804, -0.34847575, 1.3882751, -0.0044379234, -0.34847575, 1.3975378, 0.38712144, -0.35446918, 1.3564655, 0.96417904, -0.58273363, 0.91746724, 1.9409361, -0.64746284, 0.72770596, -2.1708672, -0.5933506, 0.7500093, -2.1622992, -0.7169867, 0.6320331, 1.9606423, -0.711507, 0.5423322, 1.9760647, -0.648319, 0.3841368, 2.023189, -0.6560249, 0.87407935, 1.9357948, -0.7169867, 0.768047, 1.9357948, -0.706541, 0.29358274, 1.9426494, -0.7437003, 0.40290576, 1.9413643, -0.83325946, 0.6236236, 1.485116, -0.87469983, 0.98705864, -0.721583, -0.4981405, 0.16439393, 0.7259877, -0.83137584, 0.6698147, -2.0590544, -0.81613535, 0.5500104, -2.165298, -0.6829097, 0.76268446, -2.1143181, -0.52827895, 1.3094213, -0.35058677, -0.808087, 0.7312404, -2.0680506, -0.5383822, 1.3172213, 0.28730392, -0.5270803, 1.3186839, 0.82237816, -0.46988574, 1.328434, 0.8999188, -0.746269, 0.87407935, 1.4324226, -0.8267523, 0.7528125, 1.4324226, -0.83771175, 0.70113695, 1.1933742, -0.866309, 1.0515312, -0.7284374, -0.84695876, 1.0572593, -0.7742765, -0.8505548, 1.0609156, -0.7370055, -0.86288416, 1.0470217, -0.76613677)
-
-[sub_resource type="Gradient" id="Gradient_r3r3k"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.3882353)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_blcw0"]
-gradient = SubResource("Gradient_r3r3k")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r3r3k"]
-gravity = Vector3(0, 0, 0)
-color_ramp = SubResource("GradientTexture1D_blcw0")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blcw0"]
-transparency = 1
-vertex_color_use_as_albedo = true
-
-[sub_resource type="QuadMesh" id="QuadMesh_r3r3k"]
-material = SubResource("StandardMaterial3D_blcw0")
-size = Vector2(0.6, 1)
-orientation = 1
 
 [node name="root" type="Node3D"]
 
@@ -179,6 +156,45 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5, 
 [node name="rail" parent="road" instance=ExtResource("10_tw3kd")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 1, 13)
 
+[node name="SkidPad" type="Node3D" parent="road"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.800001, 0, 1.6999998)
+
+[node name="roadCornerSmall4" parent="road/SkidPad" instance=ExtResource("12_qw60f")]
+transform = Transform3D(-1, 0, -8.7422784e-08, 0, 1, 0, 8.7422784e-08, 0, -1, 7, 0, 21)
+
+[node name="roadCornerSmall5" parent="road/SkidPad" instance=ExtResource("12_qw60f")]
+transform = Transform3D(1.3113417e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113417e-07, 6, 0, 20)
+
+[node name="roadCornerSmall6" parent="road/SkidPad" instance=ExtResource("12_qw60f")]
+transform = Transform3D(1, 0, 5.684342e-15, 0, 1, 0, -5.684342e-15, 0, 1, 5, 0, 21)
+
+[node name="roadCornerSmall7" parent="road/SkidPad" instance=ExtResource("12_qw60f")]
+transform = Transform3D(-4.3711395e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711395e-08, 6, 0, 22)
+
+[node name="roadCornerLarge3" parent="road/SkidPad" instance=ExtResource("6_l8v81")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0000033, 0, 21.000004)
+
+[node name="roadCornerLarge4" parent="road/SkidPad" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 6.0000033, 0, 23.000008)
+
+[node name="roadCornerLarge5" parent="road/SkidPad" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-1, 0, 8.7422784e-08, 0, 1, 0, -8.7422784e-08, 0, -1, 8.000004, 0, 21.000008)
+
+[node name="roadCornerLarge6" parent="road/SkidPad" instance=ExtResource("6_l8v81")]
+transform = Transform3D(-4.3711392e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711392e-08, 6.0000033, 0, 19.000004)
+
+[node name="roadCornerLarger4" parent="road/SkidPad" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(1, 0, 6.357302e-08, 0, 1, 0, -6.357302e-08, 0, 1, 3, 0, 21)
+
+[node name="roadCornerLarger5" parent="road/SkidPad" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(-1.0728441e-07, 0, 1, 0, 1, 0, -1, 0, -1.0728441e-07, 6.0000005, 0, 24)
+
+[node name="roadCornerLarger6" parent="road/SkidPad" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 9.000002, 0, 21)
+
+[node name="roadCornerLarger7" parent="road/SkidPad" instance=ExtResource("2_vvh5c")]
+transform = Transform3D(1.9470717e-07, 0, -1, 0, 1, 0, 1, 0, 1.9470717e-07, 6.0000005, 0, 18)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.54411197, 0.4195063, -0.72660637, 5.4673652e-08, 0.8660254, 0.5, 0.83901274, -0.272056, 0.4712147, -3.6536694, 3, 3.280692)
 current = true
@@ -197,30 +213,16 @@ shape = SubResource("ConvexPolygonShape3D_po8fv")
 [node name="model" parent="grass" instance=ExtResource("13_eji0w")]
 transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, -500, 0, 500)
 
-[node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels", "skid_marks")]
+[node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.823409, 1.5082207, 0)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
-acceleration = null
 max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
-tire_turn_speed = null
-tire_max_turn_degrees = null
-skid_marks = [NodePath("SkidMarks/GPUParticles3D"), NodePath("SkidMarks/GPUParticles3D2"), NodePath("SkidMarks/GPUParticles3D3"), NodePath("SkidMarks/GPUParticles3D4")]
-show_debug = true
-
-[node name="CarMesh" type="MeshInstance3D" parent="Car"]
-visible = false
-material_override = ExtResource("14_qwhpj")
-mesh = SubResource("BoxMesh_eji0w")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/CarMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43265104, 1.1050763)
-material_override = ExtResource("14_qwhpj")
-mesh = SubResource("BoxMesh_qwhpj")
+max_turn_curve = SubResource("Curve_ub8w1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51383114, 0)
@@ -236,7 +238,6 @@ rest_dist = 0.1
 over_extend = 0.05
 wheel_radius = 0.33
 is_steer = true
-grip_curve = ExtResource("20_po8fv")
 show_debug = true
 
 [node name="wheel" parent="Car/WheelFL" instance=ExtResource("19_3dlgs")]
@@ -252,7 +253,6 @@ rest_dist = 0.1
 over_extend = 0.05
 wheel_radius = 0.33
 is_steer = true
-grip_curve = ExtResource("20_po8fv")
 show_debug = true
 
 [node name="wheel" parent="Car/WheelFR" instance=ExtResource("19_3dlgs")]
@@ -267,7 +267,6 @@ rest_dist = 0.1
 over_extend = 0.05
 wheel_radius = 0.33
 is_motor = true
-grip_curve = ExtResource("18_vte5o")
 show_debug = true
 
 [node name="wheel" parent="Car/WheelRL" instance=ExtResource("19_3dlgs")]
@@ -283,48 +282,9 @@ rest_dist = 0.1
 over_extend = 0.05
 wheel_radius = 0.33
 is_motor = true
-grip_curve = ExtResource("18_vte5o")
 show_debug = true
 
 [node name="wheel" parent="Car/WheelRR" instance=ExtResource("19_3dlgs")]
-
-[node name="SkidMarks" type="Node3D" parent="Car"]
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Car/SkidMarks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9500194, 0, 0)
-emitting = false
-amount = 150
-lifetime = 1.5
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_r3r3k")
-draw_pass_1 = SubResource("QuadMesh_r3r3k")
-
-[node name="GPUParticles3D2" type="GPUParticles3D" parent="Car/SkidMarks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9500194, 0, 0)
-emitting = false
-amount = 150
-lifetime = 1.5
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_r3r3k")
-draw_pass_1 = SubResource("QuadMesh_r3r3k")
-
-[node name="GPUParticles3D3" type="GPUParticles3D" parent="Car/SkidMarks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9500194, 0, 0)
-emitting = false
-amount = 150
-lifetime = 1.5
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_r3r3k")
-draw_pass_1 = SubResource("QuadMesh_r3r3k")
-
-[node name="GPUParticles3D4" type="GPUParticles3D" parent="Car/SkidMarks"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9500194, 0, 0)
-emitting = false
-amount = 150
-lifetime = 1.5
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_r3r3k")
-draw_pass_1 = SubResource("QuadMesh_r3r3k")
 
 [node name="car" parent="Car" instance=ExtResource("19_50g4q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
