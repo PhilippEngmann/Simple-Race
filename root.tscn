@@ -87,31 +87,31 @@ transform = Transform3D(7.5497894e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 7
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 19)
 
 [node name="roadStraightBridgeStart" parent="road" instance=ExtResource("7_bf3um")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 3, 0, 13)
 
 [node name="roadRampLongCurvedWall" parent="road" instance=ExtResource("8_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 5, 0, 13)
 
 [node name="roadStraightBridgeMid" parent="road" instance=ExtResource("9_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 2, 0, 13)
 
 [node name="roadStraightBridgeMid2" parent="road" instance=ExtResource("9_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 1, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 1, 0, 13)
 
 [node name="roadStraightBridge" parent="road" instance=ExtResource("11_gd4vy")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2, 0, 12)
+transform = Transform3D(-4.3711392e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711392e-08, -2, 0, 12)
 
 [node name="roadStraightBridgeMid3" parent="road" instance=ExtResource("9_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, 0, 0, 13)
 
 [node name="roadStraightBridgeMid4" parent="road" instance=ExtResource("9_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, -2, 0, 13)
 
 [node name="roadStraightBridgeMid5" parent="road" instance=ExtResource("9_huihk")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3, 0, 13)
+transform = Transform3D(-4.3711392e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711392e-08, -3, 0, 13)
 
 [node name="roadRampLongCurvedWall2" parent="road" instance=ExtResource("8_huihk")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -7, 0, 12)
+transform = Transform3D(-4.3711392e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711392e-08, -7, 0, 12)
 
 [node name="roadCornerSmall" parent="road" instance=ExtResource("12_qw60f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 13)
@@ -150,7 +150,7 @@ transform = Transform3D(0.9999999, 0, 1.03316026e-07, 0, 1, 0, -1.03316026e-07, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
 
 [node name="roadStraightBridgeStart2" parent="road" instance=ExtResource("7_bf3um")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -5, 0, 12)
+transform = Transform3D(-4.3711392e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711392e-08, -5, 0, 12)
 
 [node name="rail" parent="road" instance=ExtResource("10_tw3kd")]
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 1, 1, 13)
@@ -213,7 +213,7 @@ shape = SubResource("ConvexPolygonShape3D_po8fv")
 transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, -500, 0, 500)
 
 [node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.823409, 1.5082207, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.1765909, 1.5082207, 0)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
@@ -262,12 +262,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
 [node name="Camera3D" type="Camera3D" parent="Car/CameraPivot"]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5, 2.5082207, -5)
 top_level = true
-current = true
 script = ExtResource("20_3dlgs")
 
 [node name="race" parent="." instance=ExtResource("23_ub8w1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
 
 [editable path="grass/model"]
+[editable path="Car/WheelFR/wheel"]
 [editable path="Car/car"]
 [editable path="race"]
