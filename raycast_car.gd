@@ -15,8 +15,8 @@ extends RigidBody3D
 @export var rest_dist := 0.1
 @export var over_extend := 0.05
 @export var wheel_radius := 0.33
-@export var z_traction := 0.005
-@export var z_brake_traction := 0.025
+@export var rolling_resistance_coef := 0.005
+@export var brake_power := 0.02
 
 @export_category("Debug")
 @export var show_debug := false
@@ -27,7 +27,7 @@ var throttle_input := 0.0
 var brake_input := 0.0
 
 func _get_point_velocity(point: Vector3) -> Vector3:
-	return linear_velocity + angular_velocity.cross(point - global_position)	
+	return linear_velocity + angular_velocity.cross(point - global_position)
 
 func _ready() -> void:
 	for wheel in wheels:
@@ -37,10 +37,12 @@ func _physics_process(delta: float) -> void:
 	throttle_input = Input.get_action_strength("throttle")
 	brake_input = Input.get_action_strength("brake")
 
+	var car_mass_share := mass / total_wheels
+
 	for wheel in wheels:
 		var wheel_mesh: Node3D = wheel.get_child(0)
 
-		## Steering rotation
+		## Steer wheels
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
 			var car_velocity := -global_basis.z.dot(linear_velocity)
@@ -56,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		wheel.force_raycast_update()
 		wheel.target_position.y = -(rest_dist + wheel_radius + over_extend)
 		
-		## Rotate wheel visuals
+		## Rotate wheels
 		var wheel_forward_dir := -wheel.global_basis.z
 		var wheel_forward_velocity := wheel_forward_dir.dot(linear_velocity)
 		wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
@@ -72,12 +74,11 @@ func _physics_process(delta: float) -> void:
 		var wheel_center := wheel_mesh.global_position
 		var force_pos := wheel_center - global_position
 		
-		## Spring forces
+		## Suspension
 		var spring_force := spring_strength * spring_offset
 		var tire_velocity := _get_point_velocity(wheel_center)
-		var spring_damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
-		
-		var suspension_force = (spring_force - spring_damping_force) * wheel.get_collision_normal()
+		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
+		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal()
 		
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
@@ -87,23 +88,21 @@ func _physics_process(delta: float) -> void:
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force / mass, 2.5, Color.RED, 0.5, true)
 			
-		## Tire X traction (Steering)
+		## Steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
-
-		var car_mass_share := mass / total_wheels
-		var grip_force := -(car_mass_share * wheel_sideways_velocity / delta) * wheel_sideways_dir
+		var grip_impulse := -wheel_sideways_velocity * car_mass_share * wheel_sideways_dir
 		
-		## Tire Z traction (Longitudinal)
-		var rolling_resistance := z_traction
+		## Rolling resistance
+		var rolling_resistance := rolling_resistance_coef
 		if brake_input > 0.0:
-			rolling_resistance = z_brake_traction * brake_input
-		var rolling_resistance_force := wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * (mass / delta) / total_wheels
+			rolling_resistance += brake_power * brake_input
+		var rolling_resistance_impulse := wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * car_mass_share
 		
 		apply_force(suspension_force, force_pos)
-		apply_force(grip_force, force_pos)
-		apply_force(rolling_resistance_force, force_pos)
+		apply_impulse(grip_impulse, force_pos)
+		apply_impulse(rolling_resistance_impulse, force_pos)
 		
 		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, suspension_force / mass, 2.5, Color.BLUE, 0.5, true)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_force / mass, 1.5, Color.YELLOW, 0.2, true)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_force / mass, 1.5, Color.ORANGE, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_impulse / mass, 1.5, Color.YELLOW, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_impulse / mass, 1.5, Color.ORANGE, 0.2, true)
