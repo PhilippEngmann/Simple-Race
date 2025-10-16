@@ -1,5 +1,4 @@
 extends RigidBody3D
-class_name RaycastCar
 
 @export_group("Car properties")
 @export var wheels: Array[RayCast3D]
@@ -44,12 +43,13 @@ func _physics_process(delta: float) -> void:
 		## Steering rotation
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
-			var vel := -global_basis.z.dot(linear_velocity)
-			var speed_ratio := vel / max_speed
-			var turn_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
-			if turn_input:
-				wheel.rotation.y = clampf(wheel.rotation.y + turn_input * delta,
-				deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), deg_to_rad(tire_max_turn_degrees) * max_turn_curve.sample_baked(speed_ratio))
+			var car_velocity := -global_basis.z.dot(linear_velocity)
+			var speed_ratio := car_velocity / max_speed
+			var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
+			if steer_input:
+				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
+				deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), 
+				deg_to_rad(tire_max_turn_degrees) * max_turn_curve.sample_baked(speed_ratio))
 			else:
 				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
 
@@ -57,55 +57,53 @@ func _physics_process(delta: float) -> void:
 		wheel.target_position.y = -(rest_dist + wheel_radius + over_extend)
 		
 		## Rotate wheel visuals
-		var forward_dir := -wheel.global_basis.z
-		var vel := forward_dir.dot(linear_velocity)
-		wheel_mesh.rotate_x((-vel * delta) / wheel_radius)
+		var wheel_forward_dir := -wheel.global_basis.z
+		var wheel_forward_velocity := wheel_forward_dir.dot(linear_velocity)
+		wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
 		
 		if not wheel.is_colliding(): continue
-		# From here on, the wheel raycast is now colliding
 		
-		var contact := wheel.get_collision_point()
-		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact) - wheel_radius)
-		var offset := rest_dist - spring_len
+		var contact_point := wheel.get_collision_point()
+		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
+		var spring_offset := rest_dist - spring_len
 		
-		# TODO: Consider moving to shapecast instead
+		# Smooth wheel movement over bumps. TODO: Consider moving to shapecast instead
 		wheel_mesh.position.y = move_toward(wheel_mesh.position.y, -spring_len, 5 * delta) # Local y position of the wheel
-		contact = wheel_mesh.global_position # Contact is now the wheel origin point
-		var force_pos := contact - global_position
+		var wheel_center := wheel_mesh.global_position
+		var force_pos := wheel_center - global_position
 		
 		## Spring forces
-		var spring_force := spring_strength * offset
-		var tire_vel := _get_point_velocity(contact) # Center of the wheel
-		var spring_damp_f := spring_damping * wheel.global_basis.y.dot(tire_vel)
+		var spring_force := spring_strength * spring_offset
+		var tire_velocity := _get_point_velocity(wheel_center)
+		var spring_damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		
-		var y_force := (spring_force - spring_damp_f) * wheel.get_collision_normal()
+		var suspension_force = (spring_force - spring_damping_force) * wheel.get_collision_normal()
 		
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
-			var speed_ratio := vel / max_speed
-			var accel_force := forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
-			apply_force(accel_force, force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(contact, accel_force / mass, 2.5, Color.RED, 0.5, true)
+			var speed_ratio := wheel_forward_velocity / max_speed
+			var engine_force := wheel_forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
+			apply_force(engine_force, force_pos)
+			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force / mass, 2.5, Color.RED, 0.5, true)
 			
 		## Tire X traction (Steering)
-		var side_dir := wheel.global_basis.x
-		var v_side := side_dir.dot(tire_vel)
+		var wheel_sideways_dir := wheel.global_basis.x
+		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 
-		var m_eff := mass / total_wheels
-		var x_force := -(m_eff * v_side / delta) * side_dir  # cancel in one step
+		var car_mass_share := mass / total_wheels
+		var grip_force := -(car_mass_share * wheel_sideways_velocity / delta) * wheel_sideways_dir
 		
 		## Tire Z traction (Longitudinal)
-		var f_vel := forward_dir.dot(tire_vel)
-		var z_friction := z_traction
+		var rolling_resistance := z_traction
 		if brake_input > 0.0:
-			z_friction = z_brake_traction * brake_input
-		var z_force := wheel.global_basis.z * f_vel * z_friction * (mass / delta) / total_wheels
+			rolling_resistance = z_brake_traction * brake_input
+		var rolling_resistance_force := wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * (mass / delta) / total_wheels
 		
-		apply_force(y_force, force_pos)
-		apply_force(x_force, force_pos)
-		apply_force(z_force, force_pos)
+		apply_force(suspension_force, force_pos)
+		apply_force(grip_force, force_pos)
+		apply_force(rolling_resistance_force, force_pos)
 		
-		if show_debug: DebugDraw3D.draw_arrow_ray(contact, y_force / mass, 2.5, Color.BLUE, 0.5, true)
-		if show_debug: DebugDraw3D.draw_arrow_ray(contact, x_force / mass, 1.5, Color.YELLOW, 0.2, true)
-		if show_debug: DebugDraw3D.draw_arrow_ray(contact, z_force / mass, 1.5, Color.ORANGE, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, suspension_force / mass, 2.5, Color.BLUE, 0.5, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_force / mass, 1.5, Color.YELLOW, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_force / mass, 1.5, Color.ORANGE, 0.2, true)
