@@ -63,7 +63,7 @@ func _physics_process(delta: float) -> void:
 		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
 		var spring_offset := rest_dist - spring_len
 		
-		# Smooth wheel movement over bumps. TODO: Consider moving to shapecast instead
+		# Smooth wheel movement over bumps. TODO: Consider using shapecast instead
 		wheel_mesh.position.y = move_toward(wheel_mesh.position.y, -spring_len, 5 * delta)
 		
 		## Suspension
@@ -72,7 +72,7 @@ func _physics_process(delta: float) -> void:
 		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal()
 		apply_force(suspension_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, suspension_force, 0.02, Color.BLUE, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, suspension_force, 0.02, Color.BLUE, 0.3, true)
 		
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
@@ -80,14 +80,14 @@ func _physics_process(delta: float) -> void:
 			var speed_ratio := wheel_forward_velocity / max_speed
 			var engine_force := wheel_forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
 			apply_force(engine_force, force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force, 0.05, Color.RED, 0.2, true)
+			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force, 0.05, Color.RED, 0.3, true)
 			
-		## Steering
+		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		var grip_impulse := -wheel_sideways_velocity * car_mass_share * wheel_sideways_dir
 		apply_impulse(grip_impulse, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_impulse, 0.5, Color.YELLOW, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_impulse, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance
 		var rolling_resistance := rolling_resistance_coef
@@ -95,4 +95,4 @@ func _physics_process(delta: float) -> void:
 			rolling_resistance += brake_power * brake_input
 		var rolling_resistance_impulse := wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * car_mass_share
 		apply_impulse(rolling_resistance_impulse, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_impulse, 1.0, Color.ORANGE, 0.2, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_impulse, 1.0, Color.ORANGE, 0.3, true)
