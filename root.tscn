@@ -213,7 +213,7 @@ shape = SubResource("ConvexPolygonShape3D_po8fv")
 transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, -500, 0, 500)
 
 [node name="Car" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.1765909, 1.5082207, 0)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 4.823409, 1.5082207, 0)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
@@ -262,12 +262,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
 [node name="Camera3D" type="Camera3D" parent="Car/CameraPivot"]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 5, 2.5082207, -5)
 top_level = true
+current = true
 script = ExtResource("20_3dlgs")
 
 [node name="race" parent="." instance=ExtResource("23_ub8w1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
 
 [editable path="grass/model"]
-[editable path="Car/WheelFR/wheel"]
 [editable path="Car/car"]
 [editable path="race"]
