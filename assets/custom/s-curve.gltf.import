@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d2oqcb8pxmak7"
-path="res://.godot/imported/roadStraightLong.glb-c4075c7c5fb29eca1b657ed6aba66c02.scn"
+uid="uid://ctjgr843t7gi8"
+path="res://.godot/imported/s-curve.gltf-2b31d04415f0d3b5a78c8ec01da9925a.scn"
 
 [deps]
 
-source_file="res://assets/roadStraightLong.glb"
-dest_files=["res://.godot/imported/roadStraightLong.glb-c4075c7c5fb29eca1b657ed6aba66c02.scn"]
+source_file="res://assets/custom/s-curve.gltf"
+dest_files=["res://.godot/imported/s-curve.gltf-2b31d04415f0d3b5a78c8ec01da9925a.scn"]
 
 [params]
 
@@ -37,12 +37,6 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={
-"nodes": {
-"PATH:roadStraightLong(Clone)": {
-"generate/physics": true
-}
-}
-}
+_subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
