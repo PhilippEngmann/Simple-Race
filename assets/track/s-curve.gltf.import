@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://4f1d2kk0om8m"
-path="res://.godot/imported/corner3x.gltf-361ed515bea1f0799350c2136dc2e6bd.scn"
+uid="uid://ctjgr843t7gi8"
+path="res://.godot/imported/s-curve.gltf-fb76e9adc50d4d2e2ffc12419849732a.scn"
 
 [deps]
 
-source_file="res://assets/custom/corner3x.gltf"
-dest_files=["res://.godot/imported/corner3x.gltf-361ed515bea1f0799350c2136dc2e6bd.scn"]
+source_file="res://assets/track/s-curve.gltf"
+dest_files=["res://.godot/imported/s-curve.gltf-fb76e9adc50d4d2e2ffc12419849732a.scn"]
 
 [params]
 
