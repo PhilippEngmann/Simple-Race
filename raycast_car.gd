@@ -22,6 +22,7 @@ extends RigidBody3D
 @export var show_debug := false
 
 @onready var total_wheels := wheels.size()
+var car_speed_ratio = 0.0
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - global_position)
@@ -45,6 +46,7 @@ func _physics_process(delta: float) -> void:
 		if is_steering_wheel:
 			var car_velocity := -global_basis.z.dot(linear_velocity)
 			var speed_ratio := car_velocity / max_speed
+			car_speed_ratio = speed_ratio
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
 				deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), 

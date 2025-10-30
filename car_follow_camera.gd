@@ -1,9 +1,7 @@
 extends Camera3D
 
-@export var min_distance := 4.0
-@export var max_distance := 8.0
-@export var height := 3.0
-@export var camera_sensibility := 0.01
+@export var distance := 5.0
+@export var height := 2.0
 
 @onready var target : Node3D = get_parent().get_parent()
 @onready var freecam: Camera3D = target.get_node("Freecam") as Camera3D
@@ -11,11 +9,8 @@ extends Camera3D
 func _physics_process(_delta: float) -> void:
 	var from_target := global_position - target.global_position
 	
-	# Check ranges
-	if from_target.length() < min_distance:
-		from_target = from_target.normalized() * min_distance
-	elif from_target.length() > max_distance:
-		from_target = from_target.normalized() * max_distance
+	if from_target.length() != distance:
+		from_target = from_target.normalized() * distance
 		
 	from_target.y = height
 	global_position = target.global_position + from_target
@@ -23,7 +18,7 @@ func _physics_process(_delta: float) -> void:
 	var look_dir := global_position.direction_to(target.global_position).abs() - Vector3.UP
 	if not look_dir.is_zero_approx():
 		look_at_from_position(global_position, target.global_position, Vector3.UP)
-		
+	
 	if self.current:
 		freecam.global_transform = self.global_transform
 
