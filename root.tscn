@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
 [ext_resource type="Script" uid="uid://bkj5pkr6xyrye" path="res://engine_sound.gd" id="14_qwhpj"]
 [ext_resource type="PackedScene" uid="uid://4f1d2kk0om8m" path="res://assets/track/corner3x.gltf" id="15_ab83r"]
+[ext_resource type="PackedScene" uid="uid://bqx0rtws7px1h" path="res://assets/track/kenney/roadCornerSmall.glb" id="15_qt76e"]
+[ext_resource type="PackedScene" uid="uid://jdprm303suul" path="res://assets/track/kenney/roadCornerLarge.glb" id="16_sq7yr"]
+[ext_resource type="PackedScene" uid="uid://dc8qjhfp3g1ef" path="res://assets/track/kenney/roadCornerLarger.glb" id="17_r3r3k"]
 [ext_resource type="PackedScene" uid="uid://cuq5ujyvc3n02" path="res://assets/car/wheel.glb" id="19_3dlgs"]
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
@@ -23,8 +26,13 @@ _data = [Vector2(0, 0.3), 0.0, 1.4, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vecto
 point_count = 3
 metadata/_snap_enabled = true
 
+[sub_resource type="Curve" id="Curve_qwhpj"]
+_limits = [0.0, 15.0, 0.0, 450.0]
+_data = [Vector2(0, 15), 0.0, -0.03333333, 0, 1, Vector2(450, 0), -0.03333333, 0.0, 1, 0]
+point_count = 2
+
 [sub_resource type="Curve" id="Curve_ub8w1"]
-_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+_data = [Vector2(0, 0.1), 0.0, -1.0, 0, 1, Vector2(0.1, 0), -1.0, 0.0, 1, 0]
 point_count = 2
 metadata/_snap_enabled = true
 
@@ -43,6 +51,10 @@ size = Vector3(26, 1, 7)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ub8w1"]
 size = Vector3(28, 1, 7)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r3r3k"]
+height = 0.1
+radius = 4.0
+
 [node name="root" type="Node3D" unique_id=171305137]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=634887019]
@@ -50,7 +62,7 @@ transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51
 shadow_enabled = true
 
 [node name="Car" type="RigidBody3D" parent="." unique_id=917293320 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -197.632, 49.502754, -36.218)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -126.632, 22, 56.782)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 center_of_mass_mode = 1
@@ -60,6 +72,7 @@ script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
 max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
+accel_curve2 = SubResource("Curve_qwhpj")
 max_turn_curve = SubResource("Curve_ub8w1")
 show_debug = true
 
@@ -403,6 +416,51 @@ script = ExtResource("22_po8fv")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EngineSound" unique_id=544739294]
 volume_db = -40.0
 script = ExtResource("14_qwhpj")
+
+[node name="Skidpad" type="Node3D" parent="." unique_id=1963892307]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, -109, 21, 15)
+
+[node name="roadCornerSmall" parent="Skidpad" unique_id=1963335731 instance=ExtResource("15_qt76e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="roadCornerSmall2" parent="Skidpad" unique_id=1706630192 instance=ExtResource("15_qt76e")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -1)
+
+[node name="roadCornerSmall3" parent="Skidpad" unique_id=148588402 instance=ExtResource("15_qt76e")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 1)
+
+[node name="roadCornerSmall4" parent="Skidpad" unique_id=2092798388 instance=ExtResource("15_qt76e")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="roadCornerLarge" parent="Skidpad" unique_id=173488465 instance=ExtResource("16_sq7yr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="roadCornerLarge2" parent="Skidpad" unique_id=2070801636 instance=ExtResource("16_sq7yr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 2)
+
+[node name="roadCornerLarge3" parent="Skidpad" unique_id=1702434589 instance=ExtResource("16_sq7yr")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1, 0, 0)
+
+[node name="roadCornerLarge4" parent="Skidpad" unique_id=136204490 instance=ExtResource("16_sq7yr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -2)
+
+[node name="roadCornerLarger" parent="Skidpad" unique_id=939278234 instance=ExtResource("17_r3r3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="roadCornerLarger2" parent="Skidpad" unique_id=730672498 instance=ExtResource("17_r3r3k")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -3)
+
+[node name="roadCornerLarger3" parent="Skidpad" unique_id=1733965322 instance=ExtResource("17_r3r3k")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 3)
+
+[node name="roadCornerLarger4" parent="Skidpad" unique_id=309345610 instance=ExtResource("17_r3r3k")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Skidpad" unique_id=1204722282]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skidpad/StaticBody3D" unique_id=1037153938]
+transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
+shape = SubResource("CylinderShape3D_r3r3k")
 
 [editable path="Car/car"]
 [editable path="race"]

@@ -5,6 +5,7 @@ extends RigidBody3D
 @export var acceleration := 600.0
 @export var max_speed := 20.0
 @export var accel_curve : Curve
+@export var accel_curve2: Curve
 @export var tire_turn_speed := 2.0
 @export var tire_max_turn_degrees := 25
 @export var max_turn_curve : Curve
@@ -39,17 +40,22 @@ func _physics_process(delta: float) -> void:
 		var wheel_center := wheel_mesh.global_position
 		var force_pos := wheel_center - global_position
 		wheel.target_position.y = -(rest_dist + over_extend)
+		
+		var car_velocity := -global_basis.z.dot(linear_velocity)
 
 		## Rotate wheels
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
-			var car_velocity := -global_basis.z.dot(linear_velocity)
+			
 			var speed_ratio := car_velocity / max_speed
-			car_speed_ratio = speed_ratio
+			var old_steer_ratio := max_turn_curve.sample_baked(speed_ratio)
+			var steer_ratio := 1-remap(car_velocity, 0, 450/3.6, 0, 1) * 0.000001
+			#print(tire_max_turn_degrees * steer_ratio * 0.01)
+			#print(steer_ratio)
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
-				deg_to_rad(-tire_max_turn_degrees * max_turn_curve.sample_baked(speed_ratio)), 
-				deg_to_rad(tire_max_turn_degrees) * max_turn_curve.sample_baked(speed_ratio))
+				deg_to_rad(-tire_max_turn_degrees * steer_ratio), 
+				deg_to_rad(tire_max_turn_degrees) * steer_ratio)
 			else:
 				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
 		
@@ -76,14 +82,16 @@ func _physics_process(delta: float) -> void:
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
 			var speed_ratio := wheel_forward_velocity / max_speed
-			var engine_force := wheel_forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
+			var old_engine_force := wheel_forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
+			var engine_force := throttle_input * mass * accel_curve2.sample_baked(car_velocity*3.6) * wheel_forward_dir
+			#print("Old: " + str(old_engine_force.length()) + ", New: " + str(engine_force.length()))
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force, 0.05, Color.RED, 0.3, true)
 			
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
-		var grip_factor := 0.6 
+		var grip_factor := 1.0
 		var grip_force := (-wheel_sideways_velocity * car_mass_share / delta) * grip_factor * wheel_sideways_dir
 		apply_force(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_force, 0.5, Color.YELLOW, 0.3, true)
@@ -92,6 +100,6 @@ func _physics_process(delta: float) -> void:
 		var rolling_resistance := rolling_resistance_coef
 		if brake_input > 0.0:
 			rolling_resistance += brake_power * brake_input
-		var rolling_resistance_force := wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
+		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
 		apply_force(rolling_resistance_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
