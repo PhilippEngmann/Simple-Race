@@ -4,8 +4,7 @@ extends RigidBody3D
 @export var wheels: Array[ShapeCast3D]
 @export var acceleration := 600.0
 @export var max_speed := 20.0
-@export var accel_curve : Curve
-@export var accel_curve2: Curve
+@export var accel_curve: Curve
 @export var tire_turn_speed := 2.0
 @export var tire_max_turn_degrees := 25
 @export var max_turn_curve : Curve
@@ -34,24 +33,26 @@ func _physics_process(delta: float) -> void:
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
 
 	var car_mass_share := mass / total_wheels
-
+	
 	for wheel in wheels:
 		var wheel_mesh: Node3D = wheel.get_child(0)
 		var wheel_center := wheel_mesh.global_position
-		var force_pos := wheel_center - global_position
-		wheel.target_position.y = -(rest_dist + over_extend)
 		
+		# 1. Standard offset for SUSPENSION and ACCELERATION (bottom of the car)
+		var force_pos := wheel_center - global_position
+		
+		# 2. Anti-Roll offset for GRIP (CoM height)
+		var local_wheel_pos := to_local(wheel_center)
+		local_wheel_pos.y = center_of_mass.y # Optional: lerp this with roll_influence!
+		var com_force_pos := global_basis * local_wheel_pos
+		
+		wheel.target_position.y = -(rest_dist + over_extend)
 		var car_velocity := -global_basis.z.dot(linear_velocity)
 
 		## Rotate wheels
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
-			
-			var speed_ratio := car_velocity / max_speed
-			var old_steer_ratio := max_turn_curve.sample_baked(speed_ratio)
-			var steer_ratio := 1-remap(car_velocity, 0, 450/3.6, 0, 1) * 0.000001
-			#print(tire_max_turn_degrees * steer_ratio * 0.01)
-			#print(steer_ratio)
+			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
 				deg_to_rad(-tire_max_turn_degrees * steer_ratio), 
@@ -76,25 +77,22 @@ func _physics_process(delta: float) -> void:
 		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal(0)
 		apply_force(suspension_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, suspension_force, 0.02, Color.BLUE, 0.3, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, suspension_force, 0.02, Color.BLUE, 0.3, true)
 		
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
-			var speed_ratio := wheel_forward_velocity / max_speed
-			var old_engine_force := wheel_forward_dir * acceleration * throttle_input * accel_curve.sample_baked(speed_ratio)
-			var engine_force := throttle_input * mass * accel_curve2.sample_baked(car_velocity*3.6) * wheel_forward_dir
-			#print("Old: " + str(old_engine_force.length()) + ", New: " + str(engine_force.length()))
+			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * wheel_forward_dir
 			apply_force(engine_force, force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, engine_force, 0.05, Color.RED, 0.3, true)
-			
+			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
+		
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		var grip_factor := 1.0
 		var grip_force := (-wheel_sideways_velocity * car_mass_share / delta) * grip_factor * wheel_sideways_dir
-		apply_force(grip_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, grip_force, 0.5, Color.YELLOW, 0.3, true)
+		apply_force(grip_force, com_force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance
 		var rolling_resistance := rolling_resistance_coef
@@ -102,4 +100,4 @@ func _physics_process(delta: float) -> void:
 			rolling_resistance += brake_power * brake_input
 		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
 		apply_force(rolling_resistance_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(wheel_center, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)

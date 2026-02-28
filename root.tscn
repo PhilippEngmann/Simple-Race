@@ -22,17 +22,13 @@
 friction = 0.0
 
 [sub_resource type="Curve" id="Curve_r3r3k"]
-_data = [Vector2(0, 0.3), 0.0, 1.4, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
-point_count = 3
-metadata/_snap_enabled = true
-
-[sub_resource type="Curve" id="Curve_qwhpj"]
 _limits = [0.0, 15.0, 0.0, 450.0]
 _data = [Vector2(0, 15), 0.0, -0.03333333, 0, 1, Vector2(450, 0), -0.03333333, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_ub8w1"]
-_data = [Vector2(0, 0.1), 0.0, -1.0, 0, 1, Vector2(0.1, 0), -1.0, 0.0, 1, 0]
+_limits = [0.0, 1.0, 0.0, 450.0]
+_data = [Vector2(0, 1), 0.0, -0.0031746032, 0, 1, Vector2(315, 0), -0.0031746032, 0.0, 1, 0]
 point_count = 2
 metadata/_snap_enabled = true
 
@@ -62,7 +58,7 @@ transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51
 shadow_enabled = true
 
 [node name="Car" type="RigidBody3D" parent="." unique_id=917293320 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -126.632, 22, 56.782)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -197.632, 49.502754, -36.218)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 center_of_mass_mode = 1
@@ -72,7 +68,6 @@ script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
 max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
-accel_curve2 = SubResource("Curve_qwhpj")
 max_turn_curve = SubResource("Curve_ub8w1")
 show_debug = true
 
