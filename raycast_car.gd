@@ -5,7 +5,7 @@ extends RigidBody3D
 @export var acceleration := 600.0
 @export var max_speed := 20.0
 @export var accel_curve: Curve
-@export var tire_turn_speed := 2.0
+@export var tire_turn_speed := 1.3
 @export var tire_max_turn_degrees := 35
 @export var max_turn_curve : Curve
 
@@ -54,7 +54,6 @@ func _physics_process(delta: float) -> void:
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
-			print(str(floor(car_velocity*3.6)) + " " + str(floor(tire_max_turn_degrees * steer_ratio)))
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
 				deg_to_rad(-tire_max_turn_degrees * steer_ratio), 
@@ -90,7 +89,7 @@ func _physics_process(delta: float) -> void:
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
-		var grip_factor := 1.0
+		var grip_factor := 0.6
 		var grip_force := (-wheel_sideways_velocity * car_mass_share / delta) * grip_factor * wheel_sideways_dir
 		apply_force(grip_force, com_force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
