@@ -6,7 +6,7 @@ extends RigidBody3D
 @export var max_speed := 20.0
 @export var accel_curve: Curve
 @export var tire_turn_speed := 2.0
-@export var tire_max_turn_degrees := 25
+@export var tire_max_turn_degrees := 35
 @export var max_turn_curve : Curve
 
 @export_group("Wheel properties")
@@ -48,18 +48,19 @@ func _physics_process(delta: float) -> void:
 		
 		wheel.target_position.y = -(rest_dist + over_extend)
 		var car_velocity := -global_basis.z.dot(linear_velocity)
+		#print(car_velocity*3.6)
 
 		## Rotate wheels
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
 		if is_steering_wheel:
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
+			print(str(floor(car_velocity*3.6)) + " " + str(floor(tire_max_turn_degrees * steer_ratio)))
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
 				deg_to_rad(-tire_max_turn_degrees * steer_ratio), 
 				deg_to_rad(tire_max_turn_degrees) * steer_ratio)
 			else:
 				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
-		
 		## Spin wheels
 		var wheel_forward_dir := -wheel.global_basis.z
 		var wheel_forward_velocity := wheel_forward_dir.dot(linear_velocity)
@@ -82,7 +83,7 @@ func _physics_process(delta: float) -> void:
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
-			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * wheel_forward_dir
+			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * 0.5 * wheel_forward_dir
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
 		
