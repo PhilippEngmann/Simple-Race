@@ -2,6 +2,7 @@ extends RigidBody3D
 
 @export_group("Car properties")
 @export var wheels: Array[ShapeCast3D]
+@export var shapecast_offset: float = 0.3
 @export var acceleration := 600.0
 @export var max_speed := 20.0
 @export var accel_curve: Curve
@@ -48,7 +49,6 @@ func _physics_process(delta: float) -> void:
 		
 		wheel.target_position.y = -(rest_dist + over_extend)
 		var car_velocity := -global_basis.z.dot(linear_velocity)
-		#print(car_velocity*3.6)
 
 		## Rotate wheels
 		var is_steering_wheel := to_local(wheel.global_position).z < 0
@@ -83,8 +83,8 @@ func _physics_process(delta: float) -> void:
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
 			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * 0.5 * wheel_forward_dir
-			apply_force(engine_force, force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
+			apply_force(engine_force, com_force_pos)
+			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, engine_force, 0.05, Color.RED, 0.3, true)
 		
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
@@ -99,5 +99,5 @@ func _physics_process(delta: float) -> void:
 		if brake_input > 0.0:
 			rolling_resistance += brake_power * brake_input
 		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
-		apply_force(rolling_resistance_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
+		apply_force(rolling_resistance_force, com_force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)

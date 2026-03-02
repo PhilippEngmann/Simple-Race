@@ -61,7 +61,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -198, 50, -30)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
-center_of_mass_mode = 1
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
@@ -71,9 +70,9 @@ max_turn_curve = SubResource("Curve_ub8w1")
 show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car" unique_id=1553448124]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51383114, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.714, 0)
 shape = SubResource("ConvexPolygonShape3D_50g4q")
-debug_color = Color(0.99921006, 0, 0.1336352, 0.41960785)
+debug_color = Color(0.996061, 0, 0.2023719, 0.41960785)
 
 [node name="WheelFL" type="ShapeCast3D" parent="Car" unique_id=1610428052]
 process_physics_priority = -1
