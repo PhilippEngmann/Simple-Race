@@ -32,18 +32,8 @@ func _physics_process(delta: float) -> void:
 	var car_mass_share := mass / total_wheels
 	
 	for wheel in wheels:
-		#var wheel_mesh: Node3D = wheel.get_child(0)
-		#var wheel_center := wheel_mesh.global_position
 		var wheel_center := wheel.global_position
-		
-		
-		# 1. Standard offset for SUSPENSION and ACCELERATION (bottom of the car)
 		var force_pos := wheel_center - global_position
-		
-		# 2. Anti-Roll offset for GRIP (CoM height)
-		var local_wheel_pos := to_local(wheel_center)
-		local_wheel_pos.y = center_of_mass.y # Optional: lerp this with roll_influence!
-		var com_force_pos := global_basis * local_wheel_pos
 		
 		wheel.target_position.y = -(rest_dist + over_extend)
 		var car_velocity := -global_basis.z.dot(linear_velocity)
@@ -62,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		var wheel_forward_dir := -wheel.global_basis.z
 		var wheel_forward_velocity := wheel_forward_dir.dot(linear_velocity)
 		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
-		
+		DebugDraw3D.draw_sphere(wheel.global_position)
 		if not wheel.is_colliding(): continue
 		
 		var contact_point := wheel.get_collision_point(0)
@@ -81,21 +71,21 @@ func _physics_process(delta: float) -> void:
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
 			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * 0.5 * wheel_forward_dir
-			apply_force(engine_force, com_force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, engine_force, 0.05, Color.RED, 0.3, true)
+			apply_force(engine_force, force_pos)
+			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
 		
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		var grip_factor := 0.6
 		var grip_force := (-wheel_sideways_velocity * car_mass_share / delta) * grip_factor * wheel_sideways_dir
-		apply_force(grip_force, com_force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
+		apply_force(grip_force, force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance
 		var rolling_resistance := rolling_resistance_coef
 		if brake_input > 0.0:
 			rolling_resistance += brake_power * brake_input
 		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
-		apply_force(rolling_resistance_force, com_force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + com_force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
+		apply_force(rolling_resistance_force, force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)

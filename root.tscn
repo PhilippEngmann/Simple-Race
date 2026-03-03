@@ -33,10 +33,10 @@ point_count = 5
 metadata/_snap_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r3r3k"]
-size = Vector3(2, 1, 4)
+size = Vector3(2, 0.5, 4)
 
 [sub_resource type="BoxMesh" id="BoxMesh_r3r3k"]
-size = Vector3(2, 1, 4)
+size = Vector3(2, 0.5, 4)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_r3r3k"]
 radius = 0.3
@@ -70,13 +70,15 @@ transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51
 shadow_enabled = true
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 27, -6)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
+spring_damping = 600.0
+over_extend = 0.0
 wheel_radius = 0.3
 show_debug = true
 
@@ -87,82 +89,90 @@ shape = SubResource("BoxShape3D_r3r3k")
 mesh = SubResource("BoxMesh_r3r3k")
 
 [node name="FL" type="ShapeCast3D" parent="CarBody" unique_id=1611478299]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
 [node name="FR" type="ShapeCast3D" parent="CarBody" unique_id=2081470486]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
 [node name="RL" type="ShapeCast3D" parent="CarBody" unique_id=2041425255]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
 [node name="RR" type="ShapeCast3D" parent="CarBody" unique_id=1203519097]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="Car" type="RigidBody3D" parent="." unique_id=917293320 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -28, 26, -17)
-mass = 50.0
-physics_material_override = SubResource("PhysicsMaterial_po8fv")
-linear_damp_mode = 1
-script = ExtResource("14_qt76e")
-wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
-accel_curve = SubResource("Curve_r3r3k")
-max_turn_curve = SubResource("Curve_ub8w1")
-spring_damping = 400.0
-show_debug = true
+[node name="CameraPivot" type="Node3D" parent="CarBody" unique_id=864264323]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Car" unique_id=1553448124]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.714, 0)
-shape = SubResource("ConvexPolygonShape3D_50g4q")
-debug_color = Color(0.996061, 0, 0.2023719, 0.41960785)
-
-[node name="WheelFL" type="ShapeCast3D" parent="Car" unique_id=1610428052]
-process_physics_priority = -1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, -1.513)
-shape = SubResource("SphereShape3D_qwhpj")
-
-[node name="wheel" parent="Car/WheelFL" unique_id=937405798 instance=ExtResource("19_3dlgs")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="WheelFR" type="ShapeCast3D" parent="Car" unique_id=618892058]
-process_physics_priority = -1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, -1.513)
-shape = SubResource("SphereShape3D_qwhpj")
-
-[node name="wheel" parent="Car/WheelFR" unique_id=2025626933 instance=ExtResource("19_3dlgs")]
-
-[node name="WheelRL" type="ShapeCast3D" parent="Car" unique_id=1208478863]
-process_physics_priority = -1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, 1.071)
-shape = SubResource("SphereShape3D_qwhpj")
-
-[node name="wheel" parent="Car/WheelRL" unique_id=1233738028 instance=ExtResource("19_3dlgs")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="WheelRR" type="ShapeCast3D" parent="Car" unique_id=1366772032]
-process_physics_priority = -1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, 1.071)
-shape = SubResource("SphereShape3D_qwhpj")
-
-[node name="wheel" parent="Car/WheelRR" unique_id=173809851 instance=ExtResource("19_3dlgs")]
-
-[node name="car" parent="Car" unique_id=2050464303 instance=ExtResource("19_50g4q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
-
-[node name="CameraPivot" type="Node3D" parent="Car" unique_id=503958657]
-
-[node name="Camera3D" type="Camera3D" parent="Car/CameraPivot" unique_id=921394110]
+[node name="Camera3D" type="Camera3D" parent="CarBody/CameraPivot" unique_id=669669800]
 transform = Transform3D(2.9802322e-08, 0, -1, 0, 1, 0, 1, 0, 2.9802322e-08, -201.632, 50.502754, -36.218)
 top_level = true
 current = true
 script = ExtResource("20_3dlgs")
 
-[node name="Freecam" type="Camera3D" parent="Car" unique_id=561546734]
+[node name="Freecam" type="Camera3D" parent="CarBody" unique_id=1407337051]
 transform = Transform3D(-0.0026224877, -0.059896857, 0.99820113, 0.0013113554, 0.9982035, 0.05990044, -0.9999957, 0.0014660846, -0.0025392303, 6.695486, 3.4861336, -5.1792297)
 script = ExtResource("13_blcw0")
+
+[node name="LegacyCar" type="RigidBody3D" parent="." unique_id=917293320]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -28, 26, -17)
+mass = 50.0
+physics_material_override = SubResource("PhysicsMaterial_po8fv")
+linear_damp_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LegacyCar" unique_id=1553448124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.714, 0)
+shape = SubResource("ConvexPolygonShape3D_50g4q")
+disabled = true
+debug_color = Color(0.996061, 0, 0.2023719, 0.41960785)
+
+[node name="WheelFL" type="ShapeCast3D" parent="LegacyCar" unique_id=1610428052]
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, -1.513)
+shape = SubResource("SphereShape3D_qwhpj")
+
+[node name="wheel" parent="LegacyCar/WheelFL" unique_id=937405798 instance=ExtResource("19_3dlgs")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="WheelFR" type="ShapeCast3D" parent="LegacyCar" unique_id=618892058]
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, -1.513)
+shape = SubResource("SphereShape3D_qwhpj")
+
+[node name="wheel" parent="LegacyCar/WheelFR" unique_id=2025626933 instance=ExtResource("19_3dlgs")]
+
+[node name="WheelRL" type="ShapeCast3D" parent="LegacyCar" unique_id=1208478863]
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, -0.344, 1.071)
+shape = SubResource("SphereShape3D_qwhpj")
+
+[node name="wheel" parent="LegacyCar/WheelRL" unique_id=1233738028 instance=ExtResource("19_3dlgs")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="WheelRR" type="ShapeCast3D" parent="LegacyCar" unique_id=1366772032]
+process_physics_priority = -1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, -0.344, 1.071)
+shape = SubResource("SphereShape3D_qwhpj")
+
+[node name="wheel" parent="LegacyCar/WheelRR" unique_id=173809851 instance=ExtResource("19_3dlgs")]
+
+[node name="car" parent="LegacyCar" unique_id=2050464303 instance=ExtResource("19_50g4q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6090934, 0)
+
+[node name="CameraPivot" type="Node3D" parent="LegacyCar" unique_id=503958657]
+
+[node name="Camera3D" type="Camera3D" parent="LegacyCar/CameraPivot" unique_id=921394110]
+transform = Transform3D(2.9802322e-08, 0, -1, 0, 1, 0, 1, 0, 2.9802322e-08, -201.632, 50.502754, -36.218)
+top_level = true
+
+[node name="Camera3D" type="Camera3D" parent="LegacyCar" unique_id=561546734]
+transform = Transform3D(-0.0026225378, -0.059896857, 0.99820113, 0.0013113554, 0.9982035, 0.05990044, -0.99999577, 0.0014660876, -0.00253928, 6.695486, 3.4861336, -5.1792297)
 
 [node name="race" parent="." unique_id=1213207271 instance=ExtResource("23_ub8w1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
@@ -504,5 +514,5 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0
 transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
 shape = SubResource("CylinderShape3D_r3r3k")
 
-[editable path="Car/car"]
+[editable path="LegacyCar/car"]
 [editable path="race"]
