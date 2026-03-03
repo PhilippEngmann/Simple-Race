@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://ctjgr843t7gi8" path="res://assets/track/s-curve.gltf" id="25_ab83r"]
 [ext_resource type="PackedScene" uid="uid://cqjlol8shl00m" path="res://assets/track/straight.gltf" id="26_1xb4a"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_po8fv"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r3r3k"]
 friction = 0.0
 
 [sub_resource type="Curve" id="Curve_r3r3k"]
@@ -31,6 +31,18 @@ _limits = [0.0, 1.0, 0.0, 450.0]
 _data = [Vector2(0, 1), 0.0, -0.012, 0, 1, Vector2(50, 0.4), -0.012, -0.004, 1, 1, Vector2(100, 0.2), -0.004, -0.001, 1, 1, Vector2(200, 0.1), -0.001, -0.0005, 1, 1, Vector2(300, 0.05), -0.0005, -0.007777778, 1, 1]
 point_count = 5
 metadata/_snap_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3r3k"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r3r3k"]
+size = Vector3(2, 1, 4)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_r3r3k"]
+radius = 0.3
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_po8fv"]
+friction = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50g4q"]
 points = PackedVector3Array(0.87452865, 0.98705864, -0.721583, 0.86613786, 1.0515312, -0.7284374, 0.8265811, 0.7528125, 1.4324226, 0.8375405, 0.70113695, 1.1933742, 0.8330883, 0.6236236, 1.485116, 0.8212726, 0.22642894, 1.6316295, 0.8212726, 0.16853772, 0.7259877, 0.8212726, 0.16853772, -1.1752608, 0.819389, 0.21363193, -2.158872, 0.83120465, 0.6698147, -2.0590544, 0.85038364, 1.0609156, -0.7370055, 0.52810776, 1.3094213, -0.35058677, 0.538211, 1.3172213, 0.28730392, 0.5269091, 1.3186839, 0.82237816, 0.8079158, 0.7312404, -2.0680506, 0.862713, 1.0470217, -0.76613677, 0.8467876, 1.0572593, -0.7742765, 0.7460978, 0.87407935, 1.4324226, 0.6558536, 0.87407935, 1.9357948, 0.7168155, 0.768047, 1.9357948, 0.7435292, 0.40290576, 1.9413643, 0.70106137, 0.24166347, 1.9190874, 0.56646574, 0.17999409, 1.6890354, 0.46680343, 0.16439393, 1.108979, 0.47194064, 0.16439393, 1.048146, 0.49796927, 0.16439393, 0.7259877, 0.5733154, 0.16439393, -1.7925882, 0.56115735, 0.16439393, -1.9999348, 0.35053062, 0.19608176, -2.235556, 0.33614647, 0.4072933, -2.2895346, 0.8050047, 0.44202802, -2.1708672, 0.8159641, 0.5500104, -2.165298, 0.3483045, 1.3542718, -0.44140804, 0.3483045, 1.3882751, -0.0044379234, 0.3483045, 1.3975378, 0.38712144, 0.354298, 1.3564655, 0.96417904, 0.46971452, 1.328434, 0.8999188, 0.64729166, 0.72770596, -2.1708672, 0.68273854, 0.76268446, -2.1143181, 0.58256245, 0.91746724, 1.9409361, 0.58033633, 0.51539755, 2.0865927, 0.7168155, 0.6320331, 1.9606423, 0.70636976, 0.29358274, 1.9426494, 0.7113358, 0.5423322, 1.9760647, 0.6481478, 0.3841368, 2.023189, 0.57417166, 0.2456854, 1.9769216, 0.3736483, 0.24410099, 1.9790635, -0.00017124414, 0.24215098, 1.9833479, -0.566637, 0.17999409, 1.6890354, -0.46697462, 0.16439393, 1.108979, -0.56132853, 0.16439393, -1.9999348, -0.00017124414, 0.18986607, -2.219705, -0.35070187, 0.19608176, -2.235556, -0.3363176, 0.4072933, -2.2895346, 0.33614647, 0.5185663, -2.2895346, -0.00017124414, 1.3660938, -0.42555714, 0.3380301, 0.79888165, -2.1455915, -0.00017124414, 1.4000971, 0.011412859, -0.00017124414, 1.4094816, 0.40297246, -0.00017124414, 1.3682874, 0.98003006, -0.00017124414, 0.7675595, -2.2124221, 0.59317935, 0.7500093, -2.1622992, -0.00017124414, 0.91746724, 1.9893451, -0.5805075, 0.51539755, 2.0865927, 0.58033633, 0.38328367, 2.043324, -0.3738194, 0.24410099, 1.9790635, -0.5805075, 0.38328367, 2.043324, -0.57434285, 0.2456854, 1.9769216, -0.70123255, 0.24166347, 1.9190874, -0.82144386, 0.22642894, 1.6316295, -0.82144386, 0.16853772, 0.7259877, -0.47211185, 0.16439393, 1.048146, -0.81956017, 0.21363193, -2.158872, -0.5734866, 0.16439393, -1.7925882, -0.82144386, 0.16853772, -1.1752608, -0.3363176, 0.5185663, -2.2895346, -0.8051759, 0.44202802, -2.1708672, -0.33820128, 0.79888165, -2.1455915, -0.34847575, 1.3542718, -0.44140804, -0.34847575, 1.3882751, -0.0044379234, -0.34847575, 1.3975378, 0.38712144, -0.35446918, 1.3564655, 0.96417904, -0.58273363, 0.91746724, 1.9409361, -0.64746284, 0.72770596, -2.1708672, -0.5933506, 0.7500093, -2.1622992, -0.7169867, 0.6320331, 1.9606423, -0.711507, 0.5423322, 1.9760647, -0.648319, 0.3841368, 2.023189, -0.6560249, 0.87407935, 1.9357948, -0.7169867, 0.768047, 1.9357948, -0.706541, 0.29358274, 1.9426494, -0.7437003, 0.40290576, 1.9413643, -0.83325946, 0.6236236, 1.485116, -0.87469983, 0.98705864, -0.721583, -0.4981405, 0.16439393, 0.7259877, -0.83137584, 0.6698147, -2.0590544, -0.81613535, 0.5500104, -2.165298, -0.6829097, 0.76268446, -2.1143181, -0.52827895, 1.3094213, -0.35058677, -0.808087, 0.7312404, -2.0680506, -0.5383822, 1.3172213, 0.28730392, -0.5270803, 1.3186839, 0.82237816, -0.46988574, 1.328434, 0.8999188, -0.746269, 0.87407935, 1.4324226, -0.8267523, 0.7528125, 1.4324226, -0.83771175, 0.70113695, 1.1933742, -0.866309, 1.0515312, -0.7284374, -0.84695876, 1.0572593, -0.7742765, -0.8505548, 1.0609156, -0.7370055, -0.86288416, 1.0470217, -0.76613677)
@@ -57,16 +69,49 @@ radius = 4.0
 transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51, 62, 35)
 shadow_enabled = true
 
+[node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 26, -6)
+mass = 50.0
+physics_material_override = SubResource("PhysicsMaterial_r3r3k")
+script = ExtResource("14_qt76e")
+wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
+accel_curve = SubResource("Curve_r3r3k")
+max_turn_curve = SubResource("Curve_ub8w1")
+wheel_radius = 0.3
+show_debug = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
+shape = SubResource("BoxShape3D_r3r3k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CarBody/CollisionShape3D" unique_id=567259687]
+mesh = SubResource("BoxMesh_r3r3k")
+
+[node name="FL" type="ShapeCast3D" parent="CarBody" unique_id=1611478299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+shape = SubResource("SphereShape3D_r3r3k")
+
+[node name="FR" type="ShapeCast3D" parent="CarBody" unique_id=2081470486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+shape = SubResource("SphereShape3D_r3r3k")
+
+[node name="RL" type="ShapeCast3D" parent="CarBody" unique_id=2041425255]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+shape = SubResource("SphereShape3D_r3r3k")
+
+[node name="RR" type="ShapeCast3D" parent="CarBody" unique_id=1203519097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+shape = SubResource("SphereShape3D_r3r3k")
+
 [node name="Car" type="RigidBody3D" parent="." unique_id=917293320 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -198, 50, -30)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -28, 26, -17)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_po8fv")
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
 wheels = [NodePath("WheelFL"), NodePath("WheelFR"), NodePath("WheelRL"), NodePath("WheelRR")]
-max_speed = 40.0
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
+spring_damping = 400.0
 show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Car" unique_id=1553448124]
@@ -373,7 +418,7 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -16,
 [node name="End Float" type="Node3D" parent="D14" unique_id=1622447709]
 
 [node name="straight10" parent="D14/End Float" unique_id=283364531 instance=ExtResource("26_1xb4a")]
-transform = Transform3D(-2.1110979e-07, 1.131334e-08, -1, 1.2940954, 0.9659259, -1.7774245e-15, 4.829629, -0.25881907, -4.371139e-08, -16, 1, -8)
+transform = Transform3D(-1.6888784e-07, 1.1313338e-08, -1, 1.0352762, 0.9659258, -1.7774245e-15, 3.8637033, -0.25881904, -4.371139e-08, -16, 1, -8)
 
 [node name="corner3x" parent="D14/End Float" unique_id=2098429445 instance=ExtResource("15_ab83r")]
 transform = Transform3D(-1.0000002, 0, -9.934108e-08, 0, 1, 0, 9.934108e-08, 0, -1.0000002, -12.863705, 2.0352764, 2.0000005)
@@ -401,6 +446,9 @@ transform = Transform3D(-1, 0, 8.742278e-08, -1.7763568e-15, 1, -2.384186e-08, -
 
 [node name="straight16" parent="D14/End Float" unique_id=2110522678 instance=ExtResource("26_1xb4a")]
 transform = Transform3D(3.8637035, 0.25881907, -1.7484557e-07, -1.0352763, 0.9659259, 2.3841864e-08, 7.002343e-07, 2.2223897e-08, 1, -6.8637037, 2.0352764, -1.0000007)
+
+[node name="straight17" parent="D14/End Float" unique_id=604641668 instance=ExtResource("26_1xb4a")]
+transform = Transform3D(-4.371139e-08, -7.601405e-16, -1, 2.384186e-08, 1, -1.8023012e-15, 1, -2.384186e-08, -4.371139e-08, -15.863705, 2.0352764, -3.9999995)
 
 [node name="laptime" type="Node" parent="." unique_id=1542124260]
 script = ExtResource("22_po8fv")

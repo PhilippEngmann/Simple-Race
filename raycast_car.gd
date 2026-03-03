@@ -2,9 +2,6 @@ extends RigidBody3D
 
 @export_group("Car properties")
 @export var wheels: Array[ShapeCast3D]
-@export var shapecast_offset: float = 0.3
-@export var acceleration := 600.0
-@export var max_speed := 20.0
 @export var accel_curve: Curve
 @export var tire_turn_speed := 1.3
 @export var tire_max_turn_degrees := 35
@@ -23,7 +20,6 @@ extends RigidBody3D
 @export var show_debug := false
 
 @onready var total_wheels := wheels.size()
-var car_speed_ratio = 0.0
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - to_global(center_of_mass))
@@ -36,8 +32,10 @@ func _physics_process(delta: float) -> void:
 	var car_mass_share := mass / total_wheels
 	
 	for wheel in wheels:
-		var wheel_mesh: Node3D = wheel.get_child(0)
-		var wheel_center := wheel_mesh.global_position
+		#var wheel_mesh: Node3D = wheel.get_child(0)
+		#var wheel_center := wheel_mesh.global_position
+		var wheel_center := wheel.global_position
+		
 		
 		# 1. Standard offset for SUSPENSION and ACCELERATION (bottom of the car)
 		var force_pos := wheel_center - global_position
@@ -63,7 +61,7 @@ func _physics_process(delta: float) -> void:
 		## Spin wheels
 		var wheel_forward_dir := -wheel.global_basis.z
 		var wheel_forward_velocity := wheel_forward_dir.dot(linear_velocity)
-		wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
+		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
 		
 		if not wheel.is_colliding(): continue
 		

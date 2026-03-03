@@ -39,12 +39,12 @@ func _ready():
 func _process(_delta):
 	var throttle = Input.get_action_strength("throttle")
 	var car = $"../../Car"
-	player.pitch_scale = lerp(1.0, 4.0, clampf(car.car_speed_ratio, 0.0, 1.0))
+	#player.pitch_scale = lerp(1.0, 4.0, clampf(car.car_speed_ratio, 0.0, 1.0))
 	var target_volume = lerp(-45, -40, throttle)
 	player.volume_db = lerp(player.volume_db, target_volume, 0.03)
 	#print(player.volume_db)
 	
-	_fill_buffer()
+	#_fill_buffer()
 
 func _tanh_shaper(x: float, k_in: float) -> float:
 	var k = max(0.0001, k_in)
