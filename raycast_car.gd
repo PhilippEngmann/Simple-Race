@@ -77,15 +77,15 @@ func _physics_process(delta: float) -> void:
 		## Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
-		var grip_factor := 0.6
-		var grip_force := (-wheel_sideways_velocity * car_mass_share / delta) * grip_factor * wheel_sideways_dir
-		apply_force(grip_force, force_pos)
+		var grip_factor := 1.0
+		var grip_force := (-wheel_sideways_velocity * car_mass_share) * grip_factor * wheel_sideways_dir
+		apply_impulse(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance
 		var rolling_resistance := rolling_resistance_coef
 		if brake_input > 0.0:
 			rolling_resistance += brake_power * brake_input
-		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share / delta)
-		apply_force(rolling_resistance_force, force_pos)
+		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * (rolling_resistance * car_mass_share)
+		apply_impulse(rolling_resistance_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
