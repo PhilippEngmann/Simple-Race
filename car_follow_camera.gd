@@ -1,7 +1,7 @@
 extends Camera3D
 
-@export var distance := 5.0
-@export var height := 2.0
+@export var distance := 4.5
+@export var height := 1.5
 
 @onready var target : Node3D = get_parent().get_parent()
 @onready var freecam: Camera3D = target.get_node("Freecam") as Camera3D
