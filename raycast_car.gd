@@ -15,7 +15,8 @@ extends RigidBody3D
 @export var wheel_radius := 0.3
 @export var rolling_resistance_coef := 0.01
 @export var brake_power := 0.005
-@export var grip_curve : Curve
+@export var grip_curve_front : Curve
+@export var grip_curve_rear : Curve
 
 @export_category("Debug")
 @export var show_debug := false
@@ -39,7 +40,6 @@ func _physics_process(delta: float) -> void:
 		
 		wheel.target_position.y = -(rest_dist + over_extend)
 		var car_velocity := -global_basis.z.dot(linear_velocity)
-		#print(car_velocity*3.6)
 
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
@@ -80,9 +80,8 @@ func _physics_process(delta: float) -> void:
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		
-		print(wheel.name, absf(wheel_sideways_velocity/tire_velocity.length()))
-		var grip_factor := 1.0
-		if !is_front_wheel: grip_factor = 1.0
+		var grip_factor := grip_curve_front.sample_baked(absf(wheel_sideways_velocity/tire_velocity.length()))
+		if !is_front_wheel: grip_factor = grip_curve_rear.sample_baked(absf(wheel_sideways_velocity/tire_velocity.length()))
 		var grip_force := -wheel_sideways_velocity * car_mass_share * grip_factor * wheel_sideways_dir
 		apply_impulse(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
