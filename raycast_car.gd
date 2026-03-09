@@ -17,6 +17,7 @@ extends RigidBody3D
 @export var brake_power := 0.005
 @export var grip_curve_front : Curve
 @export var grip_curve_rear : Curve
+@export var pacejka : Curve
 
 @export_category("Debug")
 @export var show_debug := false
@@ -66,6 +67,7 @@ func _physics_process(delta: float) -> void:
 		var spring_force := spring_strength * spring_offset
 		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal(0)
+		#print
 		apply_force(suspension_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, suspension_force, 0.02, Color.BLUE, 0.3, true)
 		
@@ -80,10 +82,14 @@ func _physics_process(delta: float) -> void:
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		
-		var grip_factor := grip_curve_front.sample_baked(absf(wheel_sideways_velocity/tire_velocity.length()))
-		if !is_front_wheel: grip_factor = grip_curve_rear.sample_baked(absf(wheel_sideways_velocity/tire_velocity.length()))
-		var grip_force := -wheel_sideways_velocity * car_mass_share * grip_factor * wheel_sideways_dir
-		apply_impulse(grip_force, force_pos)
+		var slip_angle = atan2(wheel_sideways_velocity, max(abs(wheel_forward_velocity), 1.0))
+		
+		#var grip_factor := grip_curve_front.sample_baked(absf(wheel_sideways_velocity/tire_velocity.length()))
+		var normal_load := car_mass_share * 9.8
+		var friction_coef := 1.0
+		if is_front_wheel: friction_coef = 1.0
+		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * friction_coef * normal_load# * pacejka.sample_baked(deg_to_rad(slip_angle))
+		apply_force(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance

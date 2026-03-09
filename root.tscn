@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://col4kpivuxhn6"]
 
-[ext_resource type="Curve" uid="uid://djuup6wmxknp3" path="res://1f.tres" id="3_3dlgs"]
-[ext_resource type="Curve" uid="uid://g1b3rjacugmw" path="res://1r.tres" id="4_vte5o"]
+[ext_resource type="Curve" uid="uid://djuup6wmxknp3" path="res://1f.tres" id="3_vte5o"]
+[ext_resource type="Curve" uid="uid://g1b3rjacugmw" path="res://1r.tres" id="4_po8fv"]
+[ext_resource type="Curve" uid="uid://cxchk8roapss8" path="res://pacejka.tres" id="5_ub8w1"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="PackedScene" uid="uid://dp4dbr74ru42x" path="res://tm.glb" id="14_blcw0"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
@@ -132,10 +133,10 @@ script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
-spring_damping = 400.0
 rest_dist = 0.2
-grip_curve_front = ExtResource("3_3dlgs")
-grip_curve_rear = ExtResource("4_vte5o")
+grip_curve_front = ExtResource("4_po8fv")
+grip_curve_rear = ExtResource("3_vte5o")
+pacejka = ExtResource("5_ub8w1")
 show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
