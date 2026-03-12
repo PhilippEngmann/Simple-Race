@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d08fxhhsvq35t"
-path="res://.godot/imported/d14_seamless.glb-2856a0390af68ce3764eee19ef8b6606.scn"
+uid="uid://deheq0cg1kiex"
+path="res://.godot/imported/d14.glb-4ec9327749f9639ecdb5f3fc29fd45de.scn"
 
 [deps]
 
-source_file="res://d14_seamless.glb"
-dest_files=["res://.godot/imported/d14_seamless.glb-2856a0390af68ce3764eee19ef8b6606.scn"]
+source_file="res://d14.glb"
+dest_files=["res://.godot/imported/d14.glb-4ec9327749f9639ecdb5f3fc29fd45de.scn"]
 
 [params]
 
