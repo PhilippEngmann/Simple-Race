@@ -2,9 +2,7 @@
 
 [ext_resource type="Curve" uid="uid://djuup6wmxknp3" path="res://1f.tres" id="3_vte5o"]
 [ext_resource type="Curve" uid="uid://g1b3rjacugmw" path="res://1r.tres" id="4_po8fv"]
-[ext_resource type="Curve" uid="uid://cxchk8roapss8" path="res://pacejka.tres" id="5_ub8w1"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
-[ext_resource type="PackedScene" uid="uid://dp4dbr74ru42x" path="res://tm.glb" id="14_blcw0"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
 [ext_resource type="Script" uid="uid://bkj5pkr6xyrye" path="res://engine_sound.gd" id="14_qwhpj"]
 [ext_resource type="PackedScene" uid="uid://4f1d2kk0om8m" path="res://assets/track/corner3x.gltf" id="15_ab83r"]
@@ -14,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cuq5ujyvc3n02" path="res://assets/car/wheel.glb" id="19_3dlgs"]
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
+[ext_resource type="PackedScene" uid="uid://brkcfyt88mocs" path="res://d14.glb" id="20_vte5o"]
 [ext_resource type="Script" uid="uid://dm310fn6aws2e" path="res://sector.gd" id="21_vte5o"]
 [ext_resource type="Script" uid="uid://tepbaur2o0b" path="res://laptime.gd" id="22_po8fv"]
 [ext_resource type="PackedScene" uid="uid://fulbdylt6f0i" path="res://assets/car/race.glb" id="23_ub8w1"]
@@ -35,6 +34,10 @@ _limits = [0.0, 1.0, 0.0, 450.0]
 _data = [Vector2(0, 1), 0.0, -0.012, 0, 1, Vector2(50, 0.4), -0.012, -0.004, 1, 1, Vector2(100, 0.2), -0.004, -0.001, 1, 1, Vector2(200, 0.1), -0.001, -0.0005, 1, 1, Vector2(300, 0.05), -0.0005, -0.007777778, 1, 1]
 point_count = 5
 metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_vte5o"]
+_data = [Vector2(0, 0.9), 0.0, -0.9, 0, 1]
+point_count = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r3r3k"]
 size = Vector3(2, 0.5, 4)
@@ -126,17 +129,18 @@ transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51
 shadow_enabled = true
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -198, 50, -36)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.003933, 127.60362, -1.1433601)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
-rest_dist = 0.2
+over_extend = 0.3
 grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
-pacejka = ExtResource("5_ub8w1")
+grip_curve_drift_front = ExtResource("4_po8fv")
+grip_curve_drift_rear = SubResource("Curve_vte5o")
 show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
@@ -532,9 +536,6 @@ transform = Transform3D(3.8637035, 0.25881907, -1.7484557e-07, -1.0352763, 0.965
 [node name="straight17" parent="D14/End Float" unique_id=604641668 instance=ExtResource("26_1xb4a")]
 transform = Transform3D(-4.371139e-08, -7.601405e-16, -1, 2.384186e-08, 1, -1.8023012e-15, 1, -2.384186e-08, -4.371139e-08, -15.863705, 2.0352764, -3.9999995)
 
-[node name="tm" parent="." unique_id=226519043 instance=ExtResource("14_blcw0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -139.82758, 16.953302, 69.88342)
-
 [node name="EngineSound" type="Node" parent="." unique_id=365555826]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EngineSound" unique_id=544739294]
@@ -585,6 +586,9 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Skidpad/StaticBody3D" unique_id=1037153938]
 transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
 shape = SubResource("CylinderShape3D_r3r3k")
+
+[node name="d14" parent="." unique_id=1805618627 instance=ExtResource("20_vte5o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 126.01692, 0)
 
 [editable path="LegacyCar/car"]
 [editable path="race"]
