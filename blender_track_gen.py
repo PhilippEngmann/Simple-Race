@@ -12,6 +12,10 @@ BARRIER_WIDTH = 2.0
 BARRIER_HEIGHT = 1.0
 SEGMENT_LENGTH = 1.0
 
+# Rounded Corner parameters for the barriers
+BARRIER_RADIUS = 0.2
+BARRIER_RES = 5
+
 COLOR_ASPHALT = (0.5, 0.5, 0.5)
 COLOR_TURF = (0.05, 0.25, 0.05)
 COLOR_BARRIER = (0.10, 0.10, 0.10)
@@ -73,7 +77,6 @@ def angle_from_height(length, height):
     return math.copysign(math.degrees(theta), height)
 
 def get_matrix_at_t(p_type, p1, p2, p3, t):
-    """ Used purely to track 3D Height (Z) and Pitch/Roll characteristics over time """
     if p_type in ["STRAIGHT", "CHECKPOINT", "BOOST"]:
         return mathutils.Matrix.Translation((p1 * t, 0, 0))
     elif p_type == "VERTICAL":
@@ -98,7 +101,6 @@ def get_matrix_at_t(p_type, p1, p2, p3, t):
         return mat
 
 def get_2d_at_t(gx, gy, gyaw, p_type, p1, p2, p3, t):
-    """ Used to lock the X, Y, and Yaw perfectly to the 2D grid """
     if p_type in ["STRAIGHT", "CHECKPOINT", "BOOST", "VERTICAL"]:
         L = p1 * t
         rad = math.radians(gyaw)
@@ -115,10 +117,8 @@ def get_2d_at_t(gx, gy, gyaw, p_type, p1, p2, p3, t):
     return gx, gy, gyaw
 
 def get_sweeper_matrix(eval_mat, gx, gy, gyaw):
-    """ Combines exact 2D Grid X/Y/Yaw with 3D Z/Pitch/Roll to build the perfect track cross-section frame """
     z = eval_mat.translation.z
 
-    # Extract Forward/Pitch
     F = eval_mat @ mathutils.Vector((1,0,0)) - eval_mat.translation
     if F.length < 1e-9: F = mathutils.Vector((1,0,0))
     else: F.normalize()
@@ -129,16 +129,13 @@ def get_sweeper_matrix(eval_mat, gx, gy, gyaw):
     d_xy = math.hypot(F.x, F.y)
     pitch_angle = math.atan2(F.z, d_xy)
 
-    # Base Orientation (Yaw + Pitch)
     tangent = mathutils.Vector((g_dx * math.cos(pitch_angle), g_dy * math.cos(pitch_angle), math.sin(pitch_angle))).normalized()
     base_left = mathutils.Vector((0,0,1)).cross(tangent).normalized()
     base_up = tangent.cross(base_left).normalized()
 
-    # Calculate track Roll (Tilt)
     left_3d = (eval_mat @ mathutils.Vector((0,1,0)) - eval_mat.translation).normalized()
     tilt = math.atan2(left_3d.dot(base_up), left_3d.dot(base_left))
 
-    # Final Orientation Frame
     real_left = (base_left * math.cos(tilt) + base_up * math.sin(tilt)).normalized()
     real_up = tangent.cross(real_left).normalized()
 
@@ -167,32 +164,63 @@ def build_track():
     for obj in list(bpy.data.objects): bpy.data.objects.remove(obj, do_unlink=True)
     for mat in list(bpy.data.materials): bpy.data.materials.remove(mat, do_unlink=True)
 
-    m_asphalt, m_turf, m_barrier = create_material("Asphalt", COLOR_ASPHALT), create_material("Turf", COLOR_TURF), create_material("Barrier", COLOR_BARRIER)
-    m_boost, m_check = create_material("Boost", COLOR_BOOST), create_material("Checkpoint", COLOR_CHECKPOINT)
+    m_asphalt = create_material("Asphalt", COLOR_ASPHALT)
+    m_turf = create_material("Turf", COLOR_TURF)
+    m_barrier = create_material("Barrier", COLOR_BARRIER)
+    m_boost = create_material("Boost", COLOR_BOOST)
+    m_check = create_material("Checkpoint", COLOR_CHECKPOINT)
 
-    t_half, a_out, b_out = TRACK_WIDTH / 2.0, TRACK_WIDTH / 2.0 + ASTRO_WIDTH, TRACK_WIDTH / 2.0 + ASTRO_WIDTH + BARRIER_WIDTH
+    t_half = TRACK_WIDTH / 2.0
+    a_out = TRACK_WIDTH / 2.0 + ASTRO_WIDTH
+    b_out = TRACK_WIDTH / 2.0 + ASTRO_WIDTH + BARRIER_WIDTH
     h, d = BARRIER_HEIGHT, -0.5
+    r, res = BARRIER_RADIUS, BARRIER_RES
 
-    profile_verts = [
-        # Right Barrier (Outer to Inner)
-        (-a_out, h), (-b_out, h), (-b_out, d), (-a_out, d), (-a_out, h),
-        # Right Turf
-        (-t_half, 0), (-a_out, 0), (-a_out, d), (-t_half, d), (-t_half, 0),
-        # Asphalt
-        (t_half, 0), (-t_half, 0), (-t_half, d), (t_half, d), (t_half, 0),
-        # Left Turf
-        (a_out, 0), (t_half, 0), (t_half, d), (a_out, d), (a_out, 0),
-        # Left Barrier (Inner to Outer)
-        (b_out, h), (a_out, h), (a_out, d), (b_out, d), (b_out, h)
-    ]
+    # --- PROCEDURAL CROSS-SECTION PROFILE ---
 
-    profile_mats = [
-        2, 2, 2, 2, -1, # Right Barrier
-        1, 1, 1, 1, -1, # Right Turf
-        0, 0, 0, 0, -1, # Asphalt
-        1, 1, 1, 1, -1, # Left Turf
-        2, 2, 2, 2      # Left Barrier
-    ]
+    # Right Barrier (Procedurally generating curved top corners)
+    right_barrier_verts = []
+    # Inner Top Curve (0 to 90 degrees)
+    for i in range(res + 1):
+        a = math.radians(90 * i / res)
+        right_barrier_verts.append((-a_out - r + r * math.cos(a), h - r + r * math.sin(a)))
+    # Outer Top Curve (90 to 180 degrees)
+    for i in range(res + 1):
+        a = math.radians(90 + 90 * i / res)
+        right_barrier_verts.append((-b_out + r + r * math.cos(a), h - r + r * math.sin(a)))
+    right_barrier_verts.append((-b_out, d))
+    right_barrier_verts.append((-a_out, d))
+    right_barrier_verts.append(right_barrier_verts[0]) # Loop close
+
+    # Flat Track Areas
+    right_turf_verts = [(-t_half, 0), (-a_out, 0), (-a_out, d), (-t_half, d), (-t_half, 0)]
+    asphalt_verts = [(t_half, 0), (-t_half, 0), (-t_half, d), (t_half, d), (t_half, 0)]
+    left_turf_verts = [(a_out, 0), (t_half, 0), (t_half, d), (a_out, d), (a_out, 0)]
+
+    # Left Barrier (Procedurally generating curved top corners)
+    left_barrier_verts = []
+    # Outer Top Curve (0 to 90 degrees)
+    for i in range(res + 1):
+        a = math.radians(90 * i / res)
+        left_barrier_verts.append((b_out - r + r * math.cos(a), h - r + r * math.sin(a)))
+    # Inner Top Curve (90 to 180 degrees)
+    for i in range(res + 1):
+        a = math.radians(90 + 90 * i / res)
+        left_barrier_verts.append((a_out + r + r * math.cos(a), h - r + r * math.sin(a)))
+    left_barrier_verts.append((a_out, d))
+    left_barrier_verts.append((b_out, d))
+    left_barrier_verts.append(left_barrier_verts[0]) # Loop close
+
+    # Compile the final profile layout
+    profile_verts = right_barrier_verts + right_turf_verts + asphalt_verts + left_turf_verts + left_barrier_verts
+
+    # Compile the materials (matches vertex loop lengths, -1 prevents bridging between distinct mesh shells)
+    profile_mats = []
+    profile_mats.extend([2] * (len(right_barrier_verts) - 1) + [-1])
+    profile_mats.extend([1] * (len(right_turf_verts) - 1) + [-1])
+    profile_mats.extend([0] * (len(asphalt_verts) - 1) + [-1])
+    profile_mats.extend([1] * (len(left_turf_verts) - 1) + [-1])
+    profile_mats.extend([2] * (len(left_barrier_verts) - 1))
 
     verts, faces, face_mats = [], [], []
     boost_verts, boost_faces, boost_face_mats = [], [], []
@@ -234,7 +262,6 @@ def build_track():
             arc_length = sp1 * math.radians(abs(sp2)) if sp_type == "HORIZONTAL" else sp1
             steps = max(1, int(arc_length / SEGMENT_LENGTH))
 
-            # Snapshots of state before sub-piece begins
             start_x, start_y, start_yaw = gx, gy, gyaw
 
             if is_boost: prev_boost_ring = write_ring(boost_verts, get_sweeper_matrix(curr_mat, gx, gy, gyaw), [(-t_half, 0.05), (t_half, 0.05)])
@@ -242,13 +269,8 @@ def build_track():
             for i in range(1, steps + 1):
                 t = i / steps
 
-                # Perfect 2D Path Mapping
                 eval_x, eval_y, eval_yaw = get_2d_at_t(start_x, start_y, start_yaw, sp_type, sp1, sp2, sp3, t)
-
-                # Perfect 3D Elevation Mapping
                 eval_mat = curr_mat @ get_matrix_at_t(sp_type, sp1, sp2, sp3, t)
-
-                # Combined Frame
                 world_mat = get_sweeper_matrix(eval_mat, eval_x, eval_y, eval_yaw)
 
                 curr_main_ring = write_ring(verts, world_mat, profile_verts)
@@ -260,19 +282,15 @@ def build_track():
                     write_faces(boost_faces, boost_face_mats, prev_boost_ring, curr_boost_ring, [0])
                     prev_boost_ring = curr_boost_ring
 
-                # Checkpoints are generated 2 units long
                 if is_check:
                     mid = steps // 2
                     if i == mid - 1:
-                        # Create the starting vertices right before the middle
                         prev_check_ring = write_ring(check_verts, world_mat, [(t_half, 0.05), (-t_half, 0.05)])
                     elif mid <= i < mid + 2:
-                        # Draw the faces to make a 2-unit strip exactly in the middle
                         curr_check_ring = write_ring(check_verts, world_mat, [(t_half, 0.05), (-t_half, 0.05)])
                         write_faces(check_faces, check_face_mats, prev_check_ring, curr_check_ring, [0])
                         prev_check_ring = curr_check_ring
 
-            # Update master trackers to end of the sub-piece exactly
             gx, gy, gyaw = get_2d_at_t(start_x, start_y, start_yaw, sp_type, sp1, sp2, sp3, 1.0)
             curr_mat = curr_mat @ get_matrix_at_t(sp_type, sp1, sp2, sp3, 1.0)
 
