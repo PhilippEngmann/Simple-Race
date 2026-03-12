@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cuq5ujyvc3n02" path="res://assets/car/wheel.glb" id="19_3dlgs"]
 [ext_resource type="PackedScene" uid="uid://c3bsx7cymyivm" path="res://assets/car/car.glb" id="19_50g4q"]
 [ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
-[ext_resource type="PackedScene" uid="uid://brkcfyt88mocs" path="res://d14.glb" id="20_vte5o"]
+[ext_resource type="PackedScene" uid="uid://d08fxhhsvq35t" path="res://d14_seamless.glb" id="21_po8fv"]
 [ext_resource type="Script" uid="uid://dm310fn6aws2e" path="res://sector.gd" id="21_vte5o"]
 [ext_resource type="Script" uid="uid://tepbaur2o0b" path="res://laptime.gd" id="22_po8fv"]
 [ext_resource type="PackedScene" uid="uid://fulbdylt6f0i" path="res://assets/car/race.glb" id="23_ub8w1"]
@@ -129,14 +129,14 @@ transform = Transform3D(1, 0, 0, 0, -1.7881393e-07, 1, 0, -1, -1.7881393e-07, 51
 shadow_enabled = true
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.003933, 127.60362, -1.1433601)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -11.0404, 152.54878, -7.596648)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
-over_extend = 0.3
+over_extend = 0.1
 grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
 grip_curve_drift_front = ExtResource("4_po8fv")
@@ -587,8 +587,8 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0
 transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
 shape = SubResource("CylinderShape3D_r3r3k")
 
-[node name="d14" parent="." unique_id=1805618627 instance=ExtResource("20_vte5o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 126.01692, 0)
+[node name="d14" parent="." unique_id=1935875917 instance=ExtResource("21_po8fv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.543039, 150.47478, -9.386719)
 
 [editable path="LegacyCar/car"]
 [editable path="race"]
