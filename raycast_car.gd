@@ -20,6 +20,10 @@ extends RigidBody3D
 @export var grip_curve_drift_front : Curve
 @export var grip_curve_drift_rear : Curve
 
+@export_group("Air physics")
+@export var air_pitch_torque := 0.2 ## How strongly the nose pulls down
+@export var max_air_pitch_velocity := 1.5 ## Prevents the car from front-flipping uncontrollably
+
 @export_category("Debug")
 @export var show_debug := false
 
@@ -36,6 +40,7 @@ func _physics_process(delta: float) -> void:
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
 
 	var car_mass_share := mass / total_wheels
+	var grounded_wheels := 0
 	
 	for wheel in wheels:
 		var wheel_center := wheel.global_position
@@ -60,6 +65,7 @@ func _physics_process(delta: float) -> void:
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
 		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
 		if not wheel.is_colliding(): continue
+		grounded_wheels += 1
 		
 		var contact_point := wheel.get_collision_point(0)
 		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
@@ -108,3 +114,8 @@ func _physics_process(delta: float) -> void:
 		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * car_mass_share
 		apply_impulse(rolling_resistance_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
+		
+	## Air Pitching logic
+	if grounded_wheels == 0:
+		var pitch_force := -global_basis.x * air_pitch_torque * mass
+		apply_torque(pitch_force)

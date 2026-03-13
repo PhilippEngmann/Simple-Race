@@ -117,7 +117,7 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 2.2500076, -0.09241676)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -342.68088, -23.70783, -221.80267)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
@@ -129,7 +129,6 @@ grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
 grip_curve_drift_front = ExtResource("4_po8fv")
 grip_curve_drift_rear = SubResource("Curve_vte5o")
-show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
 shape = SubResource("BoxShape3D_r3r3k")
