@@ -18,8 +18,8 @@
 friction = 0.0
 
 [sub_resource type="Curve" id="Curve_r3r3k"]
-_limits = [0.0, 15.0, 0.0, 500.0]
-_data = [Vector2(0, 15), 0.0, -0.030000001, 0, 1, Vector2(500, 0), -0.030000001, 0.0, 1, 0]
+_limits = [0.0, 18.0, 0.0, 1000.0]
+_data = [Vector2(0, 18), 0.0, -0.018, 0, 1, Vector2(1000, 0), -0.018, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_ub8w1"]
@@ -74,6 +74,9 @@ size = Vector3(28, 1, 7)
 height = 0.1
 radius = 4.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_eji0w"]
+size = Vector3(3, 1, 600.19543)
+
 [node name="root" type="Node3D" unique_id=171305137]
 
 [node name="laptime" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "current_time_label", "lap_time_label", "sector_label", "speed_label", "distance_label")]
@@ -114,14 +117,14 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 2.2131133, 0)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 2.2500076, -0.09241676)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
-over_extend = 0.1
+over_extend = 0.2
 grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
 grip_curve_drift_front = ExtResource("4_po8fv")
@@ -182,6 +185,7 @@ mesh = SubResource("BoxMesh_50g4q")
 
 [node name="race" parent="." unique_id=1213207271 instance=ExtResource("23_ub8w1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
+visible = false
 
 [node name="finish" type="Node3D" parent="." unique_id=172885053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -156.05264, 46.05419, -182.6025)
@@ -267,6 +271,14 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0
 transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
 shape = SubResource("CylinderShape3D_r3r3k")
 
-[node name="d14" parent="." unique_id=1255823054 instance=ExtResource("20_vte5o")]
+[node name="d14" parent="." unique_id=2094824368 instance=ExtResource("20_vte5o")]
+
+[node name="drag" type="Node3D" parent="." unique_id=1716260513]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="drag" unique_id=1845257773]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="drag/StaticBody3D" unique_id=807813677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 483.81793)
+shape = SubResource("BoxShape3D_eji0w")
 
 [editable path="race"]

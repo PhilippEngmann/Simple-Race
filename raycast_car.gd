@@ -13,7 +13,7 @@ extends RigidBody3D
 @export var rest_dist := 0.2
 @export var over_extend := 0.0
 @export var wheel_radius := 0.3
-@export var rolling_resistance_coef := 0.01
+@export var rolling_resistance_coef := 0.005
 @export var brake_power := 0.005
 @export var grip_curve_front : Curve
 @export var grip_curve_rear : Curve
@@ -96,7 +96,7 @@ func _physics_process(delta: float) -> void:
 			if !is_front_wheel: grip_factor = grip_curve_drift_rear.sample_baked(slip_angle_norm)
 		var normal_load := car_mass_share * 9.8
 		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * normal_load * grip_factor
-		print(rad_to_deg(abs(slip_angle)))
+		#print(rad_to_deg(abs(slip_angle)))
 		apply_force(grip_force, force_pos)
 		
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)

@@ -177,50 +177,62 @@ def build_track():
     r, res = BARRIER_RADIUS, BARRIER_RES
 
     # --- PROCEDURAL CROSS-SECTION PROFILE ---
+    # Built as a SINGLE unbroken ribbon from Left to Right
 
-    # Right Barrier (Procedurally generating curved top corners)
-    right_barrier_verts = []
-    # Inner Top Curve (0 to 90 degrees)
-    for i in range(res + 1):
-        a = math.radians(90 * i / res)
-        right_barrier_verts.append((-a_out - r + r * math.cos(a), h - r + r * math.sin(a)))
-    # Outer Top Curve (90 to 180 degrees)
-    for i in range(res + 1):
-        a = math.radians(90 + 90 * i / res)
-        right_barrier_verts.append((-b_out + r + r * math.cos(a), h - r + r * math.sin(a)))
-    right_barrier_verts.append((-b_out, d))
-    right_barrier_verts.append((-a_out, d))
-    right_barrier_verts.append(right_barrier_verts[0]) # Loop close
-
-    # Flat Track Areas
-    right_turf_verts = [(-t_half, 0), (-a_out, 0), (-a_out, d), (-t_half, d), (-t_half, 0)]
-    asphalt_verts = [(t_half, 0), (-t_half, 0), (-t_half, d), (t_half, d), (t_half, 0)]
-    left_turf_verts = [(a_out, 0), (t_half, 0), (t_half, d), (a_out, d), (a_out, 0)]
-
-    # Left Barrier (Procedurally generating curved top corners)
-    left_barrier_verts = []
-    # Outer Top Curve (0 to 90 degrees)
-    for i in range(res + 1):
-        a = math.radians(90 * i / res)
-        left_barrier_verts.append((b_out - r + r * math.cos(a), h - r + r * math.sin(a)))
-    # Inner Top Curve (90 to 180 degrees)
-    for i in range(res + 1):
-        a = math.radians(90 + 90 * i / res)
-        left_barrier_verts.append((a_out + r + r * math.cos(a), h - r + r * math.sin(a)))
-    left_barrier_verts.append((a_out, d))
-    left_barrier_verts.append((b_out, d))
-    left_barrier_verts.append(left_barrier_verts[0]) # Loop close
-
-    # Compile the final profile layout
-    profile_verts = right_barrier_verts + right_turf_verts + asphalt_verts + left_turf_verts + left_barrier_verts
-
-    # Compile the materials (matches vertex loop lengths, -1 prevents bridging between distinct mesh shells)
+    profile_verts = []
     profile_mats = []
-    profile_mats.extend([2] * (len(right_barrier_verts) - 1) + [-1])
-    profile_mats.extend([1] * (len(right_turf_verts) - 1) + [-1])
-    profile_mats.extend([0] * (len(asphalt_verts) - 1) + [-1])
-    profile_mats.extend([1] * (len(left_turf_verts) - 1) + [-1])
-    profile_mats.extend([2] * (len(left_barrier_verts) - 1))
+
+    # 1. Left Barrier Outer Wall (Bottom)
+    profile_verts.append((b_out, d))
+
+    # 2. Left Barrier Outer Top Corner (0 to 90 deg)
+    for i in range(res + 1):
+        a = math.radians(90 * i / res)
+        profile_verts.append((b_out - r + r * math.cos(a), h - r + r * math.sin(a)))
+        profile_mats.append(2)
+
+    # 3. Left Barrier Inner Top Corner (90 to 180 deg)
+    for i in range(res + 1):
+        a = math.radians(90 + 90 * i / res)
+        profile_verts.append((a_out + r + r * math.cos(a), h - r + r * math.sin(a)))
+        profile_mats.append(2)
+
+    # 4. Drop to turf
+    profile_verts.append((a_out, 0))
+    profile_mats.append(2)
+
+    # 5. Across Left Turf
+    profile_verts.append((t_half, 0))
+    profile_mats.append(1)
+
+    # 6. Across Asphalt
+    profile_verts.append((-t_half, 0))
+    profile_mats.append(0)
+
+    # 7. Across Right Turf
+    profile_verts.append((-a_out, 0))
+    profile_mats.append(1)
+
+    # 8. Up to Right Barrier Inner Corner
+    profile_verts.append((-a_out, h - r))
+    profile_mats.append(2)
+
+    # 9. Right Barrier Inner Corner (0 to 90 deg)
+    for i in range(1, res + 1):
+        a = math.radians(90 * i / res)
+        profile_verts.append((-a_out - r + r * math.cos(a), h - r + r * math.sin(a)))
+        profile_mats.append(2)
+
+    # 10. Right Barrier Outer Corner (90 to 180 deg)
+    for i in range(res + 1):
+        a = math.radians(90 + 90 * i / res)
+        profile_verts.append((-b_out + r + r * math.cos(a), h - r + r * math.sin(a)))
+        profile_mats.append(2)
+
+    # 11. Drop to outer bottom
+    profile_verts.append((-b_out, d))
+    profile_mats.append(2)
+
 
     verts, faces, face_mats = [], [], []
     boost_verts, boost_faces, boost_face_mats = [], [], []
@@ -264,7 +276,9 @@ def build_track():
 
             start_x, start_y, start_yaw = gx, gy, gyaw
 
-            if is_boost: prev_boost_ring = write_ring(boost_verts, get_sweeper_matrix(curr_mat, gx, gy, gyaw), [(-t_half, 0.05), (t_half, 0.05)])
+            if is_boost:
+                # Flipped winding to face UP
+                prev_boost_ring = write_ring(boost_verts, get_sweeper_matrix(curr_mat, gx, gy, gyaw), [(t_half, 0.05), (-t_half, 0.05)])
 
             for i in range(1, steps + 1):
                 t = i / steps
@@ -278,7 +292,8 @@ def build_track():
                 prev_main_ring = curr_main_ring
 
                 if is_boost:
-                    curr_boost_ring = write_ring(boost_verts, world_mat, [(-t_half, 0.05), (t_half, 0.05)])
+                    # Flipped winding to face UP
+                    curr_boost_ring = write_ring(boost_verts, world_mat, [(t_half, 0.05), (-t_half, 0.05)])
                     write_faces(boost_faces, boost_face_mats, prev_boost_ring, curr_boost_ring, [0])
                     prev_boost_ring = curr_boost_ring
 
@@ -305,6 +320,14 @@ def build_track():
             poly.use_smooth = True
         obj = bpy.data.objects.new(name, mesh)
         bpy.context.collection.objects.link(obj)
+
+        # Because it's a perfectly open manifold sheet now, we can safely weld seams and calculate normals!
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='SELECT')
+        bpy.ops.mesh.remove_doubles(threshold=0.001)
+        bpy.ops.mesh.normals_make_consistent(inside=False)
+        bpy.ops.object.mode_set(mode='OBJECT')
 
     create_obj("Track_Base-col", verts, faces, face_mats, [m_asphalt, m_turf, m_barrier])
     create_obj("Track_Boosts", boost_verts, boost_faces, boost_face_mats, [m_boost])
