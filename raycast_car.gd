@@ -2,7 +2,8 @@ extends RigidBody3D
 
 @export_group("Car properties")
 @export var wheels: Array[ShapeCast3D]
-@export var accel_curve: Curve
+@export var engine_power := 18
+@export var brake_power := 25
 @export var tire_turn_speed := 1.3
 @export var tire_max_turn_degrees := 35
 @export var max_turn_curve : Curve
@@ -13,16 +14,14 @@ extends RigidBody3D
 @export var rest_dist := 0.2
 @export var over_extend := 0.0
 @export var wheel_radius := 0.3
-@export var rolling_resistance_coef := 0.005
-@export var brake_power := 0.005
+@export var rolling_resistance_curve : Curve
 @export var grip_curve_front : Curve
 @export var grip_curve_rear : Curve
 @export var grip_curve_drift_front : Curve
 @export var grip_curve_drift_rear : Curve
 
 @export_group("Air physics")
-@export var air_pitch_torque := 0.2 ## How strongly the nose pulls down
-@export var max_air_pitch_velocity := 1.5 ## Prevents the car from front-flipping uncontrollably
+@export var air_pitch_torque := 0.2
 
 @export_category("Debug")
 @export var show_debug := false
@@ -81,7 +80,7 @@ func _physics_process(delta: float) -> void:
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
-			var engine_force := throttle_input * mass * accel_curve.sample_baked(car_velocity*3.6) * 0.5 * wheel_forward_dir
+			var engine_force := throttle_input * mass * engine_power * 0.5 * wheel_forward_dir
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
 		
@@ -104,16 +103,16 @@ func _physics_process(delta: float) -> void:
 		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * normal_load * grip_factor
 		#print(rad_to_deg(abs(slip_angle)))
 		apply_force(grip_force, force_pos)
-		
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
 		## Rolling resistance
-		var rolling_resistance := rolling_resistance_coef
-		if brake_input > 0.0:
-			rolling_resistance += brake_power * brake_input
-		var rolling_resistance_force := (1 - throttle_input) * wheel.global_basis.z * wheel_forward_velocity * rolling_resistance * car_mass_share
-		apply_impulse(rolling_resistance_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force, 1.0, Color.ORANGE, 0.3, true)
+		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_velocity)*3.6)
+		var rolling_resistance_force : Vector3 = wheel.global_basis.z * signf(car_velocity) * rolling_resistance * car_mass_share * (2 - throttle_input)
+		apply_force(rolling_resistance_force, force_pos)
+		var brake_modifier := 0.4 if car_velocity < 0.1 else 1.0
+		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
+		apply_force(braking_force, force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 1.0, Color.ORANGE, 0.3, true)
 		
 	## Air Pitching logic
 	if grounded_wheels == 0:

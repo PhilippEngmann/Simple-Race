@@ -17,16 +17,16 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r3r3k"]
 friction = 0.0
 
-[sub_resource type="Curve" id="Curve_r3r3k"]
-_limits = [0.0, 18.0, 0.0, 1000.0]
-_data = [Vector2(0, 18), 0.0, -0.018, 0, 1, Vector2(1000, 0), -0.018, 0.0, 1, 0]
-point_count = 2
-
 [sub_resource type="Curve" id="Curve_ub8w1"]
 _limits = [0.0, 1.0, 0.0, 450.0]
 _data = [Vector2(0, 1), 0.0, -0.012, 0, 1, Vector2(50, 0.4), -0.012, -0.004, 1, 1, Vector2(100, 0.2), -0.004, -0.001, 1, 1, Vector2(200, 0.1), -0.001, -0.0005, 1, 1, Vector2(300, 0.05), -0.0005, -0.007777778, 1, 1]
 point_count = 5
 metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_eji0w"]
+_limits = [0.0, 5.0, 0.0, 200.0]
+_data = [Vector2(0, 0), 0.0, 0.025, 0, 1, Vector2(200, 5), 0.025, 0.0, 1, 0]
+point_count = 2
 
 [sub_resource type="Curve" id="Curve_vte5o"]
 _data = [Vector2(0, 0.9), 0.0, -0.9, 0, 1]
@@ -75,7 +75,7 @@ height = 0.1
 radius = 4.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_eji0w"]
-size = Vector3(3, 1, 600.19543)
+size = Vector3(3, 1, 1552.0375)
 
 [node name="root" type="Node3D" unique_id=171305137]
 
@@ -117,18 +117,19 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -342.68088, -23.70783, -221.80267)
+transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, 0, 0.8150735, 0)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
-accel_curve = SubResource("Curve_r3r3k")
 max_turn_curve = SubResource("Curve_ub8w1")
-over_extend = 0.2
+over_extend = 0.1
+rolling_resistance_curve = SubResource("Curve_eji0w")
 grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
 grip_curve_drift_front = ExtResource("4_po8fv")
 grip_curve_drift_rear = SubResource("Curve_vte5o")
+show_debug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
 shape = SubResource("BoxShape3D_r3r3k")
@@ -277,7 +278,7 @@ shape = SubResource("CylinderShape3D_r3r3k")
 [node name="StaticBody3D" type="StaticBody3D" parent="drag" unique_id=1845257773]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="drag/StaticBody3D" unique_id=807813677]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 483.81793)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 959.73895)
 shape = SubResource("BoxShape3D_eji0w")
 
 [editable path="race"]
