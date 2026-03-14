@@ -2,7 +2,7 @@ extends Node3D
 
 signal sector_entered(sector_name)
 
-@export var sector_name: String = "Unnamed Sector"
+@export var sector_name: String = "Sector X"
 
 func _ready():
 	var area = $Area3D

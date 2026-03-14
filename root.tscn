@@ -91,10 +91,10 @@ distance_label = NodePath("../HUD/VBoxContainer/DistanceLabel")
 [node name="HUD" type="CanvasLayer" parent="." unique_id=439265187]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD" unique_id=153672351]
-offset_left = 384.0
-offset_top = 21.0
-offset_right = 652.0
-offset_bottom = 356.0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 292.0
+offset_bottom = 353.0
 
 [node name="CurrentTimeLabel" type="Label" parent="HUD/VBoxContainer" unique_id=986421384]
 layout_mode = 2
@@ -188,36 +188,67 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, -2)
 visible = false
 
 [node name="finish" type="Node3D" parent="." unique_id=172885053]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -156.05264, 46.05419, -182.6025)
 script = ExtResource("21_vte5o")
 sector_name = "Finish Line"
 
 [node name="Area3D" type="Area3D" parent="finish" unique_id=535077653]
 
 [node name="S1" type="CollisionShape3D" parent="finish/Area3D" unique_id=253628302]
-transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, -20, 6.5, 146.5)
+transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, 16, 5, 0)
 shape = SubResource("BoxShape3D_vte5o")
 
-[node name="sector1" type="Node3D" parent="." unique_id=1829421238]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -192.59436, 23.499998, -194.09583)
+[node name="sector1" type="Node3D" parent="." unique_id=832688045]
+transform = Transform3D(1.0000001, 0, 3.5527137e-15, 0, 1.0000001, -8.881784e-16, 0, 0, 1, 302, -21, 0)
 script = ExtResource("21_vte5o")
 sector_name = "Sector 1"
 
-[node name="Area3D" type="Area3D" parent="sector1" unique_id=922545160]
+[node name="Area3D" type="Area3D" parent="sector1" unique_id=1650072327]
 
-[node name="S2" type="CollisionShape3D" parent="sector1/Area3D" unique_id=1789533569]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 33.5, 3, 0)
+[node name="S2" type="CollisionShape3D" parent="sector1/Area3D" unique_id=994005004]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
 
-[node name="sector2" type="Node3D" parent="." unique_id=1079054065]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -351, 24.5, -239)
+[node name="sector2" type="Node3D" parent="." unique_id=1829421238]
+transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, 144, 62, -543)
 script = ExtResource("21_vte5o")
 sector_name = "Sector 2"
 
-[node name="Area3D" type="Area3D" parent="sector2" unique_id=417493266]
+[node name="Area3D" type="Area3D" parent="sector2" unique_id=922545160]
 
-[node name="S3" type="CollisionShape3D" parent="sector2/Area3D" unique_id=99959035]
-transform = Transform3D(3.5527137e-15, -1, 1.3113416e-07, 4.371139e-08, 1.3113416e-07, 1, -1, 3.5527137e-15, 4.371139e-08, -12, 2, -19.5)
+[node name="S2" type="CollisionShape3D" parent="sector2/Area3D" unique_id=1789533569]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+
+[node name="sector3" type="Node3D" parent="." unique_id=1079054065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -21, -224)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 3"
+
+[node name="Area3D" type="Area3D" parent="sector3" unique_id=417493266]
+
+[node name="S3" type="CollisionShape3D" parent="sector3/Area3D" unique_id=99959035]
+transform = Transform3D(3.5527137e-15, -1, 1.3113416e-07, 4.371139e-08, 1.3113416e-07, 1, -1, 3.5527137e-15, 4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_ub8w1")
+
+[node name="sector4" type="Node3D" parent="." unique_id=655941482]
+transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, -272, 39, -607)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 4"
+
+[node name="Area3D" type="Area3D" parent="sector4" unique_id=1421617877]
+
+[node name="S2" type="CollisionShape3D" parent="sector4/Area3D" unique_id=458408963]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+
+[node name="sector5" type="Node3D" parent="." unique_id=1685812339]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -240, -21, -224)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 5"
+
+[node name="Area3D" type="Area3D" parent="sector5" unique_id=40814573]
+
+[node name="S3" type="CollisionShape3D" parent="sector5/Area3D" unique_id=845386785]
 shape = SubResource("BoxShape3D_ub8w1")
 
 [node name="EngineSound" type="Node" parent="." unique_id=365555826]
