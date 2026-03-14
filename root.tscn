@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
 [ext_resource type="Script" uid="uid://bkj5pkr6xyrye" path="res://engine_sound.gd" id="14_qwhpj"]
+[ext_resource type="Script" uid="uid://cg4aquldxc08h" path="res://boost.gd" id="14_sq7yr"]
 [ext_resource type="PackedScene" uid="uid://bqx0rtws7px1h" path="res://assets/track/kenney/roadCornerSmall.glb" id="15_qt76e"]
 [ext_resource type="PackedScene" uid="uid://jdprm303suul" path="res://assets/track/kenney/roadCornerLarge.glb" id="16_sq7yr"]
 [ext_resource type="PackedScene" uid="uid://dc8qjhfp3g1ef" path="res://assets/track/kenney/roadCornerLarger.glb" id="17_r3r3k"]
@@ -117,13 +118,16 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, 0, 0.8150735, 0)
+transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, -337, -23.707832, -218)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 script = ExtResource("14_qt76e")
 wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
 max_turn_curve = SubResource("Curve_ub8w1")
-over_extend = 0.1
+spring_strength = 0.0
+spring_damping = 0.0
+rest_dist = 0.0
+wheel_radius = 0.0
 rolling_resistance_curve = SubResource("Curve_eji0w")
 grip_curve_front = ExtResource("4_po8fv")
 grip_curve_rear = ExtResource("3_vte5o")
@@ -207,6 +211,7 @@ sector_name = "Sector 1"
 [node name="S2" type="CollisionShape3D" parent="sector1/Area3D" unique_id=994005004]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
 [node name="sector2" type="Node3D" parent="." unique_id=1829421238]
 transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, 144, 62, -543)
@@ -218,6 +223,7 @@ sector_name = "Sector 2"
 [node name="S2" type="CollisionShape3D" parent="sector2/Area3D" unique_id=1789533569]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
 [node name="sector3" type="Node3D" parent="." unique_id=1079054065]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -21, -224)
@@ -240,6 +246,7 @@ sector_name = "Sector 4"
 [node name="S2" type="CollisionShape3D" parent="sector4/Area3D" unique_id=458408963]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
 [node name="sector5" type="Node3D" parent="." unique_id=1685812339]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -240, -21, -224)
@@ -311,5 +318,27 @@ shape = SubResource("CylinderShape3D_r3r3k")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="drag/StaticBody3D" unique_id=807813677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 959.73895)
 shape = SubResource("BoxShape3D_eji0w")
+
+[node name="boost1" type="Node3D" parent="." unique_id=2016134098]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 175, 11, -337)
+script = ExtResource("14_sq7yr")
+
+[node name="Area3D" type="Area3D" parent="boost1" unique_id=689077867]
+
+[node name="S2" type="CollisionShape3D" parent="boost1/Area3D" unique_id=287940466]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
+
+[node name="boost2" type="Node3D" parent="." unique_id=131447134]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -240, -21, -207)
+script = ExtResource("14_sq7yr")
+
+[node name="Area3D" type="Area3D" parent="boost2" unique_id=1561149935]
+
+[node name="S2" type="CollisionShape3D" parent="boost2/Area3D" unique_id=397597392]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
 [editable path="race"]

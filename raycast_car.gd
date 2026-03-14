@@ -22,6 +22,7 @@ extends RigidBody3D
 
 @export_group("Air physics")
 @export var air_pitch_torque := 0.2
+@export var extra_gravity := 8
 
 @export_category("Debug")
 @export var show_debug := false
@@ -63,6 +64,7 @@ func _physics_process(delta: float) -> void:
 		var tire_velocity := _get_point_velocity(wheel_center)
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
 		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
+		if not wheel.is_colliding(): print("lift")
 		if not wheel.is_colliding(): continue
 		grounded_wheels += 1
 		
@@ -114,7 +116,9 @@ func _physics_process(delta: float) -> void:
 		apply_force(braking_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 1.0, Color.ORANGE, 0.3, true)
 		
-	## Air Pitching logic
+	## Air logic
 	if grounded_wheels == 0:
 		var pitch_force := -global_basis.x * air_pitch_torque * mass
 		apply_torque(pitch_force)
+		var extra_gravity := Vector3.DOWN * extra_gravity * mass
+		apply_central_force(extra_gravity)

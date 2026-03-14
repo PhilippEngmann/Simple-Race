@@ -31,14 +31,12 @@ func _ready() -> void:
 		sector_label.text = ""
 
 func _physics_process(delta: float) -> void:
-	# 1. RUNNING TIME
 	var current_time = Time.get_ticks_msec()
 	var running_time = (current_time - lap_start_time) / 1000.0
 	
 	if current_time_label:
 		current_time_label.text = "Current Lap: " + format_laptime(running_time)
 
-	# 2. SPEED AND DISTANCE
 	if car:
 		var speed_mps := car.linear_velocity.length()
 		var speed_kmh := speed_mps * 3.6
@@ -56,26 +54,21 @@ func _physics_process(delta: float) -> void:
 func _on_sector_entered(sector_name: String) -> void:
 	var current_time = Time.get_ticks_msec()
 
-	# If this is the correct next checkpoint
 	if sector_name == expected_checkpoints[current_checkpoint_index]:
-		# Calculate exact time taken for just this sector
 		var sector_duration = (current_time - last_checkpoint_time) / 1000.0
 		sector_times[current_checkpoint_index] = sector_duration
 		last_checkpoint_time = current_time
 		
-		# UPDATE UI: Show only the sector we just crossed
 		if sector_label:
 			sector_label.text = "Sector %d: %s" % [current_checkpoint_index + 1, format_laptime(sector_duration)]
 		
 		if sector_name == "Finish Line":
-			# Lap Completed!
 			var lap_time = (current_time - lap_start_time) / 1000.0
 			if lap_time_label:
 				lap_time_label.text = "Last Lap: " + format_laptime(lap_time)
 				
 			start_new_lap(current_time)
 		else:
-			# Advance to the next sector
 			current_checkpoint_index += 1
 
 func start_new_lap(current_time: float) -> void:
