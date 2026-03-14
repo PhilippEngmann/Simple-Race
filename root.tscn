@@ -15,6 +15,16 @@
 [ext_resource type="Script" uid="uid://tepbaur2o0b" path="res://laptime.gd" id="22_po8fv"]
 [ext_resource type="PackedScene" uid="uid://fulbdylt6f0i" path="res://assets/car/race.glb" id="23_ub8w1"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qwhpj"]
+ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+
+[sub_resource type="Sky" id="Sky_qt76e"]
+sky_material = SubResource("ProceduralSkyMaterial_qwhpj")
+
+[sub_resource type="Environment" id="Environment_sq7yr"]
+background_mode = 2
+sky = SubResource("Sky_qt76e")
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r3r3k"]
 friction = 0.0
 
@@ -79,6 +89,9 @@ radius = 4.0
 size = Vector3(3, 1, 1552.0375)
 
 [node name="root" type="Node3D" unique_id=171305137]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=879330178]
+environment = SubResource("Environment_sq7yr")
 
 [node name="laptime" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "current_time_label", "lap_time_label", "sector_label", "speed_label", "distance_label")]
 script = ExtResource("22_po8fv")

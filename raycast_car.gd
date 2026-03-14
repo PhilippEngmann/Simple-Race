@@ -64,7 +64,6 @@ func _physics_process(delta: float) -> void:
 		var tire_velocity := _get_point_velocity(wheel_center)
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
 		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
-		if not wheel.is_colliding(): print("lift")
 		if not wheel.is_colliding(): continue
 		grounded_wheels += 1
 		
