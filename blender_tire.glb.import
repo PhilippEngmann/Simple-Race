@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://fulbdylt6f0i"
-path="res://.godot/imported/race.glb-a97d04a6ad1db1e2d346bd43c5064579.scn"
+uid="uid://w1hss1c38jwh"
+path="res://.godot/imported/blender_tire.glb-fe00a72d441ed9e89fe7bab007a9d591.scn"
 
 [deps]
 
-source_file="res://assets/car/race.glb"
-dest_files=["res://.godot/imported/race.glb-a97d04a6ad1db1e2d346bd43c5064579.scn"]
+source_file="res://blender_tire.glb"
+dest_files=["res://.godot/imported/blender_tire.glb-fe00a72d441ed9e89fe7bab007a9d591.scn"]
 
 [params]
 

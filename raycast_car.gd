@@ -32,11 +32,15 @@ var is_drifting := false
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - to_global(center_of_mass))
+"res://brake_light.tres"
 
 func _physics_process(delta: float) -> void:
 	var throttle_input := Input.get_action_strength("throttle")
 	var brake_input := Input.get_action_strength("brake")
-	$BrakeLight.visible = true if brake_input > 0 else false
+	if brake_input == 0:
+		$"car_blender/Node_0/Assembly~1/3DGeom~6".set_surface_override_material(0, load("res://brake_light_off.tres"))
+	else:
+		$"car_blender/Node_0/Assembly~1/3DGeom~6".set_surface_override_material(0, load("res://brake_light.tres"))
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
 
 	var car_mass_share := mass / total_wheels
@@ -52,6 +56,7 @@ func _physics_process(delta: float) -> void:
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
 		if is_front_wheel:
+			var mesh = find_child(str(wheel.name) + "_mesh")
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
@@ -59,6 +64,8 @@ func _physics_process(delta: float) -> void:
 				deg_to_rad(tire_max_turn_degrees) * steer_ratio)
 			else:
 				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
+			mesh.rotation.y = wheel.rotation.y + sign(wheel.position.x) * (PI/2)
+			
 		## Spin wheels
 		var wheel_forward_dir := -wheel.global_basis.z
 		var tire_velocity := _get_point_velocity(wheel_center)
@@ -119,5 +126,5 @@ func _physics_process(delta: float) -> void:
 	if grounded_wheels == 0:
 		var pitch_force := -global_basis.x * air_pitch_torque * mass
 		apply_torque(pitch_force)
-		var extra_gravity := Vector3.DOWN * extra_gravity * mass
-		apply_central_force(extra_gravity)
+		var extra_gravity_force := Vector3.DOWN * extra_gravity * mass
+		apply_central_force(extra_gravity_force)
