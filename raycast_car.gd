@@ -3,6 +3,7 @@ extends RigidBody3D
 @export_group("Car properties")
 @export var wheels: Array[ShapeCast3D]
 @export var engine_power := 18
+@export var downhill_multiplier := 1.3
 @export var brake_power := 25
 @export var tire_turn_speed := 1.3
 @export var tire_max_turn_degrees := 35
@@ -45,7 +46,6 @@ func _physics_process(delta: float) -> void:
 
 	var car_mass_share := mass / total_wheels
 	var grounded_wheels := 0
-	
 	for wheel in wheels:
 		var wheel_center := wheel.global_position
 		var force_pos := wheel_center - global_position
@@ -89,6 +89,7 @@ func _physics_process(delta: float) -> void:
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
 			var engine_force := throttle_input * mass * engine_power * 0.5 * wheel_forward_dir
+			if linear_velocity.y < -1: engine_force *= downhill_multiplier
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
 		
@@ -124,7 +125,10 @@ func _physics_process(delta: float) -> void:
 		
 	## Air logic
 	if grounded_wheels == 0:
+		linear_damp = 0.0
 		var pitch_force := -global_basis.x * air_pitch_torque * mass
 		apply_torque(pitch_force)
 		var extra_gravity_force := Vector3.DOWN * extra_gravity * mass
 		apply_central_force(extra_gravity_force)
+	else:
+		linear_damp = 0.1
