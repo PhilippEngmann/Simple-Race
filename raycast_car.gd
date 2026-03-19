@@ -25,6 +25,13 @@ extends RigidBody3D
 @export var air_pitch_torque := 0.2
 @export var extra_gravity := 8
 
+@export_group("Wall Collision")
+@export var wall_penalty_multiplier := 0.8
+@export var wall_spin_damping := 0.5
+
+# Keeps track of velocity right before hitting a wall
+var _prev_linear_velocity := Vector3.ZERO
+
 @export_category("Debug")
 @export var show_debug := false
 
@@ -33,7 +40,6 @@ var is_drifting := false
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - to_global(center_of_mass))
-"res://brake_light.tres"
 
 func _physics_process(delta: float) -> void:
 	var throttle_input := Input.get_action_strength("throttle")
@@ -132,3 +138,28 @@ func _physics_process(delta: float) -> void:
 		apply_central_force(extra_gravity_force)
 	else:
 		linear_damp = 0.1
+
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	var hit_wall := false
+	var max_impact := 0.0
+	
+	# Loop through all current collisions
+	for i in state.get_contact_count():
+		var normal := state.get_contact_local_normal(i)
+		
+		# If the normal's Y is close to 0, it's a vertical surface (a wall)
+		if abs(normal.y) < 0.3:
+			hit_wall = true
+			var impact_velocity: float = abs(_prev_linear_velocity.dot(normal))
+			if impact_velocity > max_impact:
+				max_impact = impact_velocity
+	
+	if hit_wall and max_impact > 0.5:
+		var car_forward_dir := -global_basis.z
+		var current_forward_speed := state.linear_velocity.dot(car_forward_dir)
+		var speed_reduction := max_impact * wall_penalty_multiplier
+		state.linear_velocity -= car_forward_dir * maxf(0.0, current_forward_speed - speed_reduction)
+		state.angular_velocity *= wall_spin_damping
+
+	# Save the velocity for the next frame's impact calculation
+	_prev_linear_velocity = state.linear_velocity
