@@ -91,7 +91,8 @@ func _physics_process(delta: float) -> void:
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
-			var engine_force := throttle_input * mass * engine_power * 0.5 * wheel_forward_dir
+			var wheel_power_share := 0.5
+			var engine_force := throttle_input * mass * engine_power * wheel_power_share * wheel_forward_dir
 			if linear_velocity.y < -1: engine_force *= downhill_multiplier
 			apply_force(engine_force, force_pos)
 			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
@@ -150,6 +151,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if is_wall:
 			hit_wall = true
 			var impact_velocity: float = abs(_prev_linear_velocity.dot(normal))
+			print(impact_velocity)
 			if impact_velocity > max_impact:
 				max_impact = impact_velocity
 	
@@ -157,7 +159,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		var car_forward_dir := -global_basis.z
 		var current_forward_speed := state.linear_velocity.dot(car_forward_dir)
 		var speed_reduction := max_impact * wall_penalty_multiplier
-		state.linear_velocity -= car_forward_dir * maxf(0.0, current_forward_speed - speed_reduction)
+		var new_forward_speed := move_toward(current_forward_speed, 0.0, speed_reduction)
+		var actual_reduction := current_forward_speed - new_forward_speed
+		state.linear_velocity -= car_forward_dir * actual_reduction
 		state.angular_velocity *= wall_spin_damping
 
 	_prev_linear_velocity = state.linear_velocity
