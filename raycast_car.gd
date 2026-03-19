@@ -29,9 +29,6 @@ extends RigidBody3D
 @export var wall_penalty_multiplier := 0.8
 @export var wall_spin_damping := 0.5
 
-# Keeps track of velocity right before hitting a wall
-var _prev_linear_velocity := Vector3.ZERO
-
 @export_category("Debug")
 @export var show_debug := false
 
@@ -139,6 +136,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		linear_damp = 0.1
 
+# Keeps track of velocity right before hitting a wall
+var _prev_linear_velocity := Vector3.ZERO
+
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	var hit_wall := false
 	var max_impact := 0.0
@@ -146,9 +146,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	# Loop through all current collisions
 	for i in state.get_contact_count():
 		var normal := state.get_contact_local_normal(i)
-		
-		# If the normal's Y is close to 0, it's a vertical surface (a wall)
-		if abs(normal.y) < 0.3:
+		var is_wall: bool = abs(normal.y) < 0.3
+		if is_wall:
 			hit_wall = true
 			var impact_velocity: float = abs(_prev_linear_velocity.dot(normal))
 			if impact_velocity > max_impact:
@@ -161,5 +160,4 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		state.linear_velocity -= car_forward_dir * maxf(0.0, current_forward_speed - speed_reduction)
 		state.angular_velocity *= wall_spin_damping
 
-	# Save the velocity for the next frame's impact calculation
 	_prev_linear_velocity = state.linear_velocity
