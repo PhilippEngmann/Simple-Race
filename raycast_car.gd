@@ -34,6 +34,7 @@ extends RigidBody3D
 
 @onready var total_wheels := wheels.size()
 var is_drifting := false
+var car_velocity := 0.0
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - to_global(center_of_mass))
@@ -54,7 +55,7 @@ func _physics_process(delta: float) -> void:
 		var force_pos := wheel_center - global_position
 		
 		wheel.target_position.y = -(rest_dist + over_extend)
-		var car_velocity := -global_basis.z.dot(linear_velocity)
+		car_velocity = -global_basis.z.dot(linear_velocity)
 
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
@@ -151,7 +152,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if is_wall:
 			hit_wall = true
 			var impact_velocity: float = abs(_prev_linear_velocity.dot(normal))
-			print(impact_velocity)
 			if impact_velocity > max_impact:
 				max_impact = impact_velocity
 	

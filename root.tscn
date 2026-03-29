@@ -4,6 +4,7 @@
 [ext_resource type="Curve" uid="uid://g1b3rjacugmw" path="res://1r.tres" id="4_po8fv"]
 [ext_resource type="PackedScene" uid="uid://w1hss1c38jwh" path="res://blender_tire.glb" id="5_50g4q"]
 [ext_resource type="PackedScene" uid="uid://rr8yet1hyphd" path="res://car_blender.glb" id="5_blcw0"]
+[ext_resource type="Script" uid="uid://bkj5pkr6xyrye" path="res://engine_sound.gd" id="10_qt76e"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
 [ext_resource type="Script" uid="uid://cg4aquldxc08h" path="res://boost.gd" id="14_sq7yr"]
@@ -122,7 +123,7 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, -337, -23.707832, -218)
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -241.4833, -23.707832, -217.99998)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 contact_monitor = true
@@ -134,7 +135,6 @@ max_turn_curve = SubResource("Curve_ub8w1")
 spring_strength = 0.0
 spring_damping = 0.0
 rest_dist = 0.0
-over_extend = 0.1
 wheel_radius = 0.0
 rolling_resistance_curve = SubResource("Curve_eji0w")
 grip_curve_front = ExtResource("4_po8fv")
@@ -273,6 +273,7 @@ shape = SubResource("BoxShape3D_ub8w1")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EngineSound" unique_id=544739294]
 volume_db = -40.0
+script = ExtResource("10_qt76e")
 
 [node name="Skidpad" type="Node3D" parent="." unique_id=1963892307]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 126.705826)

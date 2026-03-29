@@ -16,35 +16,56 @@ var mix_rate = 44100.0
 var drive = 4.0
 var player: AudioStreamPlayer
 
+# Gears
+var current_gear: int = 1
+var shift_duration: float = 0.2
+var shift_timer: float = 0.0
+var pitch_before_shift: float = 1.0
+
 func _ready():
-	# Initialize phases array
 	phases.resize(harmonics.size())
 	for i in range(phases.size()):
 		phases[i] = 0.0
 	
-	# Create and configure the AudioStreamPlayer
 	player = $"."
 	
-	# Create the generator stream
 	var stream = AudioStreamGenerator.new()
 	stream.mix_rate = mix_rate
-	#stream.buffer_length = 0.1
+	stream.buffer_length = 0.1
 	
 	player.stream = stream
 	player.play()
 	
-	# Get the playback object
 	playback = player.get_stream_playback()
 
-func _process(_delta):
+func _process(delta):
 	var throttle = Input.get_action_strength("throttle")
-	var car = $"../../Car"
-	#player.pitch_scale = lerp(1.0, 4.0, clampf(car.car_speed_ratio, 0.0, 1.0))
-	var target_volume = lerp(-45, -40, throttle)
-	player.volume_db = lerp(player.volume_db, target_volume, 0.03)
-	#print(player.volume_db)
+	var car = $"../../CarBody"
+	var speed_kmh = abs(car.car_velocity * 3.6)
 	
-	#_fill_buffer()
+	var raw_current_gear = int(speed_kmh / 100.0) + 1
+	var gear_fraction = fmod(speed_kmh, 100.0) / 100.0
+	
+	var target_pitch = 0.0
+	if raw_current_gear == 1:
+		target_pitch = lerp(1.0, 4.0, gear_fraction) # 1st gear range
+	else:
+		target_pitch = lerp(2.0, 4.0, gear_fraction) # 2nd+ gear range
+		
+	if raw_current_gear != current_gear:
+		current_gear = raw_current_gear
+		shift_timer = shift_duration
+		pitch_before_shift = player.pitch_scale
+	
+	if shift_timer > 0.0:
+		shift_timer -= delta
+		# t goes from 0.0 to 1.0 over the [shift_duration=0.2] seconds
+		var t = clamp(1.0 - (shift_timer / shift_duration), 0.0, 1.0) 
+		player.pitch_scale = lerp(pitch_before_shift, target_pitch, t)
+	else:
+		player.pitch_scale = target_pitch
+	
+	_fill_buffer()
 
 func _tanh_shaper(x: float, k_in: float) -> float:
 	var k = max(0.0001, k_in)
