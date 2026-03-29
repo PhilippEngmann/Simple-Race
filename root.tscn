@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://w1hss1c38jwh" path="res://blender_tire.glb" id="5_50g4q"]
 [ext_resource type="PackedScene" uid="uid://rr8yet1hyphd" path="res://car_blender.glb" id="5_blcw0"]
 [ext_resource type="Script" uid="uid://bkj5pkr6xyrye" path="res://engine_sound.gd" id="10_qt76e"]
+[ext_resource type="AudioStream" uid="uid://c7863mrjhpwok" path="res://engine_base.wav" id="10_sq7yr"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
 [ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
 [ext_resource type="Script" uid="uid://cg4aquldxc08h" path="res://boost.gd" id="14_sq7yr"]
@@ -272,6 +273,7 @@ shape = SubResource("BoxShape3D_ub8w1")
 [node name="EngineSound" type="Node" parent="." unique_id=365555826]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EngineSound" unique_id=544739294]
+stream = ExtResource("10_sq7yr")
 volume_db = -40.0
 script = ExtResource("10_qt76e")
 
