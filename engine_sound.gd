@@ -6,11 +6,14 @@ var shift_duration: float = 0.2
 var shift_timer: float = 0.0
 var pitch_before_shift: float = 1.0
 
+var target_finished: bool = false
+
 func _ready():
 	player = $"."
 	player.play()
 
 func _process(delta):
+	player.stream_paused = true if target_finished else false
 	var car = $"../../CarBody"
 	var speed_kmh = abs(car.car_velocity * 3.6)
 	

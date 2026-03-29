@@ -7,7 +7,12 @@ extends Camera3D
 @onready var target: Node3D = get_parent().get_parent()
 @onready var freecam: Camera3D = target.get_node("Freecam") as Camera3D
 
+var target_finished: bool = false
+
 func _physics_process(delta: float) -> void:
+	if target_finished:
+		return
+	
 	# 1. Get the world-space vector from the car to the camera
 	var from_target := global_position - target.global_position
 
