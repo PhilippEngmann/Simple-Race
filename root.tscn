@@ -225,7 +225,7 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 
 [node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
-transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, -241.4833, -23.707832, -217.99998)
+transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, 6, 0.25000787, 6.4370647e-07)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
 contact_monitor = true
@@ -292,10 +292,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
 [node name="CameraPivot" type="Node3D" parent="CarBody" unique_id=864264323]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
 
 [node name="Camera3D" type="Camera3D" parent="CarBody/CameraPivot" unique_id=669669800]
-transform = Transform3D(2.9802322e-08, 0, -1, 0, 1, 0, 1, 0, 2.9802322e-08, -205, 51, -36)
+transform = Transform3D(2.9802322e-08, 0, -1, 0, 1, 0, 1, 0, 2.9802322e-08, 0, 0, 0)
 top_level = true
 current = true
 script = ExtResource("20_3dlgs")
