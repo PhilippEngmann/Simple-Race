@@ -27,6 +27,10 @@ buses/default_bus_layout="uid://7hl0mmdxu0f6"
 
 settings/addon_root_folder="res://addons/debug_draw_3d"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [input]
 
 throttle={
@@ -69,3 +73,8 @@ reset={
 
 common/physics_ticks_per_second=240
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

@@ -82,7 +82,7 @@ func _physics_process(delta: float) -> void:
 		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
 		var spring_offset := rest_dist - spring_len
 		
-		## Suspension
+		## Suspension (Optional)
 		var spring_force := spring_strength * spring_offset
 		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal(0)

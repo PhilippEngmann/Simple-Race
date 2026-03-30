@@ -11,6 +11,7 @@ extends Node
 @export var distance_label: Label
 @export var lap_count_label: Label
 @export var countdown: Label
+@export var controls: BoxContainer
 
 @export_category("Race Settings")
 @export var total_laps: int = 3 
@@ -129,6 +130,7 @@ func start_race() -> void:
 	race_start_time = current_time
 	last_checkpoint_time = current_time
 	race_started = true
+	controls.hide()
 	
 	if car:
 		car.freeze = false
