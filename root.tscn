@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://w1hss1c38jwh" path="res://blender_tire.glb" id="5_50g4q"]
 [ext_resource type="PackedScene" uid="uid://rr8yet1hyphd" path="res://car_blender.glb" id="5_blcw0"]
 [ext_resource type="Texture2D" uid="uid://cqik6lx771o1u" path="res://bs.png" id="5_vte5o"]
+[ext_resource type="Texture2D" uid="uid://bhtwbb10e6qf4" path="res://circle_big.png" id="6_vte5o"]
 [ext_resource type="Script" uid="uid://br6h56k4ognn" path="res://engine_sound.gd" id="10_qt76e"]
 [ext_resource type="AudioStream" uid="uid://c7863mrjhpwok" path="res://engine_base.wav" id="10_sq7yr"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
@@ -90,7 +91,7 @@ size = Vector3(3, 1, 1552.0375)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=879330178]
 environment = SubResource("Environment_sq7yr")
 
-[node name="laptime" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "audio_player", "camera", "current_time_label", "race_time_label", "sector_label", "speed_label", "distance_label", "lap_count_label", "countdown", "controls")]
+[node name="laptime" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "audio_player", "camera", "current_time_label", "race_time_label", "sector_label", "speed_label", "distance_label", "lap_count_label", "countdown", "controls", "medal_result")]
 script = ExtResource("22_po8fv")
 car = NodePath("../CarBody")
 audio_player = NodePath("../EngineSound/AudioStreamPlayer")
@@ -103,6 +104,7 @@ distance_label = NodePath("../HUD/DistanceLabel")
 lap_count_label = NodePath("../HUD/LapCount")
 countdown = NodePath("../HUD/Countdown")
 controls = NodePath("../HUD/Controls")
+medal_result = NodePath("../HUD/MedalResult")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=439265187]
 
@@ -151,7 +153,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5019608)
 theme_override_font_sizes/font_size = 24
-text = " 0:00.000"
+text = " 3:00.000"
 
 [node name="Gold" type="HBoxContainer" parent="HUD/Medals" unique_id=1951227116]
 layout_mode = 2
@@ -168,7 +170,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5019608)
 theme_override_font_sizes/font_size = 24
-text = " 0:00.000"
+text = " 4:00.000"
 
 [node name="Silver" type="HBoxContainer" parent="HUD/Medals" unique_id=1221190276]
 layout_mode = 2
@@ -185,7 +187,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5019608)
 theme_override_font_sizes/font_size = 24
-text = " 0:00.000"
+text = " 5:00.000"
 
 [node name="Bronze" type="HBoxContainer" parent="HUD/Medals" unique_id=1812224790]
 layout_mode = 2
@@ -202,7 +204,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5019608)
 theme_override_font_sizes/font_size = 24
-text = " 0:00.000"
+text = " 6:00.000"
 
 [node name="DistanceLabel" type="Label" parent="HUD" unique_id=2089162671]
 offset_left = 1053.0
@@ -308,6 +310,16 @@ layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5019608)
 theme_override_font_sizes/font_size = 32
 text = " - Reset"
+
+[node name="MedalResult" type="TextureRect" parent="HUD" unique_id=879734538]
+visible = false
+offset_left = 449.0
+offset_top = 267.0
+offset_right = 705.0
+offset_bottom = 397.0
+texture = ExtResource("6_vte5o")
+expand_mode = 3
+stretch_mode = 5
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=634887019]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)

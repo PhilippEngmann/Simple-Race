@@ -12,9 +12,15 @@ extends Node
 @export var lap_count_label: Label
 @export var countdown: Label
 @export var controls: BoxContainer
+@export var medal_result: TextureRect
 
 @export_category("Race Settings")
 @export var total_laps: int = 3 
+
+const MEDAL_AUTHOR_TIME: float = 180.0  # 3 minutes
+const MEDAL_GOLD_TIME: float = 240.0    # 4 minutes
+const MEDAL_SILVER_TIME: float = 300.0  # 5 minutes
+const MEDAL_BRONZE_TIME: float = 360.0  # 6 minutes
 
 var sector_times: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 var expected_checkpoints: Array[String] = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Finish Line"]
@@ -85,6 +91,8 @@ func reset_race() -> void:
 	if distance_label:
 		distance_label.text = "0 m"
 		distance_label.show()
+	if medal_result:
+		medal_result.hide()
 		
 	update_lap_label()
 	clear_flash_labels()
@@ -195,6 +203,24 @@ func _on_sector_entered(sector_name: String) -> void:
 					
 				if speed_label: speed_label.hide()
 				if distance_label: distance_label.hide()
+				if lap_count_label: lap_count_label.hide()
+				
+				# --- Medal Modulate Logic ---
+				if medal_result:
+					if current_race_time <= MEDAL_AUTHOR_TIME:
+						medal_result.modulate = Color(0.0, 0.502, 0.0) # Author
+						medal_result.show()
+					elif current_race_time <= MEDAL_GOLD_TIME:
+						medal_result.modulate = Color(1.0, 0.843, 0.0) # Gold
+						medal_result.show()
+					elif current_race_time <= MEDAL_SILVER_TIME:
+						medal_result.modulate = Color(0.812, 0.812, 0.922) # Silver
+						medal_result.show()
+					elif current_race_time <= MEDAL_BRONZE_TIME:
+						medal_result.modulate = Color(0.961, 0.478, 0.133) # Bronze
+						medal_result.show()
+					else:
+						medal_result.hide() # Time is > 6 mins, no medal achieved
 				
 				camera.target_finished = true
 				audio_player.target_finished = true
