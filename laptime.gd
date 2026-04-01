@@ -17,10 +17,10 @@ extends Node
 @export_category("Race Settings")
 @export var total_laps: int = 3 
 
-const MEDAL_AUTHOR_TIME: float = 180.0  # 3 minutes
-const MEDAL_GOLD_TIME: float = 240.0    # 4 minutes
-const MEDAL_SILVER_TIME: float = 300.0  # 5 minutes
-const MEDAL_BRONZE_TIME: float = 360.0  # 6 minutes
+const MEDAL_AUTHOR_TIME: float = 172.342
+const MEDAL_GOLD_TIME: float = 177.5
+const MEDAL_SILVER_TIME: float = 181.0
+const MEDAL_BRONZE_TIME: float = 184.4
 
 var sector_times: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 var expected_checkpoints: Array[String] = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Finish Line"]
@@ -91,6 +91,8 @@ func reset_race() -> void:
 	if distance_label:
 		distance_label.text = "0 m"
 		distance_label.show()
+	if lap_count_label:
+		lap_count_label.show()
 	if medal_result:
 		medal_result.hide()
 		
