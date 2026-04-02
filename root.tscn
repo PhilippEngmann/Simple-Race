@@ -1,27 +1,23 @@
 [gd_scene format=3 uid="uid://col4kpivuxhn6"]
 
-[ext_resource type="Texture2D" uid="uid://doju6s5rjj8de" path="res://circle.png" id="2_r3r3k"]
-[ext_resource type="Texture2D" uid="uid://cenns1b4sewtn" path="res://arrows.png" id="3_blcw0"]
-[ext_resource type="Curve" uid="uid://djuup6wmxknp3" path="res://1f.tres" id="3_vte5o"]
-[ext_resource type="Texture2D" uid="uid://btrb58ca7puxx" path="res://shift.png" id="4_3dlgs"]
-[ext_resource type="Curve" uid="uid://g1b3rjacugmw" path="res://1r.tres" id="4_po8fv"]
-[ext_resource type="PackedScene" uid="uid://w1hss1c38jwh" path="res://blender_tire.glb" id="5_50g4q"]
-[ext_resource type="PackedScene" uid="uid://rr8yet1hyphd" path="res://car_blender.glb" id="5_blcw0"]
-[ext_resource type="Texture2D" uid="uid://cqik6lx771o1u" path="res://bs.png" id="5_vte5o"]
-[ext_resource type="Texture2D" uid="uid://bhtwbb10e6qf4" path="res://circle_big.png" id="6_vte5o"]
-[ext_resource type="Script" uid="uid://xq0ngrkdqc4" path="res://fullscreen.gd" id="7_po8fv"]
-[ext_resource type="Script" uid="uid://br6h56k4ognn" path="res://engine_sound.gd" id="10_qt76e"]
-[ext_resource type="AudioStream" uid="uid://c7863mrjhpwok" path="res://engine_base.wav" id="10_sq7yr"]
+[ext_resource type="Texture2D" uid="uid://doju6s5rjj8de" path="res://ui/circle.png" id="2_r3r3k"]
+[ext_resource type="Texture2D" uid="uid://cenns1b4sewtn" path="res://ui/arrows.png" id="3_blcw0"]
+[ext_resource type="Texture2D" uid="uid://btrb58ca7puxx" path="res://ui/shift.png" id="4_3dlgs"]
+[ext_resource type="PackedScene" uid="uid://w1hss1c38jwh" path="res://vehicle/car_tire.glb" id="5_50g4q"]
+[ext_resource type="PackedScene" uid="uid://rr8yet1hyphd" path="res://vehicle/car_body.glb" id="5_blcw0"]
+[ext_resource type="Texture2D" uid="uid://cqik6lx771o1u" path="res://ui/bs.png" id="5_vte5o"]
+[ext_resource type="Texture2D" uid="uid://bhtwbb10e6qf4" path="res://ui/circle_big.png" id="6_vte5o"]
+[ext_resource type="Script" uid="uid://xq0ngrkdqc4" path="res://ui/fullscreen.gd" id="7_po8fv"]
+[ext_resource type="Material" uid="uid://buud3ogulmtlk" path="res://vehicle/brake_light.tres" id="9_blcw0"]
+[ext_resource type="Script" uid="uid://br6h56k4ognn" path="res://vehicle/engine_sound.gd" id="10_qt76e"]
+[ext_resource type="AudioStream" uid="uid://c7863mrjhpwok" path="res://vehicle/engine_sample.wav" id="10_sq7yr"]
 [ext_resource type="Script" uid="uid://u0iutmwglnll" path="res://addons/godot-free-look-camera-132062011edfce9399a489756064cfea880dad4c/free_look_camera.gd" id="13_blcw0"]
-[ext_resource type="Script" uid="uid://cp1pkadbvs6hv" path="res://raycast_car.gd" id="14_qt76e"]
-[ext_resource type="Script" uid="uid://cg4aquldxc08h" path="res://boost.gd" id="14_sq7yr"]
-[ext_resource type="PackedScene" uid="uid://bqx0rtws7px1h" path="res://assets/track/kenney/roadCornerSmall.glb" id="15_qt76e"]
-[ext_resource type="PackedScene" uid="uid://jdprm303suul" path="res://assets/track/kenney/roadCornerLarge.glb" id="16_sq7yr"]
-[ext_resource type="PackedScene" uid="uid://dc8qjhfp3g1ef" path="res://assets/track/kenney/roadCornerLarger.glb" id="17_r3r3k"]
-[ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://car_follow_camera.gd" id="20_3dlgs"]
-[ext_resource type="PackedScene" uid="uid://deheq0cg1kiex" path="res://d14.glb" id="20_vte5o"]
-[ext_resource type="Script" uid="uid://dm310fn6aws2e" path="res://sector.gd" id="21_vte5o"]
-[ext_resource type="Script" uid="uid://tepbaur2o0b" path="res://laptime.gd" id="22_po8fv"]
+[ext_resource type="Script" uid="uid://bnsn1ffptdd2e" path="res://vehicle/vehicle.gd" id="14_qt76e"]
+[ext_resource type="Script" uid="uid://cg4aquldxc08h" path="res://track/boost.gd" id="14_sq7yr"]
+[ext_resource type="Script" uid="uid://bxhf2tq0sacec" path="res://vehicle/chase_camera.gd" id="20_3dlgs"]
+[ext_resource type="PackedScene" uid="uid://deheq0cg1kiex" path="res://track/d14.glb" id="20_vte5o"]
+[ext_resource type="Script" uid="uid://dm310fn6aws2e" path="res://track/sector.gd" id="21_vte5o"]
+[ext_resource type="Script" uid="uid://tepbaur2o0b" path="res://race_manager.gd" id="22_po8fv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qwhpj"]
 ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
@@ -46,6 +42,14 @@ metadata/_snap_enabled = true
 _limits = [0.0, 5.0, 0.0, 200.0]
 _data = [Vector2(0, 0), 0.0, 0.025, 0, 1, Vector2(200, 5), 0.025, 0.0, 1, 0]
 point_count = 2
+
+[sub_resource type="Curve" id="Curve_blcw0"]
+_data = [Vector2(0, 0.9), -134217730.0, 0.0, 1, 0]
+point_count = 1
+
+[sub_resource type="Curve" id="Curve_r3r3k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 1, 1]
+point_count = 1
 
 [sub_resource type="Curve" id="Curve_vte5o"]
 _data = [Vector2(0, 0.9), 0.0, -0.9, 0, 1]
@@ -80,23 +84,22 @@ size = Vector3(26, 1, 7)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ub8w1"]
 size = Vector3(28, 1, 7)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_r3r3k"]
-height = 0.1
-radius = 4.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_eji0w"]
-size = Vector3(3, 1, 1552.0375)
-
 [node name="root" type="Node3D" unique_id=171305137]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=879330178]
 environment = SubResource("Environment_sq7yr")
 
-[node name="laptime" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "audio_player", "camera", "current_time_label", "race_time_label", "sector_label", "speed_label", "distance_label", "lap_count_label", "countdown", "controls", "medal_result")]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=634887019]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)
+light_energy = 0.5
+shadow_enabled = true
+shadow_normal_bias = 10.0
+
+[node name="RaceManager" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "audio_player", "camera", "current_time_label", "race_time_label", "sector_label", "speed_label", "distance_label", "lap_count_label", "countdown", "controls", "medal_result")]
 script = ExtResource("22_po8fv")
-car = NodePath("../CarBody")
+car = NodePath("../Car")
 audio_player = NodePath("../EngineSound/AudioStreamPlayer")
-camera = NodePath("../CarBody/CameraPivot/Camera3D")
+camera = NodePath("../Car/CameraPivot/Camera3D")
 current_time_label = NodePath("../HUD/CurrentTimeLabel")
 race_time_label = NodePath("../HUD/Times/RaceTimeLabel")
 sector_label = NodePath("../HUD/Times/SectorLabel")
@@ -328,13 +331,7 @@ texture = ExtResource("6_vte5o")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=634887019]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 200, 0)
-light_energy = 0.5
-shadow_enabled = true
-shadow_normal_bias = 10.0
-
-[node name="CarBody" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels")]
+[node name="Car" type="RigidBody3D" parent="." unique_id=1491395218 node_paths=PackedStringArray("wheels", "brake_light_mesh")]
 transform = Transform3D(-1.07284414e-07, 0, -1, 0, 1, 0, 1, 0, -1.07284414e-07, 6, 0.25000787, 6.4370647e-07)
 mass = 50.0
 physics_material_override = SubResource("PhysicsMaterial_r3r3k")
@@ -342,143 +339,80 @@ contact_monitor = true
 max_contacts_reported = 5
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
-wheels = [NodePath("FL"), NodePath("FR"), NodePath("RL"), NodePath("RR")]
+wheels = [NodePath("SphereCasts/FL"), NodePath("SphereCasts/FR"), NodePath("SphereCasts/RL"), NodePath("SphereCasts/RR")]
+brake_light_mesh = NodePath("CarMesh/Node_0/Assembly~1/3DGeom~6")
+brake_light_material = ExtResource("9_blcw0")
 max_turn_curve = SubResource("Curve_ub8w1")
 spring_strength = 0.0
 spring_damping = 0.0
 rest_dist = 0.0
 wheel_radius = 0.0
 rolling_resistance_curve = SubResource("Curve_eji0w")
-grip_curve_front = ExtResource("4_po8fv")
-grip_curve_rear = ExtResource("3_vte5o")
-grip_curve_drift_front = ExtResource("4_po8fv")
+grip_curve_front = SubResource("Curve_blcw0")
+grip_curve_rear = SubResource("Curve_r3r3k")
+grip_curve_drift_front = SubResource("Curve_blcw0")
 grip_curve_drift_rear = SubResource("Curve_vte5o")
 extra_gravity = 12
 
-[node name="FR_mesh" parent="CarBody" unique_id=1234452790 instance=ExtResource("5_50g4q")]
+[node name="TireFR" parent="Car" unique_id=1093433107 instance=ExtResource("5_50g4q")]
 transform = Transform3D(1.3113416e-07, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, 1.3113416e-07, 0.8, 0, -1.35)
 
-[node name="FL_mesh" parent="CarBody" unique_id=778938168 instance=ExtResource("5_50g4q")]
+[node name="TireFL" parent="Car" unique_id=1246872628 instance=ExtResource("5_50g4q")]
 transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, -0.8, 0, -1.35)
 
-[node name="car_blender" parent="CarBody" unique_id=2057549056 instance=ExtResource("5_blcw0")]
+[node name="CarMesh" parent="Car" unique_id=2132534011 instance=ExtResource("5_blcw0")]
 transform = Transform3D(1.9470718e-07, 0, -1, 0, 1, 0, 1, 0, 1.9470718e-07, -1, -0.249, -2)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CarBody" unique_id=1561586592]
+[node name="Collider" type="CollisionShape3D" parent="Car" unique_id=1561586592]
 visible = false
 shape = SubResource("BoxShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CarBody/CollisionShape3D" unique_id=567259687]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/Collider" unique_id=567259687]
 mesh = SubResource("BoxMesh_r3r3k")
 
-[node name="FL" type="ShapeCast3D" parent="CarBody" unique_id=1611478299]
+[node name="SphereCasts" type="Node3D" parent="Car" unique_id=1145194150]
+
+[node name="FL" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=1611478299]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CarBody/FL" unique_id=43935084]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/SphereCasts/FL" unique_id=43935084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
 mesh = SubResource("BoxMesh_blcw0")
 
-[node name="FR" type="ShapeCast3D" parent="CarBody" unique_id=2081470486]
+[node name="FR" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=2081470486]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CarBody/FR" unique_id=1673475784]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/SphereCasts/FR" unique_id=1673475784]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
 mesh = SubResource("BoxMesh_blcw0")
 
-[node name="RL" type="ShapeCast3D" parent="CarBody" unique_id=2041425255]
+[node name="RL" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=2041425255]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="RR" type="ShapeCast3D" parent="CarBody" unique_id=1203519097]
+[node name="RR" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=1203519097]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 1.25)
 shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="CameraPivot" type="Node3D" parent="CarBody" unique_id=864264323]
+[node name="CameraPivot" type="Node3D" parent="Car" unique_id=864264323]
 
-[node name="Camera3D" type="Camera3D" parent="CarBody/CameraPivot" unique_id=669669800]
+[node name="Camera3D" type="Camera3D" parent="Car/CameraPivot" unique_id=669669800]
 transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, 0, 0, 0)
 top_level = true
 current = true
 script = ExtResource("20_3dlgs")
 
-[node name="Freecam" type="Camera3D" parent="CarBody" unique_id=1407337051]
+[node name="Freecam" type="Camera3D" parent="Car" unique_id=1407337051]
 transform = Transform3D(-0.0026224877, -0.059896857, 0.99820113, 0.0013113554, 0.9982035, 0.05990044, -0.9999957, 0.0014660846, -0.0025392303, 0, 0, 0)
 script = ExtResource("13_blcw0")
-
-[node name="finish" type="Node3D" parent="." unique_id=172885053]
-script = ExtResource("21_vte5o")
-sector_name = "Finish Line"
-
-[node name="Area3D" type="Area3D" parent="finish" unique_id=535077653]
-
-[node name="S1" type="CollisionShape3D" parent="finish/Area3D" unique_id=253628302]
-transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, 16, 5, 0)
-shape = SubResource("BoxShape3D_vte5o")
-
-[node name="sector1" type="Node3D" parent="." unique_id=832688045]
-transform = Transform3D(1.0000001, 0, 3.5527137e-15, 0, 1.0000001, -8.881784e-16, 0, 0, 1, 302, -21, 0)
-script = ExtResource("21_vte5o")
-sector_name = "Sector 1"
-
-[node name="Area3D" type="Area3D" parent="sector1" unique_id=1650072327]
-
-[node name="S2" type="CollisionShape3D" parent="sector1/Area3D" unique_id=994005004]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-shape = SubResource("BoxShape3D_po8fv")
-debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
-
-[node name="sector2" type="Node3D" parent="." unique_id=1829421238]
-transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, 144, 62, -543)
-script = ExtResource("21_vte5o")
-sector_name = "Sector 2"
-
-[node name="Area3D" type="Area3D" parent="sector2" unique_id=922545160]
-
-[node name="S2" type="CollisionShape3D" parent="sector2/Area3D" unique_id=1789533569]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-shape = SubResource("BoxShape3D_po8fv")
-debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
-
-[node name="sector3" type="Node3D" parent="." unique_id=1079054065]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -21, -224)
-script = ExtResource("21_vte5o")
-sector_name = "Sector 3"
-
-[node name="Area3D" type="Area3D" parent="sector3" unique_id=417493266]
-
-[node name="S3" type="CollisionShape3D" parent="sector3/Area3D" unique_id=99959035]
-transform = Transform3D(3.5527137e-15, -1, 1.3113416e-07, 4.371139e-08, 1.3113416e-07, 1, -1, 3.5527137e-15, 4.371139e-08, 0, 0, 0)
-shape = SubResource("BoxShape3D_ub8w1")
-
-[node name="sector4" type="Node3D" parent="." unique_id=655941482]
-transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, -272, 39, -607)
-script = ExtResource("21_vte5o")
-sector_name = "Sector 4"
-
-[node name="Area3D" type="Area3D" parent="sector4" unique_id=1421617877]
-
-[node name="S2" type="CollisionShape3D" parent="sector4/Area3D" unique_id=458408963]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-shape = SubResource("BoxShape3D_po8fv")
-debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
-
-[node name="sector5" type="Node3D" parent="." unique_id=1685812339]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -240, -21, -224)
-script = ExtResource("21_vte5o")
-sector_name = "Sector 5"
-
-[node name="Area3D" type="Area3D" parent="sector5" unique_id=40814573]
-
-[node name="S3" type="CollisionShape3D" parent="sector5/Area3D" unique_id=845386785]
-shape = SubResource("BoxShape3D_ub8w1")
 
 [node name="EngineSound" type="Node" parent="." unique_id=365555826]
 
@@ -488,81 +422,99 @@ volume_db = -40.0
 playback_type = 1
 script = ExtResource("10_qt76e")
 
-[node name="Skidpad" type="Node3D" parent="." unique_id=1963892307]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 126.705826)
+[node name="Track" parent="." unique_id=1173832854 instance=ExtResource("20_vte5o")]
 
-[node name="roadCornerSmall" parent="Skidpad" unique_id=1963335731 instance=ExtResource("15_qt76e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+[node name="SectorLines" type="Node3D" parent="." unique_id=729654130]
 
-[node name="roadCornerSmall2" parent="Skidpad" unique_id=1706630192 instance=ExtResource("15_qt76e")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -1)
+[node name="Finish" type="Node3D" parent="SectorLines" unique_id=172885053]
+script = ExtResource("21_vte5o")
+sector_name = "Finish Line"
 
-[node name="roadCornerSmall3" parent="Skidpad" unique_id=148588402 instance=ExtResource("15_qt76e")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 1)
+[node name="Area3D" type="Area3D" parent="SectorLines/Finish" unique_id=535077653]
 
-[node name="roadCornerSmall4" parent="Skidpad" unique_id=2092798388 instance=ExtResource("15_qt76e")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+[node name="S1" type="CollisionShape3D" parent="SectorLines/Finish/Area3D" unique_id=253628302]
+transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, 16, 5, 0)
+shape = SubResource("BoxShape3D_vte5o")
 
-[node name="roadCornerLarge" parent="Skidpad" unique_id=173488465 instance=ExtResource("16_sq7yr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+[node name="Sector1" type="Node3D" parent="SectorLines" unique_id=832688045]
+transform = Transform3D(1.0000001, 0, 3.5527137e-15, 0, 1.0000001, -8.881784e-16, 0, 0, 1, 302, -21, 0)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 1"
 
-[node name="roadCornerLarge2" parent="Skidpad" unique_id=2070801636 instance=ExtResource("16_sq7yr")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 2)
+[node name="Area3D" type="Area3D" parent="SectorLines/Sector1" unique_id=1650072327]
 
-[node name="roadCornerLarge3" parent="Skidpad" unique_id=1702434589 instance=ExtResource("16_sq7yr")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 1, 0, 0)
+[node name="S2" type="CollisionShape3D" parent="SectorLines/Sector1/Area3D" unique_id=994005004]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
-[node name="roadCornerLarge4" parent="Skidpad" unique_id=136204490 instance=ExtResource("16_sq7yr")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -2)
+[node name="Sector2" type="Node3D" parent="SectorLines" unique_id=1829421238]
+transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, 144, 62, -543)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 2"
 
-[node name="roadCornerLarger" parent="Skidpad" unique_id=939278234 instance=ExtResource("17_r3r3k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+[node name="Area3D" type="Area3D" parent="SectorLines/Sector2" unique_id=922545160]
 
-[node name="roadCornerLarger2" parent="Skidpad" unique_id=730672498 instance=ExtResource("17_r3r3k")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1, 0, -3)
+[node name="S2" type="CollisionShape3D" parent="SectorLines/Sector2/Area3D" unique_id=1789533569]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
-[node name="roadCornerLarger3" parent="Skidpad" unique_id=1733965322 instance=ExtResource("17_r3r3k")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1, 0, 3)
+[node name="Sector3" type="Node3D" parent="SectorLines" unique_id=1079054065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -21, -224)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 3"
 
-[node name="roadCornerLarger4" parent="Skidpad" unique_id=309345610 instance=ExtResource("17_r3r3k")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0, 0)
+[node name="Area3D" type="Area3D" parent="SectorLines/Sector3" unique_id=417493266]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Skidpad" unique_id=1204722282]
+[node name="S3" type="CollisionShape3D" parent="SectorLines/Sector3/Area3D" unique_id=99959035]
+transform = Transform3D(3.5527137e-15, -1, 1.3113416e-07, 4.371139e-08, 1.3113416e-07, 1, -1, 3.5527137e-15, 4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_ub8w1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skidpad/StaticBody3D" unique_id=1037153938]
-transform = Transform3D(0.99999833, 0, 0, 0, 0.99999833, 0, 0, 0, 0.99999833, -0.867, -0.035, -0.467)
-shape = SubResource("CylinderShape3D_r3r3k")
+[node name="Sector4" type="Node3D" parent="SectorLines" unique_id=655941482]
+transform = Transform3D(-4.371139e-08, 0, 1, 0.25881904, 0.9659258, 1.131334e-08, -0.9659258, 0.25881904, -4.222196e-08, -272, 39, -607)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 4"
 
-[node name="d14" parent="." unique_id=2094824368 instance=ExtResource("20_vte5o")]
+[node name="Area3D" type="Area3D" parent="SectorLines/Sector4" unique_id=1421617877]
 
-[node name="drag" type="Node3D" parent="." unique_id=1716260513]
+[node name="S2" type="CollisionShape3D" parent="SectorLines/Sector4/Area3D" unique_id=458408963]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_po8fv")
+debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="drag" unique_id=1845257773]
+[node name="Sector5" type="Node3D" parent="SectorLines" unique_id=1685812339]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -240, -21, -224)
+script = ExtResource("21_vte5o")
+sector_name = "Sector 5"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="drag/StaticBody3D" unique_id=807813677]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 959.73895)
-shape = SubResource("BoxShape3D_eji0w")
+[node name="Area3D" type="Area3D" parent="SectorLines/Sector5" unique_id=40814573]
 
-[node name="boost1" type="Node3D" parent="." unique_id=2016134098]
+[node name="S3" type="CollisionShape3D" parent="SectorLines/Sector5/Area3D" unique_id=845386785]
+shape = SubResource("BoxShape3D_ub8w1")
+
+[node name="BoostPads" type="Node3D" parent="." unique_id=420737748]
+
+[node name="Boost1" type="Node3D" parent="BoostPads" unique_id=2016134098]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 175, 11, -337)
 script = ExtResource("14_sq7yr")
 
-[node name="Area3D" type="Area3D" parent="boost1" unique_id=689077867]
+[node name="Area3D" type="Area3D" parent="BoostPads/Boost1" unique_id=689077867]
 
-[node name="S2" type="CollisionShape3D" parent="boost1/Area3D" unique_id=287940466]
+[node name="B1" type="CollisionShape3D" parent="BoostPads/Boost1/Area3D" unique_id=287940466]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
 debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
-[node name="boost2" type="Node3D" parent="." unique_id=131447134]
+[node name="Boost2" type="Node3D" parent="BoostPads" unique_id=131447134]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -240, -21, -207)
 script = ExtResource("14_sq7yr")
 
-[node name="Area3D" type="Area3D" parent="boost2" unique_id=1561149935]
+[node name="Area3D" type="Area3D" parent="BoostPads/Boost2" unique_id=1561149935]
 
-[node name="S2" type="CollisionShape3D" parent="boost2/Area3D" unique_id=397597392]
+[node name="B2" type="CollisionShape3D" parent="BoostPads/Boost2/Area3D" unique_id=397597392]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_po8fv")
 debug_color = Color(0.97157675, 0, 0.45025384, 0.41960785)
 
-[editable path="CarBody/car_blender"]
+[editable path="Car/CarMesh"]

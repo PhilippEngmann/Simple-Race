@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhtwbb10e6qf4"
-path="res://.godot/imported/circle_big.png-a51eac660565be4ce7e8a23e4119b401.ctex"
+uid="uid://btrb58ca7puxx"
+path="res://.godot/imported/shift.png-c1f922d7c27064c9554ae1a58dd41241.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://circle_big.png"
-dest_files=["res://.godot/imported/circle_big.png-a51eac660565be4ce7e8a23e4119b401.ctex"]
+source_file="res://ui/shift.png"
+dest_files=["res://.godot/imported/shift.png-c1f922d7c27064c9554ae1a58dd41241.ctex"]
 
 [params]
 

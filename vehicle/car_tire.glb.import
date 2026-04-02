@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dc8qjhfp3g1ef"
-path="res://.godot/imported/roadCornerLarger.glb-6c7f98a3a7aa190dcd198cb5e5eabe52.scn"
+uid="uid://w1hss1c38jwh"
+path="res://.godot/imported/car_tire.glb-60f3d929ab6eff4dff2189c8a7c8364e.scn"
 
 [deps]
 
-source_file="res://assets/track/kenney/roadCornerLarger.glb"
-dest_files=["res://.godot/imported/roadCornerLarger.glb-6c7f98a3a7aa190dcd198cb5e5eabe52.scn"]
+source_file="res://vehicle/car_tire.glb"
+dest_files=["res://.godot/imported/car_tire.glb-60f3d929ab6eff4dff2189c8a7c8364e.scn"]
 
 [params]
 

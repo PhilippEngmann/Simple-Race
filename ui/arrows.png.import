@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btrb58ca7puxx"
-path="res://.godot/imported/shift.png-adad6767269bd9049cc0831c1607ad4a.ctex"
+uid="uid://cenns1b4sewtn"
+path="res://.godot/imported/arrows.png-94a9b57b9feb0b39eb2be219191c080c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://shift.png"
-dest_files=["res://.godot/imported/shift.png-adad6767269bd9049cc0831c1607ad4a.ctex"]
+source_file="res://ui/arrows.png"
+dest_files=["res://.godot/imported/arrows.png-94a9b57b9feb0b39eb2be219191c080c.ctex"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://rr8yet1hyphd"
-path="res://.godot/imported/car_blender.glb-87d6ecf5a5f48ba2f61bef227303ac87.scn"
+uid="uid://deheq0cg1kiex"
+path="res://.godot/imported/d14.glb-9f028bbbf6cb46eefa393aa5e5764ab2.scn"
 
 [deps]
 
-source_file="res://car_blender.glb"
-dest_files=["res://.godot/imported/car_blender.glb-87d6ecf5a5f48ba2f61bef227303ac87.scn"]
+source_file="res://track/d14.glb"
+dest_files=["res://.godot/imported/d14.glb-9f028bbbf6cb46eefa393aa5e5764ab2.scn"]
 
 [params]
 
@@ -37,14 +37,6 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={
-"materials": {
-"Material_5": {
-"use_external/enabled": false,
-"use_external/fallback_path": "res://brake_light.tres",
-"use_external/path": "uid://buud3ogulmtlk"
-}
-}
-}
+_subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1

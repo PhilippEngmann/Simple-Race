@@ -38,9 +38,9 @@ var race_started: bool = false
 var race_id: int = 0 
 
 func _ready() -> void:
-	var node_names = ["sector1", "sector2", "sector3", "sector4", "sector5", "finish"]
+	var node_names = ["Sector1", "Sector2", "Sector3", "Sector4", "Sector5", "Finish"]
 	for node_name in node_names:
-		var node = get_node_or_null("../" + node_name)
+		var node = get_node_or_null("../SectorLines/" + node_name)
 		if node:
 			node.sector_entered.connect(_on_sector_entered)
 	
@@ -222,7 +222,7 @@ func _on_sector_entered(sector_name: String) -> void:
 						medal_result.modulate = Color(0.961, 0.478, 0.133) # Bronze
 						medal_result.show()
 					else:
-						medal_result.hide() # Time is > 6 mins, no medal achieved
+						medal_result.hide()
 				
 				camera.target_finished = true
 				audio_player.target_finished = true

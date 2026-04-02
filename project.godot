@@ -22,7 +22,7 @@ config/icon="uid://7njvkwbm7l45"
 
 [audio]
 
-buses/default_bus_layout="uid://7hl0mmdxu0f6"
+buses/default_bus_layout=""
 
 [debug_draw_3d]
 

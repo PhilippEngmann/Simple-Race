@@ -2,6 +2,8 @@ extends RigidBody3D
 
 @export_group("Car properties")
 @export var wheels: Array[ShapeCast3D]
+@export var brake_light_mesh: MeshInstance3D
+@export var brake_light_material: StandardMaterial3D
 @export var engine_power := 18
 @export var downhill_multiplier := 1.3
 @export var brake_power := 25
@@ -42,10 +44,7 @@ func _get_point_velocity(point: Vector3) -> Vector3:
 func _physics_process(delta: float) -> void:
 	var throttle_input := Input.get_action_strength("throttle")
 	var brake_input := Input.get_action_strength("brake")
-	if brake_input == 0:
-		$"car_blender/Node_0/Assembly~1/3DGeom~6".set_surface_override_material(0, load("res://brake_light_off.tres"))
-	else:
-		$"car_blender/Node_0/Assembly~1/3DGeom~6".set_surface_override_material(0, load("res://brake_light.tres"))
+	brake_light_material.albedo_color = Color(sign(brake_input) + 0.2, 0, 0)
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
 
 	var car_mass_share := mass / total_wheels
@@ -60,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
 		if is_front_wheel:
-			var mesh = find_child(str(wheel.name) + "_mesh")
+			var mesh = find_child("Tire" + str(wheel.name)) # TODO: Refactor
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
@@ -74,7 +73,6 @@ func _physics_process(delta: float) -> void:
 		var wheel_forward_dir := -wheel.global_basis.z
 		var tire_velocity := _get_point_velocity(wheel_center)
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
-		#wheel_mesh.rotate_x((-wheel_forward_velocity * delta) / wheel_radius)
 		if not wheel.is_colliding(): continue
 		grounded_wheels += 1
 		
@@ -82,7 +80,7 @@ func _physics_process(delta: float) -> void:
 		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
 		var spring_offset := rest_dist - spring_len
 		
-		## Suspension (Optional)
+		## Suspension (Optional, yes really)
 		var spring_force := spring_strength * spring_offset
 		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
 		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal(0)

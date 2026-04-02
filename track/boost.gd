@@ -14,4 +14,3 @@ func _on_body_entered(body):
 	if body is RigidBody3D:
 		var car_forward = -body.global_transform.basis.z.normalized()
 		body.linear_velocity += car_forward * (kph_boost/3.6)
-		print("Boost applied to " + body.name)
