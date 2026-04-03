@@ -25,7 +25,7 @@ extends RigidBody3D
 
 @export_group("Air physics")
 @export var air_pitch_torque := 0.2
-@export var extra_gravity := 8
+@export var extra_gravity := 12
 
 @export_group("Wall Collision")
 @export var wall_penalty_multiplier := 0.8
