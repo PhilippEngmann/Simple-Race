@@ -65,9 +65,6 @@ albedo_color = Color(1, 0.5019608, 0, 1)
 material = SubResource("StandardMaterial3D_r3r3k")
 size = Vector3(2, 0.5, 4)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_r3r3k"]
-radius = 0.3
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blcw0"]
 albedo_color = Color(0, 0, 1, 1)
 
@@ -339,14 +336,10 @@ contact_monitor = true
 max_contacts_reported = 5
 linear_damp_mode = 1
 script = ExtResource("14_qt76e")
-wheels = [NodePath("SphereCasts/FL"), NodePath("SphereCasts/FR"), NodePath("SphereCasts/RL"), NodePath("SphereCasts/RR")]
+wheels = [NodePath("LogicalTires/FL"), NodePath("LogicalTires/FR"), NodePath("LogicalTires/RL"), NodePath("LogicalTires/RR")]
 brake_light_mesh = NodePath("CarMesh/Node_0/Assembly~1/3DGeom~6")
 brake_light_material = ExtResource("9_blcw0")
 max_turn_curve = SubResource("Curve_ub8w1")
-spring_strength = 0.0
-spring_damping = 0.0
-rest_dist = 0.0
-wheel_radius = 0.0
 rolling_resistance_curve = SubResource("Curve_eji0w")
 grip_curve_front = SubResource("Curve_blcw0")
 grip_curve_rear = SubResource("Curve_r3r3k")
@@ -369,37 +362,33 @@ shape = SubResource("BoxShape3D_r3r3k")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Car/Collider" unique_id=567259687]
 mesh = SubResource("BoxMesh_r3r3k")
 
-[node name="SphereCasts" type="Node3D" parent="Car" unique_id=1145194150]
+[node name="LogicalTires" type="Node3D" parent="Car" unique_id=1145194150]
 
-[node name="FL" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=1611478299]
+[node name="FL" type="Node3D" parent="Car/LogicalTires" unique_id=1485123297]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -1.25)
-shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/SphereCasts/FL" unique_id=43935084]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/LogicalTires/FL" unique_id=43935084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
 mesh = SubResource("BoxMesh_blcw0")
 
-[node name="FR" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=2081470486]
+[node name="FR" type="Node3D" parent="Car/LogicalTires" unique_id=17233925]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, -1.25)
-shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/SphereCasts/FR" unique_id=1673475784]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/LogicalTires/FR" unique_id=1673475784]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
 mesh = SubResource("BoxMesh_blcw0")
 
-[node name="RL" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=2041425255]
+[node name="RL" type="Node3D" parent="Car/LogicalTires" unique_id=80675170]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 1.25)
-shape = SubResource("SphereShape3D_r3r3k")
 
-[node name="RR" type="ShapeCast3D" parent="Car/SphereCasts" unique_id=1203519097]
+[node name="RR" type="Node3D" parent="Car/LogicalTires" unique_id=1745808139]
 process_physics_priority = -1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 1.25)
-shape = SubResource("SphereShape3D_r3r3k")
 
 [node name="CameraPivot" type="Node3D" parent="Car" unique_id=864264323]
 

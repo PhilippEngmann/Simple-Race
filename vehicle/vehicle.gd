@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 @export_group("Car properties")
-@export var wheels: Array[ShapeCast3D]
+@export var wheels: Array[Node3D]
 @export var brake_light_mesh: MeshInstance3D
 @export var brake_light_material: StandardMaterial3D
 @export var engine_power := 18
@@ -12,11 +12,6 @@ extends RigidBody3D
 @export var max_turn_curve : Curve
 
 @export_group("Wheel properties")
-@export var spring_strength := 5000.0
-@export var spring_damping := 600.0
-@export var rest_dist := 0.2
-@export var over_extend := 0.0
-@export var wheel_radius := 0.3
 @export var rolling_resistance_curve : Curve
 @export var grip_curve_front : Curve
 @export var grip_curve_rear : Curve
@@ -36,6 +31,7 @@ extends RigidBody3D
 
 @onready var total_wheels := wheels.size()
 var is_drifting := false
+var is_grounded := false
 var car_velocity := 0.0
 
 func _get_point_velocity(point: Vector3) -> Vector3:
@@ -46,18 +42,17 @@ func _physics_process(delta: float) -> void:
 	var brake_input := Input.get_action_strength("brake")
 	brake_light_material.albedo_color = Color(sign(brake_input) + 0.2, 0, 0)
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
-
+	
 	var car_mass_share := mass / total_wheels
-	var grounded_wheels := 0
 	for wheel in wheels:
 		var wheel_center := wheel.global_position
 		var force_pos := wheel_center - global_position
 		
-		wheel.target_position.y = -(rest_dist + over_extend)
 		car_velocity = -global_basis.z.dot(linear_velocity)
 
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
+		var is_rear_wheel := not is_front_wheel
 		if is_front_wheel:
 			var mesh = find_child("Tire" + str(wheel.name)) # TODO: Refactor
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
@@ -73,19 +68,7 @@ func _physics_process(delta: float) -> void:
 		var wheel_forward_dir := -wheel.global_basis.z
 		var tire_velocity := _get_point_velocity(wheel_center)
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
-		if not wheel.is_colliding(): continue
-		grounded_wheels += 1
-		
-		var contact_point := wheel.get_collision_point(0)
-		var spring_len := maxf(0.0, wheel.global_position.distance_to(contact_point) - wheel_radius)
-		var spring_offset := rest_dist - spring_len
-		
-		## Suspension (Optional, yes really)
-		var spring_force := spring_strength * spring_offset
-		var damping_force := spring_damping * wheel.global_basis.y.dot(tire_velocity)
-		var suspension_force = (spring_force - damping_force) * wheel.get_collision_normal(0)
-		apply_force(suspension_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, suspension_force, 0.02, Color.BLUE, 0.3, true)
+		if not is_grounded: continue
 		
 		## Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
@@ -107,13 +90,12 @@ func _physics_process(delta: float) -> void:
 		if brake_input == 0 and slip_angle_norm < 0.05: is_drifting = false
 		
 		var grip_factor := grip_curve_front.sample_baked(slip_angle_norm)
-		if !is_front_wheel: grip_factor = grip_curve_rear.sample_baked(slip_angle_norm)
+		if is_rear_wheel: grip_factor = grip_curve_rear.sample_baked(slip_angle_norm)
 		if is_drifting:
 			grip_factor = grip_curve_drift_front.sample_baked(slip_angle_norm)
-			if !is_front_wheel: grip_factor = grip_curve_drift_rear.sample_baked(slip_angle_norm)
+			if is_rear_wheel: grip_factor = grip_curve_drift_rear.sample_baked(slip_angle_norm)
 		var normal_load := car_mass_share * 9.8
 		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * normal_load * grip_factor
-		#print(rad_to_deg(abs(slip_angle)))
 		apply_force(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
 		
@@ -125,27 +107,20 @@ func _physics_process(delta: float) -> void:
 		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
 		apply_force(braking_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 1.0, Color.ORANGE, 0.3, true)
-		
-	## Air logic
-	if grounded_wheels == 0:
-		linear_damp = 0.0
-		var pitch_force := -global_basis.x * air_pitch_torque * mass
-		apply_torque(pitch_force)
-		var extra_gravity_force := Vector3.DOWN * extra_gravity * mass
-		apply_central_force(extra_gravity_force)
-	else:
-		linear_damp = 0.1
 
 # Keeps track of velocity right before hitting a wall
 var _prev_linear_velocity := Vector3.ZERO
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	is_grounded = false
 	var hit_wall := false
 	var max_impact := 0.0
-	
 	# Loop through all current collisions
 	for i in state.get_contact_count():
 		var normal := state.get_contact_local_normal(i)
+		if normal.y > 0.5: 
+			is_grounded = true
+			
 		var is_wall: bool = abs(normal.y) < 0.3
 		if is_wall:
 			hit_wall = true
@@ -161,5 +136,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		var actual_reduction := current_forward_speed - new_forward_speed
 		state.linear_velocity -= car_forward_dir * actual_reduction
 		state.angular_velocity *= wall_spin_damping
-
 	_prev_linear_velocity = state.linear_velocity
+	
+	## Air logic
+	if not is_grounded:
+		linear_damp = 0.0
+		var pitch_force := -global_basis.x * air_pitch_torque * mass
+		apply_torque(pitch_force)
+		var extra_gravity_force := Vector3.DOWN * extra_gravity * mass
+		apply_central_force(extra_gravity_force)
+	else:
+		linear_damp = 0.1
