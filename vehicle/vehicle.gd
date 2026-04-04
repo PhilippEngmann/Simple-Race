@@ -12,7 +12,7 @@ extends RigidBody3D
 @export var max_turn_curve : Curve
 
 @export_group("Wheel properties")
-@export var rolling_resistance_curve : Curve
+@export var drag_curve : Curve
 @export var grip_front := 0.9
 @export var grip_rear := 1.0
 @export var grip_drift_front := 0.9
@@ -94,14 +94,14 @@ func _physics_process(delta: float) -> void:
 		apply_force(grip_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.01, Color.YELLOW, 0.3, true)
 		
-		# Rolling resistance
-		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_speed_kph))
-		var rolling_resistance_force := wheel.global_basis.z * signf(car_speed_kph) * rolling_resistance * car_mass_share * (2 - throttle_input)
-		apply_force(rolling_resistance_force, force_pos)
-		var brake_modifier := 0.4 if car_speed_kph < 0.1 else 1.0
-		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
-		apply_force(braking_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 0.01, Color.ORANGE, 0.3, true)
+		# Decelartion
+		var force_basis := wheel.global_basis.z * car_mass_share
+		var drag := drag_curve.sample_baked(abs(car_speed_kph))
+		var drag_force := force_basis * drag * (2 - throttle_input) * signf(car_speed_kph)
+		var brake_modifier := 0.4 if car_speed_kph < 1.0 else 1.0
+		var braking_force := force_basis * brake_power * brake_modifier * brake_input
+		apply_force(drag_force + braking_force, force_pos)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, drag_force + braking_force, 0.01, Color.ORANGE, 0.3, true)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	is_grounded = false

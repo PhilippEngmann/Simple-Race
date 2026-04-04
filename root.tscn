@@ -328,7 +328,7 @@ wheels = [NodePath("Tires/FL"), NodePath("Tires/FR"), NodePath("Tires/RL"), Node
 brake_light_mesh = NodePath("CarMesh/Node_0/Assembly~1/3DGeom~6")
 brake_light_material = ExtResource("9_blcw0")
 max_turn_curve = SubResource("Curve_ub8w1")
-rolling_resistance_curve = SubResource("Curve_eji0w")
+drag_curve = SubResource("Curve_eji0w")
 
 [node name="CarMesh" parent="Car" unique_id=2132534011 instance=ExtResource("5_blcw0")]
 transform = Transform3D(1.9470718e-07, 0, -1, 0, 1, 0, 1, 0, 1.9470718e-07, -1, -0.249, -2)
