@@ -60,17 +60,15 @@ func reset_race() -> void:
 	race_id += 1 # Invalidate running countdowns
 	current_state = RaceState.COUNTDOWN
 	
-	# Reset Data
 	sector_times.fill(0.0)
 	current_checkpoint_index = 0
 	current_lap = 1
 	distance_traveled = 0.0
 	
-	# Reset Entities
 	audio_player.target_finished = false
 	camera.target_finished = false
 	camera.global_position = Vector3.ZERO
-	# Reset Car
+	# Reset car
 	PhysicsServer3D.body_set_state(car.get_rid(), PhysicsServer3D.BODY_STATE_TRANSFORM, start_transform)
 	PhysicsServer3D.body_set_state(car.get_rid(), PhysicsServer3D.BODY_STATE_LINEAR_VELOCITY, Vector3.ZERO)
 	PhysicsServer3D.body_set_state(car.get_rid(), PhysicsServer3D.BODY_STATE_ANGULAR_VELOCITY, Vector3.ZERO)
@@ -87,9 +85,7 @@ func reset_race() -> void:
 	sector_label.hide()
 	race_time_label.hide()
 	
-	# Start countdown
 	var current_race_id = race_id
-	
 	car.freeze = true
 	countdown.show()
 	

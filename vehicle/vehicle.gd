@@ -100,7 +100,7 @@ func _physics_process(delta: float) -> void:
 		
 		# Rolling resistance
 		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_velocity)*3.6)
-		var rolling_resistance_force : Vector3 = wheel.global_basis.z * signf(car_velocity) * rolling_resistance * car_mass_share * (2 - throttle_input)
+		var rolling_resistance_force := wheel.global_basis.z * signf(car_velocity) * rolling_resistance * car_mass_share * (2 - throttle_input)
 		apply_force(rolling_resistance_force, force_pos)
 		var brake_modifier := 0.4 if car_velocity < 0.1 else 1.0
 		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
