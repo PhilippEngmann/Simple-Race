@@ -32,7 +32,7 @@ extends RigidBody3D
 @onready var total_wheels := wheels.size()
 var is_drifting := false
 var is_grounded := false
-var car_velocity := 0.0
+var car_speed_kph := 0.0
 var _prev_linear_velocity := Vector3.ZERO # Velocity right before wall collision
 
 func _get_point_velocity(point: Vector3) -> Vector3:
@@ -46,13 +46,13 @@ func _physics_process(delta: float) -> void:
 	
 	var car_mass_share := mass / total_wheels
 	
-	car_velocity = -global_basis.z.dot(linear_velocity)
+	car_speed_kph = -global_basis.z.dot(linear_velocity) * 3.6
 	for wheel in wheels:
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
 		var is_rear_wheel := not is_front_wheel
 		if is_front_wheel:
-			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
+			var steer_ratio := max_turn_curve.sample_baked(abs(car_speed_kph))
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
 				deg_to_rad(-tire_max_turn_degrees * steer_ratio), 
@@ -99,10 +99,10 @@ func _physics_process(delta: float) -> void:
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.01, Color.YELLOW, 0.3, true)
 		
 		# Rolling resistance
-		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_velocity)*3.6)
-		var rolling_resistance_force := wheel.global_basis.z * signf(car_velocity) * rolling_resistance * car_mass_share * (2 - throttle_input)
+		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_speed_kph))
+		var rolling_resistance_force := wheel.global_basis.z * signf(car_speed_kph) * rolling_resistance * car_mass_share * (2 - throttle_input)
 		apply_force(rolling_resistance_force, force_pos)
-		var brake_modifier := 0.4 if car_velocity < 0.1 else 1.0
+		var brake_modifier := 0.4 if car_speed_kph < 0.1 else 1.0
 		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
 		apply_force(braking_force, force_pos)
 		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 0.01, Color.ORANGE, 0.3, true)

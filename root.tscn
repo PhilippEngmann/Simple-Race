@@ -95,7 +95,7 @@ shadow_normal_bias = 10.0
 [node name="RaceManager" type="Node" parent="." unique_id=1542124260 node_paths=PackedStringArray("car", "audio_player", "camera", "current_time_label", "race_time_label", "sector_label", "speed_label", "distance_label", "lap_count_label", "countdown", "controls", "medal_result")]
 script = ExtResource("22_po8fv")
 car = NodePath("../Car")
-audio_player = NodePath("../EngineSound/AudioStreamPlayer")
+audio_player = NodePath("../Car/EngineSound")
 camera = NodePath("../Car/CameraPivot/Chasecam")
 current_time_label = NodePath("../HUD/CurrentTimeLabel")
 race_time_label = NodePath("../HUD/Times/RaceTimeLabel")
@@ -353,7 +353,7 @@ transform = Transform3D(1.9470718e-07, 0, -1, 0, 1, 0, 1, 0, 1.9470718e-07, -1, 
 visible = false
 shape = SubResource("BoxShape3D_r3r3k")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Car/Collider" unique_id=567259687]
+[node name="DebugMesh" type="MeshInstance3D" parent="Car/Collider" unique_id=567259687]
 mesh = SubResource("BoxMesh_r3r3k")
 
 [node name="Tires" type="Node3D" parent="Car" unique_id=1145194150]
@@ -402,13 +402,13 @@ script = ExtResource("20_3dlgs")
 transform = Transform3D(-0.0026224877, -0.059896857, 0.99820113, 0.0013113554, 0.9982035, 0.05990044, -0.9999957, 0.0014660846, -0.0025392303, 0, 0, 0)
 script = ExtResource("13_blcw0")
 
-[node name="EngineSound" type="Node" parent="." unique_id=365555826]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="EngineSound" unique_id=544739294]
+[node name="EngineSound" type="AudioStreamPlayer" parent="Car" unique_id=544739294 node_paths=PackedStringArray("target")]
 stream = ExtResource("10_sq7yr")
 volume_db = -40.0
+autoplay = true
 playback_type = 1
 script = ExtResource("10_qt76e")
+target = NodePath("..")
 
 [node name="Track" parent="." unique_id=1173832854 instance=ExtResource("20_vte5o")]
 
