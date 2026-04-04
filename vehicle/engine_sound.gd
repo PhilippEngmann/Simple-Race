@@ -1,4 +1,4 @@
-extends Node
+extends AudioStreamPlayer
 
 @export var target : RigidBody3D
 var target_finished: bool = false
@@ -11,7 +11,7 @@ var pitch_before_shift := 1.0
 var target_pitch: float
 
 func _process(delta):
-	self.stream_paused = true if target_finished else false
+	stream_paused = true if target_finished else false
 	var speed_kph = abs(target.car_speed_kph)
 	
 	var raw_current_gear = int(speed_kph / 100.0) + 1
@@ -23,12 +23,12 @@ func _process(delta):
 		target_pitch = lerp(2.0, 4.0, gear_fraction)
 		
 	if raw_current_gear != current_gear:
-		pitch_before_shift = self.pitch_scale
+		pitch_before_shift = pitch_scale
 		current_gear = raw_current_gear
 		shift_timer = 0
 	
-	if shift_timer < 0.2:
+	if shift_timer < shift_duration:
 		shift_timer += delta
-		self.pitch_scale = lerp(pitch_before_shift, target_pitch, shift_timer * 5)
+		pitch_scale = lerp(pitch_before_shift, target_pitch, shift_timer * (1.0 / shift_duration))
 	else:
-		self.pitch_scale = target_pitch
+		pitch_scale = target_pitch
