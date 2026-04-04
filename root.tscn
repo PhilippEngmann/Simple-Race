@@ -43,18 +43,6 @@ _limits = [0.0, 5.0, 0.0, 200.0]
 _data = [Vector2(0, 0), 0.0, 0.025, 0, 1, Vector2(200, 5), 0.025, 0.0, 1, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_blcw0"]
-_data = [Vector2(0, 0.9), -134217730.0, 0.0, 1, 0]
-point_count = 1
-
-[sub_resource type="Curve" id="Curve_r3r3k"]
-_data = [Vector2(0, 1), 0.0, 0.0, 1, 1]
-point_count = 1
-
-[sub_resource type="Curve" id="Curve_vte5o"]
-_data = [Vector2(0, 0.9), 0.0, -0.9, 0, 1]
-point_count = 1
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_r3r3k"]
 size = Vector3(2, 0.5, 4)
 
@@ -341,10 +329,6 @@ brake_light_mesh = NodePath("CarMesh/Node_0/Assembly~1/3DGeom~6")
 brake_light_material = ExtResource("9_blcw0")
 max_turn_curve = SubResource("Curve_ub8w1")
 rolling_resistance_curve = SubResource("Curve_eji0w")
-grip_curve_front = SubResource("Curve_blcw0")
-grip_curve_rear = SubResource("Curve_r3r3k")
-grip_curve_drift_front = SubResource("Curve_blcw0")
-grip_curve_drift_rear = SubResource("Curve_vte5o")
 
 [node name="CarMesh" parent="Car" unique_id=2132534011 instance=ExtResource("5_blcw0")]
 transform = Transform3D(1.9470718e-07, 0, -1, 0, 1, 0, 1, 0, 1.9470718e-07, -1, -0.249, -2)

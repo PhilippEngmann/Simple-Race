@@ -13,10 +13,10 @@ extends RigidBody3D
 
 @export_group("Wheel properties")
 @export var rolling_resistance_curve : Curve
-@export var grip_curve_front : Curve
-@export var grip_curve_rear : Curve
-@export var grip_curve_drift_front : Curve
-@export var grip_curve_drift_rear : Curve
+@export var grip_front := 0.9
+@export var grip_rear := 1.0
+@export var grip_drift_front := 0.9
+@export var grip_drift_rear := 0.9
 
 @export_group("Air physics")
 @export var air_pitch_torque := 0.2
@@ -88,11 +88,8 @@ func _physics_process(delta: float) -> void:
 		if brake_input > 0: is_drifting = true
 		if brake_input == 0 and slip_angle_norm < 0.05: is_drifting = false
 		
-		var grip_factor := grip_curve_front.sample_baked(slip_angle_norm)
-		if is_rear_wheel: grip_factor = grip_curve_rear.sample_baked(slip_angle_norm)
-		if is_drifting:
-			grip_factor = grip_curve_drift_front.sample_baked(slip_angle_norm)
-			if is_rear_wheel: grip_factor = grip_curve_drift_rear.sample_baked(slip_angle_norm)
+		var grip_factor := grip_front if is_front_wheel else grip_rear
+		if is_drifting: grip_factor = grip_drift_front if is_front_wheel else grip_drift_rear
 		var normal_load := car_mass_share * 9.8
 		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * normal_load * grip_factor
 		apply_force(grip_force, force_pos)
@@ -121,8 +118,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if is_wall:
 			hit_wall = true
 			var impact_velocity: float = abs(_prev_linear_velocity.dot(normal))
-			if impact_velocity > max_impact:
-				max_impact = impact_velocity
+			if impact_velocity > max_impact: max_impact = impact_velocity
 	
 	if hit_wall and max_impact > 0.5:
 		var car_forward_dir := -global_basis.z
