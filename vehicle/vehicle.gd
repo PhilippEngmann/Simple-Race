@@ -33,6 +33,7 @@ extends RigidBody3D
 var is_drifting := false
 var is_grounded := false
 var car_velocity := 0.0
+var _prev_linear_velocity := Vector3.ZERO # Velocity right before wall collision
 
 func _get_point_velocity(point: Vector3) -> Vector3:
 	return linear_velocity + angular_velocity.cross(point - to_global(center_of_mass))
@@ -44,17 +45,13 @@ func _physics_process(delta: float) -> void:
 	var steer_input := Input.get_axis("steer_right", "steer_left") * tire_turn_speed
 	
 	var car_mass_share := mass / total_wheels
+	
+	car_velocity = -global_basis.z.dot(linear_velocity)
 	for wheel in wheels:
-		var wheel_center := wheel.global_position
-		var force_pos := wheel_center - global_position
-		
-		car_velocity = -global_basis.z.dot(linear_velocity)
-
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
 		var is_rear_wheel := not is_front_wheel
 		if is_front_wheel:
-			var mesh = find_child("Tire" + str(wheel.name)) # TODO: Refactor
 			var steer_ratio := max_turn_curve.sample_baked(car_velocity*3.6)
 			if steer_input:
 				wheel.rotation.y = clampf(wheel.rotation.y + steer_input * delta,
@@ -62,24 +59,26 @@ func _physics_process(delta: float) -> void:
 				deg_to_rad(tire_max_turn_degrees) * steer_ratio)
 			else:
 				wheel.rotation.y = move_toward(wheel.rotation.y, 0, tire_turn_speed * delta)
-			mesh.rotation.y = wheel.rotation.y + sign(wheel.position.x) * (PI/2)
-			
-		## Spin wheels
+		
+		if not is_grounded: continue
+		
+		# Vehicle Forces
+		var wheel_center := wheel.global_position
+		var force_pos := wheel_center - global_position
 		var wheel_forward_dir := -wheel.global_basis.z
 		var tire_velocity := _get_point_velocity(wheel_center)
 		var wheel_forward_velocity := wheel_forward_dir.dot(tire_velocity)
-		if not is_grounded: continue
 		
-		## Acceleration
+		# Acceleration
 		var is_powered_wheel := to_local(wheel.global_position).z > 0
 		if is_powered_wheel and throttle_input:
 			var wheel_power_share := 0.5
 			var engine_force := throttle_input * mass * engine_power * wheel_power_share * wheel_forward_dir
 			if linear_velocity.y < -1: engine_force *= downhill_multiplier
 			apply_force(engine_force, force_pos)
-			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.05, Color.RED, 0.3, true)
+			if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, engine_force, 0.01, Color.RED, 0.3, true)
 		
-		## Grippy steering
+		# Grippy steering
 		var wheel_sideways_dir := wheel.global_basis.x
 		var wheel_sideways_velocity := wheel_sideways_dir.dot(tire_velocity)
 		
@@ -97,19 +96,16 @@ func _physics_process(delta: float) -> void:
 		var normal_load := car_mass_share * 9.8
 		var grip_force := -wheel_sideways_velocity * wheel_sideways_dir * normal_load * grip_factor
 		apply_force(grip_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.5, Color.YELLOW, 0.3, true)
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, grip_force, 0.01, Color.YELLOW, 0.3, true)
 		
-		## Rolling resistance
+		# Rolling resistance
 		var rolling_resistance := rolling_resistance_curve.sample_baked(abs(car_velocity)*3.6)
 		var rolling_resistance_force : Vector3 = wheel.global_basis.z * signf(car_velocity) * rolling_resistance * car_mass_share * (2 - throttle_input)
 		apply_force(rolling_resistance_force, force_pos)
 		var brake_modifier := 0.4 if car_velocity < 0.1 else 1.0
 		var braking_force := wheel.global_basis.z * car_mass_share * brake_power * brake_modifier * brake_input
 		apply_force(braking_force, force_pos)
-		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 1.0, Color.ORANGE, 0.3, true)
-
-# Keeps track of velocity right before hitting a wall
-var _prev_linear_velocity := Vector3.ZERO
+		if show_debug: DebugDraw3D.draw_arrow_ray(global_position + force_pos, rolling_resistance_force + braking_force, 0.01, Color.ORANGE, 0.3, true)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	is_grounded = false
@@ -138,7 +134,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		state.angular_velocity *= wall_spin_damping
 	_prev_linear_velocity = state.linear_velocity
 	
-	## Air logic
 	if not is_grounded:
 		linear_damp = 0.0
 		var pitch_force := -global_basis.x * air_pitch_torque * mass
