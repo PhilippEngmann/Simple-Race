@@ -50,7 +50,6 @@ func _physics_process(delta: float) -> void:
 	for wheel in wheels:
 		## Rotate wheels
 		var is_front_wheel := to_local(wheel.global_position).z < 0
-		var is_rear_wheel := not is_front_wheel
 		if is_front_wheel:
 			var steer_ratio := max_turn_curve.sample_baked(abs(car_speed_kph))
 			if steer_input:
